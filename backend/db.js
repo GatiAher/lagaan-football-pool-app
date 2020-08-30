@@ -10,20 +10,13 @@ const knex = require("knex")({
   },
   useNullAsDefault: true,
 });
-// Create a table in the database called "books"
+
 knex.schema
-  // Make sure no "books" table exists
-  // before trying to create new
-  .hasTable("books")
+  .hasTable("Book")
   .then((exists) => {
     if (!exists) {
-      // If no "books" table exists
-      // create new, with "id", "author", "title",
-      // "pubDate" and "rating" columns
-      // and use "id" as a primary identification
-      // and increment "id" with every new record (book)
       return knex.schema
-        .createTable("books", (table) => {
+        .createTable("Book", (table) => {
           table.increments("id").primary();
           table.integer("author");
           table.string("title");
@@ -32,7 +25,7 @@ knex.schema
         })
         .then(() => {
           // Log success message
-          console.log("Table 'Books' created");
+          console.log("Table 'Book' created");
         })
         .catch((error) => {
           console.error(`There was an error creating table: ${error}`);
@@ -46,11 +39,46 @@ knex.schema
   .catch((error) => {
     console.error(`There was an error setting up the database: ${error}`);
   });
+
+knex.schema
+  .hasTable("Game")
+  .then((exists) => {
+    if (!exists) {
+      return knex.schema
+        .createTable("Game", (table) => {
+          table.increments("id").primary();
+          table.integer("startTime");
+          table.integer("week");
+          table.integer("season");
+          table.string("visTeam");
+          table.integer("visPts").defaultTo(0);
+          table.integer("visStatus").defaultTo(-1);
+          table.string("homeTeam");
+          table.integer("homePts").defaultTo(0);
+          table.integer("homeStatus").defaultTo(-1);
+        })
+        .then(() => {
+          // Log success message
+          console.log("Table 'Game' created");
+        })
+        .catch((error) => {
+          console.error(`There was an error creating table: ${error}`);
+        });
+    }
+  })
+  .then(() => {
+    // Log success message
+    console.log("done");
+  })
+  .catch((error) => {
+    console.error(`There was an error setting up the database: ${error}`);
+  });
+
 // Just for debugging purposes:
-// Log all data in "books" table
+// Log all data in table
 knex
   .select("*")
-  .from("books")
+  .from("Game")
   .then((data) => console.log("data:", data))
   .catch((err) => console.log(err));
 // Export the database
