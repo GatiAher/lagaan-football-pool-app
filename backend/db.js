@@ -27,6 +27,7 @@ knex.schema
           table.string("homeTeam");
           table.integer("homePts").defaultTo(0);
           table.integer("homeStatus").defaultTo(-1);
+          table.timestamps(true, true);
         })
         .then(() => {
           // Log success message
