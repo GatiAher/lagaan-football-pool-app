@@ -1,32 +1,20 @@
-// Import deps
 import React from "react";
-// Create interfaces
-interface BookshelfListRowUI {
-  position: number;
-  book: {
-    id: number;
-    author: string;
-    title: string;
-    pubDate: string;
-    rating: string;
-  };
-  handleBookRemove: (id: number, title: string) => void;
+import { GameType } from "../types/game-type";
+
+interface AllGameListRowProps {
+  game: GameType;
 }
 // Create BookshelfListRow component
-export const BookshelfListRow = (props: BookshelfListRowUI) => (
+export const AllGameListRow = (props: AllGameListRowProps) => (
   <tr className="table-row">
-    <td className="table-item">{props.position}</td>
-    <td className="table-item">{props.book.title}</td>
-    <td className="table-item">{props.book.author}</td>
-    <td className="table-item">{props.book.pubDate}</td>
-    <td className="table-item">{props.book.rating}</td>
-    <td className="table-item">
-      <button
-        className="btn btn-remove"
-        onClick={() => props.handleBookRemove(props.book.id, props.book.title)}
-      >
-        Remove book
-      </button>
-    </td>
+    <td className="table-item">{props.game.week}</td>
+    <td className="table-item">{props.game.startTime}</td>
+    <td className="table-item">{props.game.visTeam}</td>
+    <td className="table-item">{props.game.visPts}</td>
+    <td className="table-item">{props.game.visStatus}</td>
+    <td className="table-item">{props.game.homeTeam}</td>
+    <td className="table-item">{props.game.homePts}</td>
+    <td className="table-item">{props.game.homeStatus}</td>
+    <td className="table-item">{props.game.updated_at}</td>
   </tr>
 );

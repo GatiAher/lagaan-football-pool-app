@@ -1,47 +1,35 @@
-// Import deps
 import React from "react";
-// Import components
-import { BookshelfListRow } from "./all-game-list-row";
-// Import styles
+import { AllGameListRow } from "./all-game-list-row";
+import { GameType } from "../types/game-type";
 import "./../styles/all-game-list.css";
-// Create interfaces
-interface BookUI {
-  id: number;
-  author: string;
-  title: string;
-  pubDate: string;
-  rating: string;
-}
-interface BookshelfListUI {
-  books: BookUI[];
+
+interface AllGameListProps {
+  games: GameType[];
   loading: boolean;
-  handleBookRemove: (id: number, title: string) => void;
 }
 // Create BookshelfList component
-export const BookshelfList = (props: BookshelfListUI) => {
+export const AllGameList = (props: AllGameListProps) => {
   // Show loading message
-  if (props.loading) return <p>Leaderboard table is loading...</p>;
+  if (props.loading) return <p>Game table is loading...</p>;
   return (
     <table className="table">
       <thead>
         <tr>
-          <th className="table-head-item" />
-          <th className="table-head-item">Title</th>
-          <th className="table-head-item">Author</th>
-          <th className="table-head-item">Pub. date</th>
-          <th className="table-head-item">Rating</th>
-          <th className="table-head-item" />
+          <th className="table-head-item">Week</th>
+          <th className="table-head-item">Start Time</th>
+          <th className="table-head-item">Vis. Team</th>
+          <th className="table-head-item">Vis. Pts.</th>
+          <th className="table-head-item">Vis. Status</th>
+          <th className="table-head-item">Home Team</th>
+          <th className="table-head-item">Home Pts.</th>
+          <th className="table-head-item">Home Status</th>
+          <th className="table-head-item">Updated At</th>
         </tr>
       </thead>
       <tbody className="table-body">
-        {props.books.length > 0 ? (
-          props.books.map((book: BookUI, idx) => (
-            <BookshelfListRow
-              key={book.id}
-              book={book}
-              position={idx + 1}
-              handleBookRemove={props.handleBookRemove}
-            />
+        {props.games.length > 0 ? (
+          props.games.map((game: GameType, idx) => (
+            <AllGameListRow key={game.id} game={game} />
           ))
         ) : (
           <tr className="table-row">
@@ -50,7 +38,7 @@ export const BookshelfList = (props: BookshelfListUI) => {
               style={{ textAlign: "center" }}
               colSpan={6}
             >
-              There are no books to show. Create one!
+              There are no games to show.
             </td>
           </tr>
         )}
