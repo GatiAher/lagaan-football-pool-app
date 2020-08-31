@@ -10,7 +10,7 @@
     "not op_mini all"
   ],
   "scripts": {
-    "start-server": "nodemon server.js --watch server/*"
+    "start-server": "nodemon server.js"
   },
   "dependencies": {
     "axios": "^0.19.2",
