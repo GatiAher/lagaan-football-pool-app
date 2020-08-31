@@ -2,6 +2,8 @@ const request = require("request-promise");
 const cheerio = require("cheerio");
 const cheerioTableparser = require("cheerio-tableparser");
 
+const { TEAM_LONG_TO_ABBR } = require("../constants/teams");
+
 const MONTHS = {
   January: 0,
   February: 1,
@@ -53,8 +55,12 @@ const getGamesListFromTable = (table) => {
       const week = weekNum;
       // NOTE: season 54, (year 2020)
       const season = 54;
-      const visTeam = table[3][idx].match(/>(.*)</).pop();
-      const homeTeam = table[6][idx].match(/>(.*)</).pop();
+      const visTeam = TEAM_LONG_TO_ABBR.get(
+        table[3][idx].match(/>(.*)</).pop()
+      );
+      const homeTeam = TEAM_LONG_TO_ABBR.get(
+        table[6][idx].match(/>(.*)</).pop()
+      );
       games.push({ startTime, week, season, visTeam, homeTeam });
     }
   });

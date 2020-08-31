@@ -12,35 +12,6 @@ const knex = require("knex")({
 });
 
 knex.schema
-  .hasTable("Book")
-  .then((exists) => {
-    if (!exists) {
-      return knex.schema
-        .createTable("Book", (table) => {
-          table.increments("id").primary();
-          table.integer("author");
-          table.string("title");
-          table.string("pubDate");
-          table.integer("rating");
-        })
-        .then(() => {
-          // Log success message
-          console.log("Table 'Book' created");
-        })
-        .catch((error) => {
-          console.error(`There was an error creating table: ${error}`);
-        });
-    }
-  })
-  .then(() => {
-    // Log success message
-    console.log("done");
-  })
-  .catch((error) => {
-    console.error(`There was an error setting up the database: ${error}`);
-  });
-
-knex.schema
   .hasTable("Game")
   .then((exists) => {
     if (!exists) {
@@ -79,7 +50,7 @@ knex.schema
 knex
   .select("*")
   .from("Game")
-  .then((data) => console.log("data:", data))
+  // .then((data) => console.log("data:", data))
   .catch((err) => console.log(err));
 // Export the database
 module.exports = knex;
