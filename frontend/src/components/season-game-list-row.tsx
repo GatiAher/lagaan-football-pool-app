@@ -1,11 +1,11 @@
 import React from "react";
 import { GameType } from "../types/game-type";
+import "./../styles/season-game-list.css";
 
-interface AllGameListRowProps {
+interface SeasonGameListRowProps {
   game: GameType;
 }
-// Create BookshelfListRow component
-export const AllGameListRow = (props: AllGameListRowProps) => (
+export const SeasonGameListRow = (props: SeasonGameListRowProps) => (
   <tr className="table-row">
     <td className="table-item">{props.game.week}</td>
     <td className="table-item">{props.game.startTime}</td>

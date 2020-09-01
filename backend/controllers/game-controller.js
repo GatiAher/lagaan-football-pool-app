@@ -1,7 +1,6 @@
 const knex = require("../db");
-const gameScrapper54 = require("../web-scraping/schedule-scraper");
+const gameScrapper54 = require("../web-scraping/schedule-scraper_season_54");
 
-// Get all games from database
 exports.gameByWeek = async (req, res) => {
   knex("Game")
     .where("week", req.params.week)
@@ -13,7 +12,17 @@ exports.gameByWeek = async (req, res) => {
     });
 };
 
-// Get game by week from database
+exports.gameBySeason = async (req, res) => {
+  knex("Game")
+    .where("season", req.params.season)
+    .then((gameData) => {
+      res.json(gameData);
+    })
+    .catch((err) => {
+      res.json({ message: `There was an error retrieving games: ${err}` });
+    });
+};
+
 exports.gameAll = async (req, res) => {
   knex
     .select("*")
@@ -26,7 +35,6 @@ exports.gameAll = async (req, res) => {
     });
 };
 
-// Update specific game score
 exports.gameUpdateScore = async (req, res) => {
   const { id, visPts, homePts } = req.body;
   let visStatus, homeStatus;
@@ -40,7 +48,6 @@ exports.gameUpdateScore = async (req, res) => {
     visStatus = 1;
     homeStatus = 1;
   }
-  // Find specific Game in the database and update it
   knex("Game")
     .where("id", id)
     .update({

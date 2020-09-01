@@ -1,12 +1,12 @@
 import React from "react";
 import { render } from "react-dom";
-import { AllGame } from "./components/all-game";
+import { SeasonGame } from "./components/season-game";
 import "./styles/styles.css";
 import * as serviceWorker from "./serviceWorker";
 
 render(
   <React.StrictMode>
-    <AllGame />
+    <SeasonGame />
   </React.StrictMode>,
   document.getElementById("root")
 );

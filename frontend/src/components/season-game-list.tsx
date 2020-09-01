@@ -1,14 +1,14 @@
 import React from "react";
-import { AllGameListRow } from "./all-game-list-row";
+import { SeasonGameListRow } from "./season-game-list-row";
 import { GameType } from "../types/game-type";
-import "./../styles/all-game-list.css";
+import "./../styles/season-game-list.css";
 
-interface AllGameListProps {
+interface SeasonGameListProps {
   games: GameType[];
   loading: boolean;
 }
-// Create BookshelfList component
-export const AllGameList = (props: AllGameListProps) => {
+
+export const SeasonGameList = (props: SeasonGameListProps) => {
   // Show loading message
   if (props.loading) return <p>Game table is loading...</p>;
   return (
@@ -29,14 +29,14 @@ export const AllGameList = (props: AllGameListProps) => {
       <tbody className="table-body">
         {props.games.length > 0 ? (
           props.games.map((game: GameType, idx) => (
-            <AllGameListRow key={game.id} game={game} />
+            <SeasonGameListRow key={game.id} game={game} />
           ))
         ) : (
           <tr className="table-row">
             <td
               className="table-item"
               style={{ textAlign: "center" }}
-              colSpan={6}
+              colSpan={9}
             >
               There are no games to show.
             </td>
