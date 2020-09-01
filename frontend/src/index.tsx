@@ -1,12 +1,13 @@
 import React from "react";
 import { render } from "react-dom";
-import { SeasonGame } from "./components/season-game";
+import Main from "./components/main";
 import "./styles/styles.css";
 import * as serviceWorker from "./serviceWorker";
 
 render(
   <React.StrictMode>
-    <SeasonGame />
+    {/* <SeasonGame /> */}
+    <Main />
   </React.StrictMode>,
   document.getElementById("root")
 );
