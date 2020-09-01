@@ -6,7 +6,6 @@ import * as serviceWorker from "./serviceWorker";
 
 render(
   <React.StrictMode>
-    {/* <SeasonGame /> */}
     <Main />
   </React.StrictMode>,
   document.getElementById("root")
