@@ -14,7 +14,7 @@ export const SeasonGame = () => {
 
   const fetchGames = async () => {
     axios
-      .get(`http://localhost:3001/game/season/${season}`)
+      .get(`/game/season/${season}`)
       .then((response) => {
         setGames(response.data);
         setLoading(false);
