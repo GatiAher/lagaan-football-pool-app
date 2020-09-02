@@ -1,9 +1,9 @@
 const knex = require("../db");
 const gameScrapper54 = require("../web-scraping/schedule-scraper_season_54");
 
-exports.gameByWeek = async (req, res) => {
+exports.gameBySeasonAndWeek = async (req, res) => {
   knex("Game")
-    .where("week", req.params.week)
+    .where({ season: req.params.season, week: req.params.week })
     .then((gameData) => {
       res.json(gameData);
     })
