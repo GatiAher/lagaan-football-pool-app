@@ -36,7 +36,7 @@ export const SeasonGame = () => {
               </label>
               <input
                 className="form-input"
-                type="string"
+                type="number"
                 id="season"
                 name="season"
                 value={season}

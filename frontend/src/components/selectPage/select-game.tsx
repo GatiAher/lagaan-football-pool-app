@@ -11,7 +11,7 @@ export const SelectGame = () => {
   // Fetch all books on initial render
   useEffect(() => {
     fetchGames();
-  }, [season]);
+  }, [season, week]);
 
   const fetchGames = async () => {
     axios
@@ -37,15 +37,12 @@ export const SelectGame = () => {
               </label>
               <input
                 className="form-input"
-                type="string"
+                type="number"
                 id="season"
                 name="season"
                 value={season}
                 onChange={(e) => {
-                  const value = e.currentTarget.value;
-                  if (value !== "") {
-                    setSeason(parseInt(e.currentTarget.value, 10));
-                  }
+                  setSeason(parseInt(e.currentTarget.value, 10));
                 }}
               />
             </fieldset>
@@ -55,12 +52,11 @@ export const SelectGame = () => {
               </label>
               <input
                 className="form-input"
-                type="string"
+                type="number"
                 id="week"
                 name="week"
                 value={week}
                 onChange={(e) => {
-                  const value = e.currentTarget.value;
                   setWeek(parseInt(e.currentTarget.value, 10));
                 }}
               />
