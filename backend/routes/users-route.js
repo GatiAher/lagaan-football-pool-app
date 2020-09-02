@@ -11,5 +11,5 @@ router.put("/update/username/:username", userRoutes.userUpdateByUsername);
 router.put("/update_score", userRoutes.userUpdateScore);
 router.put("/update_ranking", userRoutes.userUpdateRanking);
 router.put("/delete", userRoutes.userDeleteByUsername);
-
+router.get("/delete_all", userRoutes.userDeleteAll);
 module.exports = router;

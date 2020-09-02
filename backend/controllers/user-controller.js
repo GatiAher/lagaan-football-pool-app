@@ -69,3 +69,14 @@ exports.userDeleteByUsername = async (req, res) => {
       res.json({ message: `There was an error deleting user: ${err}` });
     });
 };
+
+exports.userDeleteAll = async (req, res) => {
+  knex("User")
+    .truncate() // remove the selection
+    .then(() => {
+      res.json({ message: "User list cleared." });
+    })
+    .catch((err) => {
+      res.json({ message: `There was an error resetting User list: ${err}.` });
+    });
+};
