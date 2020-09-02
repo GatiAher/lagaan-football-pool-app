@@ -46,3 +46,21 @@
   box-shadow: 0 0 2px #3498db;
   outline: 0;
 }
+.btn {
+  display: block;
+  border: 0;
+  cursor: pointer;
+  transition: all 0.25s ease-out;
+}
+.btn-add {
+  padding: 12px 18px;
+  margin: 12px auto 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  background-color: #3498db;
+  border-radius: 4px;
+}
+.btn-add:hover {
+  background-color: #2980b9;
+}

@@ -11,7 +11,7 @@ export const SelectGame = () => {
   // Fetch all books on initial render
   useEffect(() => {
     fetchGames();
-  }, [season, week]);
+  }, []);
 
   const fetchGames = async () => {
     axios
@@ -23,6 +23,10 @@ export const SelectGame = () => {
       .catch((error) =>
         console.error(`There was an error retrieving the game list: ${error}`)
       );
+  };
+
+  const handleFilterSubmit = () => {
+    fetchGames();
   };
 
   return (
@@ -63,6 +67,9 @@ export const SelectGame = () => {
             </fieldset>
           </div>
         </div>
+        <button onClick={handleFilterSubmit} className="btn btn-add">
+          Set Season and Week
+        </button>
       </div>
       <SelectGameList games={games} loading={loading} />
     </div>
