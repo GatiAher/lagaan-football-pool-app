@@ -6,6 +6,8 @@ import "./select-game-list.css";
 interface SelectGameListProps {
   games: GameType[];
   loading: boolean;
+  handleTeamSelect: (team: string) => void;
+  isTeamSelected: (team: string) => boolean;
 }
 
 export const SelectGameList = (props: SelectGameListProps) => {
@@ -24,7 +26,12 @@ export const SelectGameList = (props: SelectGameListProps) => {
         <tbody className="table-body">
           {props.games.length > 0 ? (
             props.games.map((game: GameType, idx) => (
-              <SelectGameListRow key={game.id} game={game} />
+              <SelectGameListRow
+                key={game.id}
+                game={game}
+                handleTeamSelect={props.handleTeamSelect}
+                isTeamSelected={props.isTeamSelected}
+              />
             ))
           ) : (
             <tr className="table-row">

@@ -64,3 +64,9 @@
 .btn-add:hover {
   background-color: #2980b9;
 }
+.btn-add.btn-selected {
+  background-color: #00ffff;
+}
+.btn-add:disabled {
+  opacity: 0.5;
+}

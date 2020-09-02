@@ -8,6 +8,9 @@ export const SelectGame = () => {
   const [week, setWeek] = useState(1);
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectionA, setSelectionA] = useState("");
+  const [selectionB, setSelectionB] = useState("");
+
   // Fetch all books on initial render
   useEffect(() => {
     fetchGames();
@@ -15,7 +18,7 @@ export const SelectGame = () => {
 
   const fetchGames = async () => {
     axios
-      .get(`http://localhost:3001/game/season/${season}/week/${week}`)
+      .get(`/game/season/${season}/week/${week}`)
       .then((response) => {
         setGames(response.data);
         setLoading(false);
@@ -26,12 +29,50 @@ export const SelectGame = () => {
   };
 
   const handleFilterSubmit = () => {
+    setSelectionA("");
+    setSelectionB("");
     fetchGames();
+  };
+
+  const handleTeamSelect = (team: string): void => {
+    if (selectionA === team) {
+      setSelectionA("");
+    } else if (selectionB === team) {
+      setSelectionB("");
+    } else if (selectionA === "") {
+      setSelectionA(team);
+    } else if (selectionB === "") {
+      setSelectionB(team);
+    }
+  };
+
+  const isTeamSelected = (team: string): boolean => {
+    return team === selectionA || team === selectionB;
+  };
+
+  const USER = "test";
+
+  const handleTeamSubmit = () => {
+    const nameA = `wk${week}A`;
+    const nameB = `wk${week}B`;
+    const update = {
+      [nameA]: selectionA,
+      [nameB]: selectionB,
+    };
+    axios
+      .put(`/user/update/username/${USER}`, update)
+      .then((response) => {
+        return response;
+      })
+      .catch((error) =>
+        console.error(
+          `There was an error in submitting the user selections: ${error}`
+        )
+      );
   };
 
   return (
     <div className="game-list-wrapper">
-      {/* Form for creating new book */}
       <div className="game-list-form">
         <div className="form-wrapper">
           <div className="form-row">
@@ -71,7 +112,19 @@ export const SelectGame = () => {
           Set Season and Week
         </button>
       </div>
-      <SelectGameList games={games} loading={loading} />
+      <SelectGameList
+        games={games}
+        loading={loading}
+        handleTeamSelect={handleTeamSelect}
+        isTeamSelected={isTeamSelected}
+      />
+      <button
+        onClick={handleTeamSubmit}
+        className="btn btn-add"
+        disabled={selectionA === "" || selectionB === ""}
+      >
+        {`Pick: ${selectionA} ${selectionB}`}
+      </button>
     </div>
   );
 };
