@@ -1,6 +1,6 @@
 import React from "react";
-import { GameType } from "../types/game-type";
-import "./../styles/season-game-list.css";
+import { GameType } from "../../types/game-type";
+import "./season-game-list.css";
 
 interface SeasonGameListRowProps {
   game: GameType;

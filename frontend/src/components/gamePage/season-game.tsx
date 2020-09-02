@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { SeasonGameList } from "./season-game-list";
-import "./../styles/season-game.css";
+import "./season-game.css";
 
 export const SeasonGame = () => {
   const [season, setSeason] = useState(54);

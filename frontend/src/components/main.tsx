@@ -1,9 +1,9 @@
 import React from "react";
 import { Route, NavLink, HashRouter } from "react-router-dom";
 import "../styles/main.css";
-import Game from "./game";
-import Select from "./select";
-import Leaderboard from "./leaderboard";
+import Game from "./gamePage/game";
+import Select from "./selectPage/select";
+import Leaderboard from "./leaderboardPage/leaderboard";
 
 const Main = () => (
   <HashRouter>
