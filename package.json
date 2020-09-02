@@ -4,6 +4,11 @@
   "description": "NFL Pool Application for Lagaan",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "start-server": "cd backend && yarn nodemon server.js",
+    "start-front": "cd frontend && yarn react-scripts start",
+    "start": "concurrently \"yarn start-server\" \"yarn start-front\" --kill-others --kill-others-on-fail"
+  },
   "devDependencies": {
     "concurrently": "^5.3.0"
   }

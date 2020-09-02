@@ -5,8 +5,8 @@ const compression = require("compression");
 const cors = require("cors");
 const helmet = require("helmet");
 // Import routes
-const booksRouter = require("./routes/books-route");
-const nflRouter = require("./routes/nfl-route");
+const gamesRouter = require("./routes/games-route");
+const userRouter = require("./routes/users-route");
 // Set default port for express app
 const PORT = process.env.PORT || 3001;
 // Create express app
@@ -18,9 +18,10 @@ app.use(helmet());
 app.use(compression());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-// Implement books route
-app.use("/books", booksRouter);
-app.use("/nfl", nflRouter);
+// Implement game route
+app.use("/game", gamesRouter);
+// Implement user route
+app.use("/user", userRouter);
 // Implement 500 error route
 app.use(function (err, req, res, next) {
   console.error(err.stack);

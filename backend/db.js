@@ -10,29 +10,28 @@ const knex = require("knex")({
   },
   useNullAsDefault: true,
 });
-// Create a table in the database called "books"
+
 knex.schema
-  // Make sure no "books" table exists
-  // before trying to create new
-  .hasTable("books")
+  .hasTable("Game")
   .then((exists) => {
     if (!exists) {
-      // If no "books" table exists
-      // create new, with "id", "author", "title",
-      // "pubDate" and "rating" columns
-      // and use "id" as a primary identification
-      // and increment "id" with every new record (book)
       return knex.schema
-        .createTable("books", (table) => {
+        .createTable("Game", (table) => {
           table.increments("id").primary();
-          table.integer("author");
-          table.string("title");
-          table.string("pubDate");
-          table.integer("rating");
+          table.integer("startTime");
+          table.integer("week");
+          table.integer("season");
+          table.string("visTeam");
+          table.integer("visPts").defaultTo(0);
+          table.integer("visStatus").defaultTo(-1);
+          table.string("homeTeam");
+          table.integer("homePts").defaultTo(0);
+          table.integer("homeStatus").defaultTo(-1);
+          table.timestamps(true, true);
         })
         .then(() => {
           // Log success message
-          console.log("Table 'Books' created");
+          console.log("Table 'Game' created");
         })
         .catch((error) => {
           console.error(`There was an error creating table: ${error}`);
@@ -46,12 +45,75 @@ knex.schema
   .catch((error) => {
     console.error(`There was an error setting up the database: ${error}`);
   });
+
+knex.schema
+  .hasTable("User")
+  .then((exists) => {
+    if (!exists) {
+      return knex.schema
+        .createTable("User", (table) => {
+          table.string("username").notNullable().primary();
+          table.integer("rank");
+          table.integer("score").defaultTo(0);
+          table.string("wk1A");
+          table.string("wk1B");
+          table.string("wk2A");
+          table.string("wk2B");
+          table.string("wk3A");
+          table.string("wk3B");
+          table.string("wk4A");
+          table.string("wk4B");
+          table.string("wk5A");
+          table.string("wk5B");
+          table.string("wk6A");
+          table.string("wk6B");
+          table.string("wk7A");
+          table.string("wk7B");
+          table.string("wk8A");
+          table.string("wk8B");
+          table.string("wk9A");
+          table.string("wk9B");
+          table.string("wk10A");
+          table.string("wk10B");
+          table.string("wk11A");
+          table.string("wk11B");
+          table.string("wk12A");
+          table.string("wk12B");
+          table.string("wk13A");
+          table.string("wk13B");
+          table.string("wk14A");
+          table.string("wk14B");
+          table.string("wk15A");
+          table.string("wk15B");
+          table.string("wk16A");
+          table.string("wk16B");
+          table.string("wk17A");
+          table.string("wk17B");
+          table.timestamps(true, true);
+        })
+        .then(() => {
+          // Log success message
+          console.log("Table 'User' created");
+        })
+        .catch((error) => {
+          console.error(`There was an error creating table: ${error}`);
+        });
+    }
+  })
+  .then(() => {
+    // Log success message
+    console.log("done");
+  })
+  .catch((error) => {
+    console.error(`There was an error setting up the database: ${error}`);
+  });
+
 // Just for debugging purposes:
-// Log all data in "books" table
+// Log all data in table
 knex
   .select("*")
-  .from("books")
-  .then((data) => console.log("data:", data))
+  .from("Game")
+  // .then((data) => console.log("data:", data))
   .catch((err) => console.log(err));
 // Export the database
 module.exports = knex;
