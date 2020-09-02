@@ -31,7 +31,7 @@ export const SeasonGame = () => {
         <div className="form-wrapper">
           <div className="form-row">
             <fieldset>
-              <label className="form-label" htmlFor="title">
+              <label className="form-label" htmlFor="season">
                 Enter Season:
               </label>
               <input
