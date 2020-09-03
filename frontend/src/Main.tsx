@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Switch, NavLink } from "react-router-dom";
 import PrivateRoute from "./routes/PrivateRoute";
 import PublicRoute from "./routes/PublicRoute";
-import "./styles/App.css";
+import "./styles/Main.css";
 import Home from "./routes/home";
 import Admin from "./routes/admin";
 import Game from "./routes/game";
@@ -11,7 +11,7 @@ import Leaderboard from "./routes/leaderboard";
 import Login from "./routes/login";
 import Signup from "./routes/signup";
 
-const App = () => (
+const Main = () => (
   <BrowserRouter>
     <div>
       <h1>Lagaan Football Pool</h1>
@@ -63,4 +63,4 @@ const App = () => (
   </BrowserRouter>
 );
 
-export default App;
+export default Main;

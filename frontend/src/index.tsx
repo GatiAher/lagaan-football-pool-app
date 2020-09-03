@@ -1,15 +1,12 @@
 import React from "react";
 import { render } from "react-dom";
 import App from "./App";
-import { AuthContext } from "./context/auth";
 import "./styles/styles.css";
 import * as serviceWorker from "./serviceWorker";
 
 render(
   <React.StrictMode>
-    <AuthContext.Provider value={false}>
-      <App />
-    </AuthContext.Provider>
+    <App />
   </React.StrictMode>,
   document.getElementById("root")
 );
