@@ -8,6 +8,8 @@ import Admin from "./routes/admin";
 import Game from "./routes/game";
 import Select from "./routes/select";
 import Leaderboard from "./routes/leaderboard";
+import Login from "./routes/login";
+import Signup from "./routes/signup";
 
 const App = () => (
   <BrowserRouter>
@@ -43,6 +45,18 @@ const App = () => (
           <PrivateRoute component={Leaderboard} exact path="/leaderboard" />
           <PrivateRoute component={Select} exact path="/select" />
           <PublicRoute component={Game} restricted={false} exact path="/game" />
+          <PublicRoute
+            component={Login}
+            restricted={true}
+            exact
+            path="/login"
+          />
+          <PublicRoute
+            component={Signup}
+            restricted={true}
+            exact
+            path="/signup"
+          />
         </Switch>
       </div>
     </div>
