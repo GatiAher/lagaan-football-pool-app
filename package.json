@@ -5,8 +5,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start-server": "cd backend && yarn nodemon server.js",
-    "start-front": "cd frontend && yarn react-scripts start",
+    "start-server": "cd backend && yarn start-server",
+    "start-front": "cd frontend && yarn start",
     "start": "concurrently \"yarn start-server\" \"yarn start-front\" --kill-others --kill-others-on-fail"
   },
   "devDependencies": {
