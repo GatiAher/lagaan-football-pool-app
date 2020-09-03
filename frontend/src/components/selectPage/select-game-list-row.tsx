@@ -35,7 +35,7 @@ interface SelectGameListRowProps {
 export const SelectGameListRow = (props: SelectGameListRowProps) => {
   const dateObj = new Date(props.game.startTime);
   const day = DAYS.get(dateObj.getDay());
-  const yearRegex = /(\/[^\/]+$)/;
+  const yearRegex = /(\/[^/]+$)/;
   const date = dateObj.toLocaleDateString().replace(yearRegex, "");
   const secondsRegex = /(:[\d]+ )/;
   const time = dateObj.toLocaleTimeString().replace(secondsRegex, " ");

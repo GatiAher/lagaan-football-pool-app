@@ -1,28 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { SeasonGameList } from "./season-game-list";
 import "./season-game.css";
+
+const fetchGames = async (
+  season: number,
+  setGames: (arg0: any) => void,
+  setLoading: (arg0: boolean) => void
+) => {
+  axios
+    .get(`/game/season/${season}`)
+    .then((response) => {
+      setGames(response.data);
+      setLoading(false);
+    })
+    .catch((error) =>
+      console.error(`There was an error retrieving the game list: ${error}`)
+    );
+};
 
 export const SeasonGame = () => {
   const [season, setSeason] = useState(54);
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
-  // Fetch all books on initial render
-  useEffect(() => {
-    fetchGames();
+
+  const fetchGamesCallback = useCallback(() => {
+    fetchGames(season, setGames, setLoading);
   }, [season]);
 
-  const fetchGames = async () => {
-    axios
-      .get(`/game/season/${season}`)
-      .then((response) => {
-        setGames(response.data);
-        setLoading(false);
-      })
-      .catch((error) =>
-        console.error(`There was an error retrieving the game list: ${error}`)
-      );
-  };
+  // Fetch all books on initial render
+  useEffect(() => {
+    fetchGamesCallback();
+  }, [fetchGamesCallback]);
 
   return (
     <div className="game-list-wrapper">
