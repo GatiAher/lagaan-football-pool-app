@@ -1,5 +1,7 @@
 import React from "react";
 import { BrowserRouter, Switch, Route, NavLink } from "react-router-dom";
+import PrivateRoute from "./routes/PrivateRoute";
+import PublicRoute from "./routes/PublicRoute";
 import "./styles/App.css";
 import Home from "./routes/home";
 import Admin from "./routes/admin";
@@ -36,21 +38,11 @@ const App = () => (
       </nav>
       <div className="content">
         <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route path="/admin">
-            <Admin />
-          </Route>
-          <Route path="/leaderboard">
-            <Leaderboard />
-          </Route>
-          <Route path="/select">
-            <Select />
-          </Route>
-          <Route path="/game">
-            <Game />
-          </Route>
+          <PublicRoute component={Home} restricted={false} exact path="/" />
+          <PrivateRoute component={Admin} exact path="/admin" />
+          <PrivateRoute component={Leaderboard} exact path="/leaderboard" />
+          <PrivateRoute component={Select} exact path="/select" />
+          <PublicRoute component={Game} restricted={false} exact path="/game" />
         </Switch>
       </div>
     </div>
