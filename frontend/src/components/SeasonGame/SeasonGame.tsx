@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
-import { SeasonGameList } from "./season-game-list";
-import "./season-game.css";
+import { SeasonGameList } from "./SeasonGameList";
+import "./SeasonGame.css";
 
 const fetchGames = async (
   season: number,

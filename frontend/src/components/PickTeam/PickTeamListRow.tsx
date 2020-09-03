@@ -1,7 +1,7 @@
 import React from "react";
-import { GameType } from "../../types/game-type";
-import { DAYS } from "../../maps/date-format";
-import "./select-game-list.css";
+import { GameType } from "../../utils/types/game-type";
+import { DAYS } from "../../utils/maps/date-format";
+import "./PickTeamList.css";
 
 interface TeamButtonProps {
   team: string;
@@ -26,13 +26,13 @@ const TeamButton = (props: TeamButtonProps) => {
   );
 };
 
-interface SelectGameListRowProps {
+interface PickTeamListRowProps {
   game: GameType;
   handleTeamSelect: (team: string) => void;
   isTeamSelected: (team: string) => boolean;
 }
 
-export const SelectGameListRow = (props: SelectGameListRowProps) => {
+export const PickTeamListRow = (props: PickTeamListRowProps) => {
   const dateObj = new Date(props.game.startTime);
   const day = DAYS.get(dateObj.getDay());
   const yearRegex = /(\/[^/]+$)/;

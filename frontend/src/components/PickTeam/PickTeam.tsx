@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
-import { SelectGameList } from "./select-game-list";
-import "./select-game.css";
+import { PickTeamList } from "./PickTeamList";
+import "./PickTeam.css";
 
 const fetchGames = async (
   season: number,
@@ -20,7 +20,7 @@ const fetchGames = async (
     );
 };
 
-export const SelectGame = () => {
+export const PickTeam = () => {
   const [season, setSeason] = useState(54);
   const [week, setWeek] = useState(1);
   const [games, setGames] = useState([]);
@@ -121,7 +121,7 @@ export const SelectGame = () => {
           Set Season and Week
         </button>
       </div>
-      <SelectGameList
+      <PickTeamList
         games={games}
         loading={loading}
         handleTeamSelect={handleTeamSelect}

@@ -1,10 +1,10 @@
 import React from "react";
-import { SelectGame } from "./select-game";
+import { PickTeam } from "../components/PickTeam/PickTeam";
 
 const Select = () => (
   <div>
     <h2>Select</h2>
-    <SelectGame />
+    <PickTeam />
   </div>
 );
 

@@ -1,14 +1,16 @@
 import React from "react";
-import { SeasonGameListRow } from "./season-game-list-row";
-import { GameType } from "../../types/game-type";
-import "./season-game-list.css";
+import { PickTeamListRow } from "./PickTeamListRow";
+import { GameType } from "../../utils/types/game-type";
+import "./PickTeamList.css";
 
-interface SeasonGameListProps {
+interface PickTeamListProps {
   games: GameType[];
   loading: boolean;
+  handleTeamSelect: (team: string) => void;
+  isTeamSelected: (team: string) => boolean;
 }
 
-export const SeasonGameList = (props: SeasonGameListProps) => {
+export const PickTeamList = (props: PickTeamListProps) => {
   // Show loading message
   if (props.loading) return <p>Game table is loading...</p>;
   return (
@@ -16,21 +18,20 @@ export const SeasonGameList = (props: SeasonGameListProps) => {
       <table className="table">
         <thead>
           <tr>
-            <th className="table-head-item">Week</th>
             <th className="table-head-item">Start Time</th>
             <th className="table-head-item">Vis. Team</th>
-            <th className="table-head-item">Vis. Pts.</th>
-            <th className="table-head-item">Vis. Status</th>
             <th className="table-head-item">Home Team</th>
-            <th className="table-head-item">Home Pts.</th>
-            <th className="table-head-item">Home Status</th>
-            <th className="table-head-item">Updated At</th>
           </tr>
         </thead>
         <tbody className="table-body">
           {props.games.length > 0 ? (
             props.games.map((game: GameType, idx) => (
-              <SeasonGameListRow key={game.id} game={game} />
+              <PickTeamListRow
+                key={game.id}
+                game={game}
+                handleTeamSelect={props.handleTeamSelect}
+                isTeamSelected={props.isTeamSelected}
+              />
             ))
           ) : (
             <tr className="table-row">
