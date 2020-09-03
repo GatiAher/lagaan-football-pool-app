@@ -1,24 +1,26 @@
 import React from "react";
-import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
-import "../styles/router.css";
-import Game from "./game";
-import Select from "./select";
-import Leaderboard from "./leaderboard";
+import { BrowserRouter, Switch, Route, NavLink } from "react-router-dom";
+import "./styles/App.css";
+import Game from "./routes/game";
+import Select from "./routes/select";
+import Leaderboard from "./routes/leaderboard";
 
-const Router = () => (
+const App = () => (
   <BrowserRouter>
     <div>
       <h1>Simple SPA</h1>
       <nav>
         <ul className="header">
           <li>
-            <Link to="/">Leaderboard</Link>
+            <NavLink exact to="/">
+              Leaderboard
+            </NavLink>
           </li>
           <li>
-            <Link to="/select">Select</Link>
+            <NavLink to="/select">Select</NavLink>
           </li>
           <li>
-            <Link to="/game">Game</Link>
+            <NavLink to="/game">Game</NavLink>
           </li>
         </ul>
       </nav>
@@ -39,4 +41,4 @@ const Router = () => (
   </BrowserRouter>
 );
 
-export default Router;
+export default App;
