@@ -23,6 +23,17 @@ exports.userCreate = async (req, res) => {
     });
 };
 
+exports.userGetInOrderOfScore = async (req, res) => {
+  knex("User")
+    .orderBy("score", "desc")
+    .then((userData) => {
+      res.json(userData);
+    })
+    .catch((err) => {
+      res.json({ message: `There was an error retrieving user: ${err}` });
+    });
+};
+
 exports.userGetByUsername = async (req, res) => {
   knex("User")
     .where("username", req.params.username)
