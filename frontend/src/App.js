@@ -1,20 +1,15 @@
-import React, { useState } from "react";
-import Main from "./Main";
-import { AuthContext } from "./context/auth";
+import React from "react";
+import { BrowserRouter } from "react-router-dom";
+import Main from "./components/Main/MainPanel";
+import Auth0ProviderWithHistory from "./utils/auth0-provider-with-history";
 
 const App = () => {
-  const existingTokens = JSON.parse(localStorage.getItem("tokens"));
-  const [authTokens, setAuthTokens] = useState(existingTokens);
-
-  const setTokens = (data) => {
-    localStorage.setItem("tokens", JSON.stringify(data));
-    setAuthTokens(data);
-  };
-
   return (
-    <AuthContext.Provider value={false}>
-      <Main />
-    </AuthContext.Provider>
+    <BrowserRouter>
+      <Auth0ProviderWithHistory>
+        <Main />
+      </Auth0ProviderWithHistory>
+    </BrowserRouter>
   );
 };
 

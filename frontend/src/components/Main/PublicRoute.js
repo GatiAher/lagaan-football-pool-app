@@ -3,7 +3,7 @@ import { Route, Redirect } from "react-router-dom";
 import { useAuth } from "../context/auth";
 
 const PublicRoute = ({ component: Component, restricted, ...rest }) => {
-  const isAuthenticated = useAuth();
+  const { authTokens } = useAuth();
 
   return (
     // restricted = false meaning public route
@@ -11,7 +11,7 @@ const PublicRoute = ({ component: Component, restricted, ...rest }) => {
     <Route
       {...rest}
       render={(props) =>
-        isAuthenticated && restricted ? (
+        authTokens && restricted ? (
           <Redirect to="/" />
         ) : (
           <Component {...props} />
