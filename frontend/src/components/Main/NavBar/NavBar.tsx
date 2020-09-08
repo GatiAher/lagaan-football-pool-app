@@ -21,11 +21,6 @@ const NavBar = () => (
         </NavLink>
       </li>
       <li>
-        <NavLink exact to="/profile">
-          Profile
-        </NavLink>
-      </li>
-      <li>
         <NavLink to="/leaderboard">Leaderboard</NavLink>
       </li>
       <li>
@@ -33,6 +28,11 @@ const NavBar = () => (
       </li>
       <li>
         <NavLink to="/game">Game</NavLink>
+      </li>
+      <li>
+        <NavLink exact to="/profile">
+          Profile
+        </NavLink>
       </li>
       <li>
         <AuthNav />
