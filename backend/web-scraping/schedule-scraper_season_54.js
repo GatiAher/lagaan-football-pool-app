@@ -61,7 +61,8 @@ const getGamesListFromTable = (table) => {
       const homeTeam = TEAM_LONG_TO_ABBR.get(
         table[6][idx].match(/>(.*)</).pop()
       );
-      games.push({ startTime, week, season, visTeam, homeTeam });
+      const game_id = `${season}_${week}_${homeTeam}_${visTeam}`;
+      games.push({ startTime, week, season, visTeam, homeTeam, game_id });
     }
   });
   return games;

@@ -36,7 +36,7 @@ exports.gameAll = async (req, res) => {
 };
 
 exports.gameUpdateScore = async (req, res) => {
-  const { id, visPts, homePts } = req.body;
+  const { game_id, visPts, homePts } = req.body;
   let visStatus, homeStatus;
   if (visPts > homePts) {
     visStatus = 2;
@@ -49,7 +49,7 @@ exports.gameUpdateScore = async (req, res) => {
     homeStatus = 1;
   }
   knex("Game")
-    .where("id", id)
+    .where("game_id", game_id)
     .update({
       visPts,
       homePts,
@@ -57,11 +57,11 @@ exports.gameUpdateScore = async (req, res) => {
       homeStatus,
     })
     .then(() => {
-      res.json({ message: `Game ${id} updated.` });
+      res.json({ message: `Game ${game_id} updated.` });
     })
     .catch((err) => {
       res.json({
-        message: `There was an error updating ${id} Game: ${err}`,
+        message: `There was an error updating ${game_id} Game: ${err}`,
       });
     });
 };
