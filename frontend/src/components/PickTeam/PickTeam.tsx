@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useContext } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { PickTeamList } from "./PickTeamList";
 import "./PickTeam.css";
@@ -60,7 +60,7 @@ export const PickTeam = () => {
     return team === selectionA || team === selectionB;
   };
 
-  const { user, setUser } = useUser();
+  const { user } = useUser();
 
   const handleTeamSubmit = () => {
     const nameA = `wk${week}A`;

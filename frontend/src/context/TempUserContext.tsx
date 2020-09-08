@@ -15,7 +15,7 @@ type UserContextType = {
   setUser: (value: ValueType) => void;
 };
 
-const UserContext = React.createContext<UserContextType>(undefined!);
+const UserContext = createContext<UserContextType>(undefined!);
 
 // define provider
 

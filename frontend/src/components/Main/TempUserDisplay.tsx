@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useUser } from "../../context/TempUserContext";
 
 const TempUserDisplay = () => {
-  const { user, setUser } = useUser();
+  const { user } = useUser();
   return (
     <div>
       <h5>{`CONTEXT USERNAME: ${user.username}`}</h5>
