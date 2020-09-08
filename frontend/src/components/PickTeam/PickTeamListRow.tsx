@@ -8,22 +8,28 @@ interface TeamButtonProps {
   startTime: number;
   handleTeamSelect: (team: string) => void;
   isTeamSelected: (team: string) => boolean;
+  isTwoTeamSelected: () => boolean;
 }
 
 const TeamButton = (props: TeamButtonProps) => {
+  let disabled = false;
   let className = "btn btn-add";
+
+  if (props.startTime < Date.now()) {
+    disabled = true;
+  }
   if (props.isTeamSelected(props.team)) {
     className += " btn-selected";
+  } else if (props.isTwoTeamSelected()) {
+    disabled = true;
   }
-  console.log("BUTTON ST", props.startTime);
-  console.log("BUTTON NT", Date.now());
   return (
     <button
       className={className}
       onClick={() => {
         props.handleTeamSelect(props.team);
       }}
-      disabled={props.startTime < Date.now()}
+      disabled={disabled}
     >
       {props.team}
     </button>
@@ -34,6 +40,7 @@ interface PickTeamListRowProps {
   game: GameType;
   handleTeamSelect: (team: string) => void;
   isTeamSelected: (team: string) => boolean;
+  isTwoTeamSelected: () => boolean;
 }
 
 export const PickTeamListRow = (props: PickTeamListRowProps) => {
@@ -53,6 +60,7 @@ export const PickTeamListRow = (props: PickTeamListRowProps) => {
           startTime={props.game.startTime}
           handleTeamSelect={props.handleTeamSelect}
           isTeamSelected={props.isTeamSelected}
+          isTwoTeamSelected={props.isTwoTeamSelected}
         />
       </td>
       <td className="table-item">
@@ -61,6 +69,7 @@ export const PickTeamListRow = (props: PickTeamListRowProps) => {
           startTime={props.game.startTime}
           handleTeamSelect={props.handleTeamSelect}
           isTeamSelected={props.isTeamSelected}
+          isTwoTeamSelected={props.isTwoTeamSelected}
         />
       </td>
     </tr>

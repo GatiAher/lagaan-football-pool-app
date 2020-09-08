@@ -8,6 +8,7 @@ interface PickTeamListProps {
   loading: boolean;
   handleTeamSelect: (team: string) => void;
   isTeamSelected: (team: string) => boolean;
+  isTwoTeamSelected: () => boolean;
 }
 
 export const PickTeamList = (props: PickTeamListProps) => {
@@ -31,6 +32,7 @@ export const PickTeamList = (props: PickTeamListProps) => {
                 game={game}
                 handleTeamSelect={props.handleTeamSelect}
                 isTeamSelected={props.isTeamSelected}
+                isTwoTeamSelected={props.isTwoTeamSelected}
               />
             ))
           ) : (

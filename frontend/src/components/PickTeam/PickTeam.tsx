@@ -21,27 +21,52 @@ const fetchGames = async (
     );
 };
 
+const fetchUserData = async (
+  userId: number,
+  week: number,
+  setSelectionA: (arg0: string) => void,
+  setSelectionB: (arg0: string) => void
+) => {
+  axios.get(`/user/id/${userId}`).then((response) => {
+    if (response.data[0][`wk${week}A`] !== null) {
+      setSelectionA(response.data[0][`wk${week}A`]);
+    }
+    if (response.data[0][`wk${week}B`] !== null) {
+      setSelectionB(response.data[0][`wk${week}B`]);
+    }
+  });
+};
+
 export const PickTeam = () => {
+  const { user } = useUser();
   const [season, setSeason] = useState(54);
   const [week, setWeek] = useState(1);
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectionA, setSelectionA] = useState("");
   const [selectionB, setSelectionB] = useState("");
+  const [submissionMessage, setSubmissionMessage] = useState("");
 
   const fetchGamesCallback = useCallback(() => {
     fetchGames(season, week, setGames, setLoading);
   }, [season, week]);
 
-  // Fetch all books on initial render
+  const fetchUserDataCallback = useCallback(() => {
+    fetchUserData(user.user_id, week, setSelectionA, setSelectionB);
+  }, [user, week]);
+
+  // Fetch all games on initial render
   useEffect(() => {
     fetchGamesCallback();
-  }, [season, week, fetchGamesCallback]);
+    fetchUserDataCallback();
+  }, []);
 
   const handleFilterSubmit = () => {
     setSelectionA("");
     setSelectionB("");
+    setSubmissionMessage("");
     fetchGamesCallback();
+    fetchUserDataCallback();
   };
 
   const handleTeamSelect = (team: string): void => {
@@ -60,19 +85,19 @@ export const PickTeam = () => {
     return team === selectionA || team === selectionB;
   };
 
-  const { user } = useUser();
+  const isTwoTeamSelected = (): boolean => {
+    return selectionA !== "" && selectionB !== "";
+  };
 
   const handleTeamSubmit = () => {
-    const nameA = `wk${week}A`;
-    const nameB = `wk${week}B`;
     const update = {
-      [nameA]: selectionA,
-      [nameB]: selectionB,
+      [`wk${week}A`]: selectionA,
+      [`wk${week}B`]: selectionB,
     };
     axios
       .put(`/user/update/id/${user.user_id}`, update)
       .then((response) => {
-        return response;
+        setSubmissionMessage(response.data.message);
       })
       .catch((error) =>
         console.error(
@@ -127,6 +152,7 @@ export const PickTeam = () => {
         loading={loading}
         handleTeamSelect={handleTeamSelect}
         isTeamSelected={isTeamSelected}
+        isTwoTeamSelected={isTwoTeamSelected}
       />
       <button
         onClick={handleTeamSubmit}
@@ -135,6 +161,7 @@ export const PickTeam = () => {
       >
         {`Pick: ${selectionA} ${selectionB}`}
       </button>
+      <h1>{submissionMessage}</h1>
     </div>
   );
 };
