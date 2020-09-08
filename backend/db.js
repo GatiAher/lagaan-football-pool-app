@@ -17,7 +17,7 @@ knex.schema
     if (!exists) {
       return knex.schema
         .createTable("Game", (table) => {
-          table.string("game_id").primary(); // `${season}_${week}_${homeTeam}_${visTeam}`
+          table.string("game_id").primary(); // `${season}_${week}_${visTeam}_${homeTeam}`
           table.integer("startTime");
           table.integer("week");
           table.integer("season");

@@ -69,16 +69,6 @@ exports.userUpdateByUserId = async (req, res) => {
     });
 };
 
-exports.userUpdateScore = async (req, res) => {
-  // TODO
-  res.json({ message: `Not implemented` });
-};
-
-exports.userUpdateRanking = async (req, res) => {
-  // TODO
-  res.json({ message: `Not implemented` });
-};
-
 exports.userDeleteByUserId = async (req, res) => {
   knex("User")
     .where("user_id", req.body.user_id)

@@ -1,5 +1,6 @@
 const knex = require("../db");
 const gameScrapper54 = require("../web-scraping/schedule-scraper_season_54");
+const { column } = require("../db");
 
 exports.gameBySeasonAndWeek = async (req, res) => {
   knex("Game")
@@ -48,22 +49,32 @@ exports.gameUpdateScore = async (req, res) => {
     visStatus = 1;
     homeStatus = 1;
   }
-  knex("Game")
-    .where("game_id", game_id)
-    .update({
+  const [season, week, homeTeam, visTeam] = game_id.split("_");
+  try {
+    await knex("Game").where("game_id", game_id).update({
       visPts,
       homePts,
       visStatus,
       homeStatus,
-    })
-    .then(() => {
-      res.json({ message: `Game ${game_id} updated.` });
-    })
-    .catch((err) => {
-      res.json({
-        message: `There was an error updating ${game_id} Game: ${err}`,
-      });
     });
+    await knex("User")
+      .where(`wk${week}A`, homeTeam)
+      .orWhere(`wk${week}B`, homeTeam)
+      .increment({
+        score: homeStatus,
+      });
+    await knex("User")
+      .where(`wk${week}A`, visTeam)
+      .orWhere(`wk${week}B`, visTeam)
+      .increment({
+        score: visStatus,
+      });
+    res.json({ message: `Game ${game_id} updated. User scores updated.` });
+  } catch (err) {
+    res.json({
+      message: `There was an error updating ${game_id} Game: ${err}`,
+    });
+  }
 };
 
 // Remove all games on the list
