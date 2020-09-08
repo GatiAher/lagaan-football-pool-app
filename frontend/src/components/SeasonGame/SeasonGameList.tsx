@@ -30,7 +30,7 @@ export const SeasonGameList = (props: SeasonGameListProps) => {
         <tbody className="table-body">
           {props.games.length > 0 ? (
             props.games.map((game: GameType, idx) => (
-              <SeasonGameListRow key={game.id} game={game} />
+              <SeasonGameListRow key={game.game_id} game={game} />
             ))
           ) : (
             <tr className="table-row">

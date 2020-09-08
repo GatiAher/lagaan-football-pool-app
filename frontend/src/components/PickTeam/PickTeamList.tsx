@@ -27,7 +27,7 @@ export const PickTeamList = (props: PickTeamListProps) => {
           {props.games.length > 0 ? (
             props.games.map((game: GameType, idx) => (
               <PickTeamListRow
-                key={game.id}
+                key={game.game_id}
                 game={game}
                 handleTeamSelect={props.handleTeamSelect}
                 isTeamSelected={props.isTeamSelected}
