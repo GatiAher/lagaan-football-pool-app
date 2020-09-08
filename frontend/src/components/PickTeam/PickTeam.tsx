@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useContext } from "react";
 import axios from "axios";
 import { PickTeamList } from "./PickTeamList";
 import "./PickTeam.css";
+import { useUser } from "../../context/TempUserContext";
 
 const fetchGames = async (
   season: number,
@@ -59,7 +60,7 @@ export const PickTeam = () => {
     return team === selectionA || team === selectionB;
   };
 
-  const USER = "test";
+  const { user, setUser } = useUser();
 
   const handleTeamSubmit = () => {
     const nameA = `wk${week}A`;
@@ -69,7 +70,7 @@ export const PickTeam = () => {
       [nameB]: selectionB,
     };
     axios
-      .put(`/user/update/username/${USER}`, update)
+      .put(`/user/update/username/${user.user_id}`, update)
       .then((response) => {
         return response;
       })
