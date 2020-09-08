@@ -70,7 +70,7 @@ export const PickTeam = () => {
       [nameB]: selectionB,
     };
     axios
-      .put(`/user/update/username/${user.user_id}`, update)
+      .put(`/user/update/id/${user.user_id}`, update)
       .then((response) => {
         return response;
       })
