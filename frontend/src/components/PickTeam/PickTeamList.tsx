@@ -6,6 +6,7 @@ import "./PickTeamList.css";
 interface PickTeamListProps {
   games: GameType[];
   loading: boolean;
+  savedSelections: any;
   handleTeamSelect: (team: string) => void;
   isTeamSelected: (team: string) => boolean;
   isTwoTeamSelected: () => boolean;
@@ -30,6 +31,7 @@ export const PickTeamList = (props: PickTeamListProps) => {
               <PickTeamListRow
                 key={game.game_id}
                 game={game}
+                savedSelections={props.savedSelections}
                 handleTeamSelect={props.handleTeamSelect}
                 isTeamSelected={props.isTeamSelected}
                 isTwoTeamSelected={props.isTwoTeamSelected}
