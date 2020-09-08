@@ -5,6 +5,7 @@ import "./PickTeamList.css";
 
 interface TeamButtonProps {
   team: string;
+  startTime: number;
   handleTeamSelect: (team: string) => void;
   isTeamSelected: (team: string) => boolean;
 }
@@ -14,12 +15,15 @@ const TeamButton = (props: TeamButtonProps) => {
   if (props.isTeamSelected(props.team)) {
     className += " btn-selected";
   }
+  console.log("BUTTON ST", props.startTime);
+  console.log("BUTTON NT", Date.now());
   return (
     <button
       className={className}
       onClick={() => {
         props.handleTeamSelect(props.team);
       }}
+      disabled={props.startTime < Date.now()}
     >
       {props.team}
     </button>
@@ -46,6 +50,7 @@ export const PickTeamListRow = (props: PickTeamListRowProps) => {
       <td className="table-item">
         <TeamButton
           team={props.game.visTeam}
+          startTime={props.game.startTime}
           handleTeamSelect={props.handleTeamSelect}
           isTeamSelected={props.isTeamSelected}
         />
@@ -53,6 +58,7 @@ export const PickTeamListRow = (props: PickTeamListRowProps) => {
       <td className="table-item">
         <TeamButton
           team={props.game.homeTeam}
+          startTime={props.game.startTime}
           handleTeamSelect={props.handleTeamSelect}
           isTeamSelected={props.isTeamSelected}
         />
