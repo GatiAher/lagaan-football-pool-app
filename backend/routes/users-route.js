@@ -6,7 +6,7 @@ const userRoutes = require("../controllers/user-controller.js");
 const router = express.Router();
 router.get("/", userRoutes.userGetAll);
 router.post("/create", userRoutes.userCreate);
-router.get("/username/:user_id", userRoutes.userGetByUserId);
+router.get("/id/:user_id", userRoutes.userGetByUserId);
 router.put("/update/id/:user_id", userRoutes.userUpdateByUserId);
 router.put("/update_score", userRoutes.userUpdateScore);
 router.put("/update_ranking", userRoutes.userUpdateRanking);
