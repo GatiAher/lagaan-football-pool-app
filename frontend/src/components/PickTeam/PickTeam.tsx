@@ -75,7 +75,7 @@ export const PickTeam = () => {
   useEffect(() => {
     fetchGamesCallback();
     fetchUserDataCallback();
-  });
+  }, []);
 
   const handleFilterSubmit = () => {
     setSelectionA("");

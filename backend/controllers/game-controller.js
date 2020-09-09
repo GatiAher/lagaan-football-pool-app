@@ -1,6 +1,5 @@
 const knex = require("../db");
 const gameScrapper54 = require("../web-scraping/schedule-scraper_season_54");
-const { column } = require("../db");
 
 exports.gameBySeasonAndWeek = async (req, res) => {
   knex("Game")
