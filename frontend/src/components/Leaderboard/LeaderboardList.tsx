@@ -1,7 +1,6 @@
 import React from "react";
 import { LeaderboardListRow } from "./LeaderboardListRow";
 import { UserType } from "../../utils/types/user-type";
-import "./LeaderboardList.css";
 
 interface LeaderboardListProps {
   users: UserType[];

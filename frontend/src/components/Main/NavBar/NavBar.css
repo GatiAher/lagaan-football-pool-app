@@ -4,16 +4,16 @@ ul.header li {
   margin: 0;
 }
 ul.header {
-  background-color: #111;
+  background-color: var(--neutral-dark);
   padding: 0;
 }
 ul.header li a {
-  color: #fff;
+  color: var(--neutral-light);
   font-weight: bold;
   text-decoration: none;
   padding: 20px;
   display: inline-block;
 }
 .active {
-  background-color: #0099ff;
+  background-color: var(--accent);
 }

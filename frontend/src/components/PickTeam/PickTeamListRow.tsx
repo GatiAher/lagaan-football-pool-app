@@ -1,7 +1,6 @@
 import React from "react";
 import { GameType } from "../../utils/types/game-type";
 import { DAYS } from "../../utils/maps/date-format";
-import "./PickTeamList.css";
 
 interface TeamButtonProps {
   team: string;

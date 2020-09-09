@@ -1,7 +1,6 @@
 import React from "react";
 import { PickTeamListRow } from "./PickTeamListRow";
 import { GameType } from "../../utils/types/game-type";
-import "./PickTeamList.css";
 
 interface PickTeamListProps {
   games: GameType[];

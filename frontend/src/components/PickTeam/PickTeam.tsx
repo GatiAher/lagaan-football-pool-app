@@ -2,7 +2,6 @@ import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { pickBy, omit, startsWith } from "lodash";
 import { PickTeamList } from "./PickTeamList";
-import "./PickTeam.css";
 import { useUser } from "../../context/TempUserContext";
 
 const fetchGames = async (

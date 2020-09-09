@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { LeaderboardList } from "./LeaderboardList";
-import "./Leaderboard.css";
 
 const fetchUsers = async (
   setUsers: (arg0: any) => void,

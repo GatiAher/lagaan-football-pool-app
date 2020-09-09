@@ -1,6 +1,5 @@
 import React from "react";
 import { UserType } from "../../utils/types/user-type";
-import "./LeaderboardList.css";
 import { useUser } from "../../context/TempUserContext";
 
 interface LeaderboardListRowProps {
