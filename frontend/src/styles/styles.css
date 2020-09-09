@@ -170,3 +170,12 @@ body {
   color: var(--neutral-light);
   background: var(--accent-dark);
 }
+.table-item.win {
+  background-color: var(--positive);
+}
+.table-item.lose {
+  background-color: var(--negative);
+}
+.table-item.tie {
+  background-color: var(--neutral-medium-dark);
+}

@@ -18,11 +18,7 @@ export const SeasonGameList = (props: SeasonGameListProps) => {
             <th className="table-head-item">Week</th>
             <th className="table-head-item">Start Time</th>
             <th className="table-head-item">Vis. Team</th>
-            <th className="table-head-item">Vis. Pts.</th>
-            <th className="table-head-item">Vis. Status</th>
             <th className="table-head-item">Home Team</th>
-            <th className="table-head-item">Home Pts.</th>
-            <th className="table-head-item">Home Status</th>
             <th className="table-head-item">Updated At</th>
           </tr>
         </thead>
