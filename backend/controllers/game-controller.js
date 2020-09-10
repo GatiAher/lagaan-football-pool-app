@@ -1,5 +1,6 @@
 const knex = require("../db");
 const gameScrapper54 = require("../web-scraping/schedule-scraper_season_54");
+const { update } = require("../db");
 
 exports.gameBySeasonAndWeek = async (req, res) => {
   knex("Game")
@@ -67,6 +68,26 @@ exports.gameUpdateScore = async (req, res) => {
       .orWhere(`wk${week}B`, visTeam)
       .increment({
         score: visStatus,
+      });
+    await knex("User")
+      .where(`wk${week}A`, homeTeam)
+      .update({
+        [`sc${week}A`]: homeStatus,
+      });
+    await knex("User")
+      .where(`wk${week}B`, homeTeam)
+      .update({
+        [`sc${week}B`]: homeStatus,
+      });
+    await knex("User")
+      .where(`wk${week}A`, visTeam)
+      .update({
+        [`sc${week}A`]: visStatus,
+      });
+    await knex("User")
+      .where(`wk${week}B`, visTeam)
+      .update({
+        [`sc${week}B`]: visStatus,
       });
     res.json({ message: `Game ${game_id} updated. User scores updated.` });
   } catch (err) {
