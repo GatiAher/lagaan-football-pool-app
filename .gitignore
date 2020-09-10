@@ -1,4 +1,9 @@
 node_modules
-frontend/node_modules
+
+# backend
 backend/node_modules
 backend/db/database.sqlite
+
+# frontend
+frontend/node_modules
+frontend/.env

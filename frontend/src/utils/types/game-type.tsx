@@ -1,5 +1,5 @@
 export interface GameType {
-  id: number;
+  game_id: number;
   startTime: number;
   week: number;
   season: number;

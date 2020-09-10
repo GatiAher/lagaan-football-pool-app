@@ -36,7 +36,7 @@ exports.gameAll = async (req, res) => {
 };
 
 exports.gameUpdateScore = async (req, res) => {
-  const { id, visPts, homePts } = req.body;
+  const { game_id, visPts, homePts } = req.body;
   let visStatus, homeStatus;
   if (visPts > homePts) {
     visStatus = 2;
@@ -48,22 +48,32 @@ exports.gameUpdateScore = async (req, res) => {
     visStatus = 1;
     homeStatus = 1;
   }
-  knex("Game")
-    .where("id", id)
-    .update({
+  const [season, week, homeTeam, visTeam] = game_id.split("_");
+  try {
+    await knex("Game").where("game_id", game_id).update({
       visPts,
       homePts,
       visStatus,
       homeStatus,
-    })
-    .then(() => {
-      res.json({ message: `Game ${id} updated.` });
-    })
-    .catch((err) => {
-      res.json({
-        message: `There was an error updating ${id} Game: ${err}`,
-      });
     });
+    await knex("User")
+      .where(`wk${week}A`, homeTeam)
+      .orWhere(`wk${week}B`, homeTeam)
+      .increment({
+        score: homeStatus,
+      });
+    await knex("User")
+      .where(`wk${week}A`, visTeam)
+      .orWhere(`wk${week}B`, visTeam)
+      .increment({
+        score: visStatus,
+      });
+    res.json({ message: `Game ${game_id} updated. User scores updated.` });
+  } catch (err) {
+    res.json({
+      message: `There was an error updating ${game_id} Game: ${err}`,
+    });
+  }
 };
 
 // Remove all games on the list

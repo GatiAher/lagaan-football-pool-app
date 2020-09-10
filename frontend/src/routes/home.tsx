@@ -1,8 +1,8 @@
 import React from "react";
 
-const Leaderboard = () => (
+const Home = () => (
   <div>
-    <h2>Leaderboard</h2>
+    <h2>Home</h2>
     <p>
       Cras facilisis urna ornare ex volutpat, et convallis erat elementum. Ut
       aliquam, ipsum vitae gravida suscipit, metus dui bibendum est, eget
@@ -15,4 +15,4 @@ const Leaderboard = () => (
   </div>
 );
 
-export default Leaderboard;
+export default Home;

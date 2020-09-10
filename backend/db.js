@@ -17,7 +17,7 @@ knex.schema
     if (!exists) {
       return knex.schema
         .createTable("Game", (table) => {
-          table.increments("id").primary();
+          table.string("game_id").primary(); // `${season}_${week}_${visTeam}_${homeTeam}`
           table.integer("startTime");
           table.integer("week");
           table.integer("season");
@@ -52,7 +52,8 @@ knex.schema
     if (!exists) {
       return knex.schema
         .createTable("User", (table) => {
-          table.string("username").notNullable().primary();
+          table.string("username").notNullable();
+          table.integer("user_id").primary();
           table.integer("rank");
           table.integer("score").defaultTo(0);
           table.string("wk1A");

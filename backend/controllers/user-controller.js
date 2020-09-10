@@ -8,18 +8,24 @@ exports.userGetAll = async (req, res) => {
       res.json(userData);
     })
     .catch((err) => {
-      res.json({ message: `There was an error retrieving games: ${err}` });
+      res
+        .status(500)
+        .json({ message: `There was an error retrieving users: ${err}` });
     });
 };
 
 exports.userCreate = async (req, res) => {
   knex("User")
-    .insert({ username: req.body.username })
+    .insert({ username: req.body.username, user_id: req.body.user_id })
     .then(() => {
-      res.json({ message: `User ${req.body.username} created.` });
+      res.json({
+        message: `User ${req.body.username} ${req.body.user_id} created.`,
+      });
     })
     .catch((err) => {
-      res.json({ message: `There was an error creating user: ${err}` });
+      res.status(500).json({
+        message: `There was an error creating user ${req.body.username} ${req.body.user_id}: ${err}`,
+      });
     });
 };
 
@@ -30,54 +36,50 @@ exports.userGetInOrderOfScore = async (req, res) => {
       res.json(userData);
     })
     .catch((err) => {
-      res.json({ message: `There was an error retrieving user: ${err}` });
+      res
+        .status(500)
+        .json({ message: `There was an error retrieving users: ${err}` });
     });
 };
 
-exports.userGetByUsername = async (req, res) => {
+exports.userGetByUserId = async (req, res) => {
   knex("User")
-    .where("username", req.params.username)
+    .where("user_id", req.params.user_id)
     .then((userData) => {
       res.json(userData);
     })
     .catch((err) => {
-      res.json({ message: `There was an error retrieving user: ${err}` });
-    });
-};
-
-exports.userUpdateByUsername = async (req, res) => {
-  knex("User")
-    .where("username", req.params.username)
-    .update(req.body)
-    .then(() => {
-      res.json({ message: `User ${req.params.username} updated.` });
-    })
-    .catch((err) => {
-      res.json({
-        message: `There was an error updating ${id} Game: ${err}`,
+      res.status(500).json({
+        message: `There was an error retrieving user ${req.body.user_id}: ${err}`,
       });
     });
 };
 
-exports.userUpdateScore = async (req, res) => {
-  // TODO
-  res.json({ message: `Not implemented` });
-};
-
-exports.userUpdateRanking = async (req, res) => {
-  // TODO
-  res.json({ message: `Not implemented` });
-};
-
-exports.userDeleteByUsername = async (req, res) => {
+exports.userUpdateByUserId = async (req, res) => {
   knex("User")
-    .where("username", req.body.username)
-    .del()
+    .where("user_id", req.params.user_id)
+    .update(req.body)
     .then(() => {
-      res.json({ message: `User ${req.body.username} deleted.` });
+      res.json({ message: `User ${req.params.user_id} updated.` });
     })
     .catch((err) => {
-      res.json({ message: `There was an error deleting user: ${err}` });
+      res.status(500).json({
+        message: `There was an error updating user ${req.params.user_id}: ${err}`,
+      });
+    });
+};
+
+exports.userDeleteByUserId = async (req, res) => {
+  knex("User")
+    .where("user_id", req.body.user_id)
+    .del()
+    .then(() => {
+      res.json({ message: `User ${req.body.user_id} deleted.` });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        message: `There was an error deleting user ${req.body.user_id}: ${err}`,
+      });
     });
 };
 
@@ -88,6 +90,8 @@ exports.userDeleteAll = async (req, res) => {
       res.json({ message: "User list cleared." });
     })
     .catch((err) => {
-      res.json({ message: `There was an error resetting User list: ${err}.` });
+      res
+        .status(500)
+        .json({ message: `There was an error resetting User list: ${err}.` });
     });
 };

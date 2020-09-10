@@ -1,5 +1,5 @@
 import React from "react";
-import { SeasonGame } from "./season-game";
+import { SeasonGame } from "../components/SeasonGame/SeasonGame";
 
 const Game = () => (
   <div>
