@@ -55,6 +55,9 @@ const fetchUserData = async (
         setSelectionB("BYE2");
         setDisabledBye2(true);
       }
+    } else if (week > 10) {
+      setDisabledBye1(true);
+      setDisabledBye2(true);
     }
     setSavedSelections(teamSelectionsList);
   });

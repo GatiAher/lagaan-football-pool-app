@@ -30,6 +30,7 @@ export const PickTeamList = (props: PickTeamListProps) => {
               <PickTeamListRow
                 disabled1={false}
                 disabled2={false}
+                isByeRow={false}
                 key={game.game_id}
                 game={game}
                 savedSelections={props.savedSelections}

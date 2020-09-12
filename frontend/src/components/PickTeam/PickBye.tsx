@@ -18,7 +18,7 @@ export const PickBye = (props: PickByeProps) => {
 
   const pseudoGame: GameType = {
     game_id: "bye_row",
-    startTime: new Date().valueOf(),
+    startTime: 8640000000000000,
     week: 0,
     season: 0,
     visTeam: "BYE1",
@@ -45,6 +45,7 @@ export const PickBye = (props: PickByeProps) => {
           <PickTeamListRow
             disabled1={props.disabled1}
             disabled2={props.disabled2}
+            isByeRow={true}
             key={pseudoGame.game_id}
             game={pseudoGame}
             savedSelections={props.savedSelections}

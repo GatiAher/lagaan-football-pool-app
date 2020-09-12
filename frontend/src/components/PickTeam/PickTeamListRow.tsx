@@ -45,6 +45,7 @@ const TeamButton = (props: TeamButtonProps) => {
 interface PickTeamListRowProps {
   disabled1: boolean;
   disabled2: boolean;
+  isByeRow: boolean;
   game: GameType;
   savedSelections: any;
   handleTeamSelect: (team: string) => void;
@@ -53,16 +54,23 @@ interface PickTeamListRowProps {
 }
 
 export const PickTeamListRow = (props: PickTeamListRowProps) => {
-  const dateObj = new Date(props.game.startTime);
-  const day = DAYS.get(dateObj.getDay());
-  const yearRegex = /(\/[^/]+$)/;
-  const date = dateObj.toLocaleDateString().replace(yearRegex, "");
-  const secondsRegex = /(:[\d]+ )/;
-  const time = dateObj.toLocaleTimeString().replace(secondsRegex, " ");
+  let content = "";
+  if (props.isByeRow) {
+    content = "Week 10";
+  } else {
+    const dateObj = new Date(props.game.startTime);
+    const day = DAYS.get(dateObj.getDay());
+    const yearRegex = /(\/[^/]+$)/;
+    const date = dateObj.toLocaleDateString().replace(yearRegex, "");
+    const secondsRegex = /(:[\d]+ )/;
+    const time = dateObj.toLocaleTimeString().replace(secondsRegex, " ");
+    content = `${day} ${date} ${time}`;
+    content = "Week 10";
+  }
 
   return (
     <tr className="table-row">
-      <td className="table-item">{`${day} ${date} ${time}`}</td>
+      <td className="table-item">{content}</td>
       <td className="table-item">
         <TeamButton
           disabled={props.disabled1}
