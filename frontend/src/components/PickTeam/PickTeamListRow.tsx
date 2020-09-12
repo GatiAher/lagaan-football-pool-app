@@ -3,6 +3,7 @@ import { GameType } from "../../utils/types/game-type";
 import { DAYS } from "../../utils/maps/date-format";
 
 interface TeamButtonProps {
+  disabled: boolean;
   team: string;
   startTime: number;
   savedSelections: any;
@@ -12,7 +13,7 @@ interface TeamButtonProps {
 }
 
 const TeamButton = (props: TeamButtonProps) => {
-  let disabled = false;
+  let disabled = props.disabled;
   let className = "btn btn-add";
 
   if (props.isTeamSelected(props.team)) {
@@ -42,6 +43,8 @@ const TeamButton = (props: TeamButtonProps) => {
 };
 
 interface PickTeamListRowProps {
+  disabled1: boolean;
+  disabled2: boolean;
   game: GameType;
   savedSelections: any;
   handleTeamSelect: (team: string) => void;
@@ -62,6 +65,7 @@ export const PickTeamListRow = (props: PickTeamListRowProps) => {
       <td className="table-item">{`${day} ${date} ${time}`}</td>
       <td className="table-item">
         <TeamButton
+          disabled={props.disabled1}
           team={props.game.visTeam}
           startTime={props.game.startTime}
           savedSelections={props.savedSelections}
@@ -72,6 +76,7 @@ export const PickTeamListRow = (props: PickTeamListRowProps) => {
       </td>
       <td className="table-item">
         <TeamButton
+          disabled={props.disabled2}
           team={props.game.homeTeam}
           startTime={props.game.startTime}
           savedSelections={props.savedSelections}

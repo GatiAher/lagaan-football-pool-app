@@ -28,6 +28,8 @@ export const PickTeamList = (props: PickTeamListProps) => {
           {props.games.length > 0 ? (
             props.games.map((game: GameType, idx) => (
               <PickTeamListRow
+                disabled1={false}
+                disabled2={false}
                 key={game.game_id}
                 game={game}
                 savedSelections={props.savedSelections}

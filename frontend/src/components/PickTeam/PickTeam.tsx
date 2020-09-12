@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { pickBy, omit, startsWith } from "lodash";
 import { PickTeamList } from "./PickTeamList";
+import { PickBye } from "./PickBye";
 import { useUser } from "../../context/TempUserContext";
 
 const fetchGames = async (
@@ -26,6 +27,8 @@ const fetchUserData = async (
   week: number,
   setSelectionA: (arg0: string) => void,
   setSelectionB: (arg0: string) => void,
+  setDisabledBye1: (arg0: boolean) => void,
+  setDisabledBye2: (arg0: boolean) => void,
   setSavedSelections: (arg0: any) => void
 ) => {
   const nameA = `wk${week}A`;
@@ -42,7 +45,18 @@ const fetchUserData = async (
       startsWith(key, "wk")
     );
     teamSelections = omit(teamSelections, [nameA, nameB]);
-    setSavedSelections(Object.values(teamSelections));
+    const teamSelectionsList = Object.values(teamSelections);
+    if (week == 10) {
+      if (!teamSelectionsList.includes("BYE1")) {
+        setSelectionA("BYE1");
+        setDisabledBye1(true);
+      }
+      if (!teamSelectionsList.includes("BYE2")) {
+        setSelectionB("BYE2");
+        setDisabledBye2(true);
+      }
+    }
+    setSavedSelections(teamSelectionsList);
   });
 };
 
@@ -56,6 +70,8 @@ export const PickTeam = () => {
   const [selectionA, setSelectionA] = useState("");
   const [selectionB, setSelectionB] = useState("");
   const [submissionMessage, setSubmissionMessage] = useState("");
+  const [disabledBye1, setDisabledBye1] = useState(false);
+  const [disabledBye2, setDisabledBye2] = useState(false);
 
   const fetchGamesCallback = useCallback(() => {
     fetchGames(season, week, setGames, setLoading);
@@ -67,6 +83,8 @@ export const PickTeam = () => {
       week,
       setSelectionA,
       setSelectionB,
+      setDisabledBye1,
+      setDisabledBye2,
       setSavedSelections
     );
   }, [user, week]);
@@ -165,6 +183,15 @@ export const PickTeam = () => {
       </div>
       <PickTeamList
         games={games}
+        loading={loading}
+        savedSelections={savedSelections}
+        handleTeamSelect={handleTeamSelect}
+        isTeamSelected={isTeamSelected}
+        isTwoTeamSelected={isTwoTeamSelected}
+      />
+      <PickBye
+        disabled1={disabledBye1}
+        disabled2={disabledBye2}
         loading={loading}
         savedSelections={savedSelections}
         handleTeamSelect={handleTeamSelect}
