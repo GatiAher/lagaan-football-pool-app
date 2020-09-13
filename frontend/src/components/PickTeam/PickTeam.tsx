@@ -63,6 +63,28 @@ const fetchUserData = async (
   });
 };
 
+const putUserSelections = async (
+  user_id: number,
+  week: number,
+  selectionA: string,
+  selectionB: string,
+  setSubmissionMessage: (arg0: string) => void
+) => {
+  axios
+    .put(`/user/update/id/${user_id}`, {
+      [`wk${week}A`]: selectionA,
+      [`wk${week}B`]: selectionB,
+    })
+    .then((response) => {
+      setSubmissionMessage(response.data.message);
+    })
+    .catch((error) =>
+      console.error(
+        `There was an error in submitting the user selections: ${error}`
+      )
+    );
+};
+
 export const PickTeam = () => {
   const { user } = useUser();
   const [season, setSeason] = useState(54);
@@ -92,11 +114,25 @@ export const PickTeam = () => {
     );
   }, [user, week]);
 
+  const putUserSelectionsCallback = useCallback(() => {
+    putUserSelections(
+      user.user_id,
+      week,
+      selectionA,
+      selectionB,
+      setSubmissionMessage
+    );
+  }, [user.user_id, week, selectionA, selectionB]);
+
   // Fetch all games on initial render
   useEffect(() => {
     fetchGamesCallback();
     fetchUserDataCallback();
   }, []);
+
+  const handleTeamSubmit = () => {
+    putUserSelectionsCallback();
+  };
 
   const handleFilterSubmit = () => {
     setSelectionA("");
@@ -124,23 +160,6 @@ export const PickTeam = () => {
 
   const isTwoTeamSelected = (): boolean => {
     return selectionA !== "" && selectionB !== "";
-  };
-
-  const handleTeamSubmit = () => {
-    const update = {
-      [`wk${week}A`]: selectionA,
-      [`wk${week}B`]: selectionB,
-    };
-    axios
-      .put(`/user/update/id/${user.user_id}`, update)
-      .then((response) => {
-        setSubmissionMessage(response.data.message);
-      })
-      .catch((error) =>
-        console.error(
-          `There was an error in submitting the user selections: ${error}`
-        )
-      );
   };
 
   return (
