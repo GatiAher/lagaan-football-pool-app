@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useUser } from "../context/TempUserContext";
-
+import { getCurrentWeek } from "../utils/get-current-week";
 // modify user data
 // modify game data
 // reset user data
@@ -11,6 +11,8 @@ import { useUser } from "../context/TempUserContext";
 
 const Admin = () => {
   const { user, setUser } = useUser();
+  const currentWeek = getCurrentWeek(new Date(2020, 8, 10));
+  console.log(currentWeek);
 
   // temporary testing, create and select fake users
   const [username, setUsername] = useState(user.username);
