@@ -47,6 +47,35 @@ knex.schema
   });
 
 knex.schema
+  .hasTable("Team")
+  .then((exists) => {
+    if (!exists) {
+      return knex.schema
+        .createTable("Team", (table) => {
+          table.string("team").primary(); // `${season}_${week}_${visTeam}_${homeTeam}`
+          table.integer("season");
+          table.integer("numOfWin").defaultTo(0);
+          table.integer("numOfLoss").defaultTo(0);
+          table.timestamps(true, true);
+        })
+        .then(() => {
+          // Log success message
+          console.log("Table 'Game' created");
+        })
+        .catch((error) => {
+          console.error(`There was an error creating table: ${error}`);
+        });
+    }
+  })
+  .then(() => {
+    // Log success message
+    console.log("done");
+  })
+  .catch((error) => {
+    console.error(`There was an error setting up the database: ${error}`);
+  });
+
+knex.schema
   .hasTable("User")
   .then((exists) => {
     if (!exists) {

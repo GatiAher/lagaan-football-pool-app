@@ -1,6 +1,5 @@
 const knex = require("../db");
 const gameScrapper54 = require("../web-scraping/schedule-scraper_season_54");
-const { update } = require("../db");
 
 exports.gameBySeasonAndWeek = async (req, res) => {
   knex("Game")
@@ -112,9 +111,11 @@ exports.gameClear = async (req, res) => {
 // clear old games and add new games from web scraper to database
 exports.gameReset = async (req, res) => {
   try {
+    // reset game data
     const games = await gameScrapper54.getGames();
     await knex("Game").truncate();
     await knex.batchInsert("Game", games, 30);
+    // done
     res.json({ message: "Game list created." });
   } catch (err) {
     res.json({ message: `There was an error resetting Game list: ${err}.` });

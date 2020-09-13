@@ -7,6 +7,7 @@ const helmet = require("helmet");
 // Import routes
 const gamesRouter = require("./routes/games-route");
 const userRouter = require("./routes/users-route");
+const teamRouter = require("./routes/teams-route");
 // Set default port for express app
 const PORT = process.env.PORT || 3001;
 // Create express app
@@ -18,9 +19,9 @@ app.use(helmet());
 app.use(compression());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-// Implement game route
+// Implement routes
 app.use("/game", gamesRouter);
-// Implement user route
+app.use("/team", teamRouter);
 app.use("/user", userRouter);
 // Implement 500 error route
 app.use(function (err, req, res, next) {
