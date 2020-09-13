@@ -9,7 +9,7 @@ import Game from "../../routes/game";
 import Select from "../../routes/select";
 import Leaderboard from "../../routes/leaderboard";
 import Profile from "../../routes/profile";
-import User from "../../routes/user";
+import Admin from "../../routes/admin";
 import Loading from "../Loading";
 import TempUserDisplay from "./TempUserDisplay";
 
@@ -27,7 +27,7 @@ const Main = () => {
       <div className="content">
         <Switch>
           <Route component={Home} exact path="/" />
-          <Route component={User} path="/user" />
+          <Route component={Admin} path="/admin" />
           <PrivateRoute component={Profile} path="/profile" />
           <Route component={Leaderboard} path="/leaderboard" />
           <Route component={Select} path="/select" />

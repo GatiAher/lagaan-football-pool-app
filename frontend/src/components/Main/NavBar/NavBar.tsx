@@ -30,7 +30,7 @@ const NavBar = () => (
         <NavLink to="/game">Game</NavLink>
       </li>
       <li>
-        <NavLink to="/user">User</NavLink>
+        <NavLink to="/admin">Admin</NavLink>
       </li>
       <li>
         <NavLink exact to="/profile">

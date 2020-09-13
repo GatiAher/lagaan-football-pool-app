@@ -2,8 +2,17 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useUser } from "../context/TempUserContext";
 
-const User = () => {
+// modify user data
+// modify game data
+// reset user data
+// reset game data
+// set current week
+// set current season
+
+const Admin = () => {
   const { user, setUser } = useUser();
+
+  // temporary testing, create and select fake users
   const [username, setUsername] = useState(user.username);
   const [userId, setUserId] = useState(user.user_id);
   const [message, setMessage] = useState("");
@@ -91,4 +100,4 @@ const User = () => {
   );
 };
 
-export default User;
+export default Admin;
