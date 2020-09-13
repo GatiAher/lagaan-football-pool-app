@@ -8,7 +8,7 @@ const fetchGames = async (
   setLoading: (arg0: boolean) => void
 ) => {
   axios
-    .get(`/game/season/${season}`)
+    .get(`/game/`)
     .then((response) => {
       setGames(response.data);
       setLoading(false);

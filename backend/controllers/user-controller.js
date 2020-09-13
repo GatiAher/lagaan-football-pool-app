@@ -1,9 +1,22 @@
 const knex = require("../db");
 
-exports.userGetAll = async (req, res) => {
+exports.userAll = async (req, res) => {
   knex
     .select("*")
     .from("User")
+    .then((userData) => {
+      res.json(userData);
+    })
+    .catch((err) => {
+      res
+        .status(500)
+        .json({ message: `There was an error retrieving users: ${err}` });
+    });
+};
+
+exports.userAllOrderOfScore = async (req, res) => {
+  knex("User")
+    .orderBy("score", "desc")
     .then((userData) => {
       res.json(userData);
     })
@@ -29,20 +42,7 @@ exports.userCreate = async (req, res) => {
     });
 };
 
-exports.userGetInOrderOfScore = async (req, res) => {
-  knex("User")
-    .orderBy("score", "desc")
-    .then((userData) => {
-      res.json(userData);
-    })
-    .catch((err) => {
-      res
-        .status(500)
-        .json({ message: `There was an error retrieving users: ${err}` });
-    });
-};
-
-exports.userGetByUserId = async (req, res) => {
+exports.userByUserId = async (req, res) => {
   knex("User")
     .where("user_id", req.params.user_id)
     .then((userData) => {
@@ -80,18 +80,5 @@ exports.userDeleteByUserId = async (req, res) => {
       res.status(500).json({
         message: `There was an error deleting user ${req.body.user_id}: ${err}`,
       });
-    });
-};
-
-exports.userDeleteAll = async (req, res) => {
-  knex("User")
-    .truncate() // remove the selection
-    .then(() => {
-      res.json({ message: "User list cleared." });
-    })
-    .catch((err) => {
-      res
-        .status(500)
-        .json({ message: `There was an error resetting User list: ${err}.` });
     });
 };

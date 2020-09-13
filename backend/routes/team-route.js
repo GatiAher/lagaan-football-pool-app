@@ -4,7 +4,6 @@ const express = require("express");
 const teamRoutes = require("../controllers/team-controller.js");
 
 const router = express.Router();
-router.get("/", teamRoutes.teamGetAll);
-router.get("/reset", teamRoutes.teamReset);
+router.get("/", teamRoutes.teamAll);
 
 module.exports = router;

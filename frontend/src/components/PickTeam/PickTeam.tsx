@@ -12,7 +12,7 @@ const fetchGames = async (
   setLoading: (arg0: boolean) => void
 ) => {
   axios
-    .get(`/game/season/${season}/week/${week}`)
+    .get(`/game/week/${week}`)
     .then((response) => {
       setGames(response.data);
       setLoading(false);
@@ -31,10 +31,10 @@ const fetchUserData = async (
   setDisabledBye2: (arg0: boolean) => void,
   setSavedSelections: (arg0: any) => void
 ) => {
-  const nameA = `wk${week}A`;
-  const nameB = `wk${week}B`;
   axios.get(`/user/id/${userId}`).then((response) => {
     const userData = response.data[0];
+    const nameA = `wk${week}A`;
+    const nameB = `wk${week}B`;
     if (userData[nameA] !== null) {
       setSelectionA(userData[nameA]);
     }
@@ -46,7 +46,7 @@ const fetchUserData = async (
     );
     teamSelections = omit(teamSelections, [nameA, nameB]);
     const teamSelectionsList = Object.values(teamSelections);
-    if (week == 10) {
+    if (week === 10) {
       if (!teamSelectionsList.includes("BYE1")) {
         setSelectionA("BYE1");
         setDisabledBye1(true);

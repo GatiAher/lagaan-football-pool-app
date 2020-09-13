@@ -4,11 +4,10 @@ const express = require("express");
 const userRoutes = require("../controllers/user-controller.js");
 
 const router = express.Router();
-router.get("/", userRoutes.userGetAll);
+router.get("/", userRoutes.userAll);
+router.get("/ranked", userRoutes.userAllOrderOfScore);
+router.get("/id/:user_id", userRoutes.userByUserId);
 router.post("/create", userRoutes.userCreate);
-router.get("/id/:user_id", userRoutes.userGetByUserId);
-router.put("/update/id/:user_id", userRoutes.userUpdateByUserId);
 router.put("/delete", userRoutes.userDeleteByUserId);
-router.get("/delete_all", userRoutes.userDeleteAll);
-router.get("/ranked", userRoutes.userGetInOrderOfScore);
+router.put("/update/id/:user_id", userRoutes.userUpdateByUserId);
 module.exports = router;
