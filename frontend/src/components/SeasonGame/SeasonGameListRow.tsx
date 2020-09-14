@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { TableCell, TableRow } from "@material-ui/core";
-
+import { dateParser } from "../../utils/date-parser";
 import { GameType } from "../../utils/types/game-type";
 
 const useStyles = makeStyles({
@@ -50,10 +50,13 @@ export const SeasonGameListRow = (props: SeasonGameListRowProps) => {
   let homeTeamBadge = props.game.homeTeam;
   if (props.game.homePts !== -1) homeTeamBadge += ` ${props.game.homePts}`;
 
+  const dateObj = dateParser(props.game.startTime);
+  const dateDisplay = `${dateObj.day} ${dateObj.date} ${dateObj.time}`;
+
   return (
     <TableRow>
       <TableCell>{props.game.week}</TableCell>
-      <TableCell>{props.game.startTime}</TableCell>
+      <TableCell>{dateDisplay}</TableCell>
       <TableCell className={visStatusClassName}>{props.game.visTeam}</TableCell>
       <TableCell className={visStatusClassName}>{props.game.visPts}</TableCell>
       <TableCell>@</TableCell>

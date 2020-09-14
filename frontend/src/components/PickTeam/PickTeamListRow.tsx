@@ -1,6 +1,6 @@
 import React from "react";
 import { GameType } from "../../utils/types/game-type";
-import { DAYS } from "../../utils/maps/date-format";
+import { dateParser } from "../../utils/date-parser";
 import { TeamToWinLossMap } from "../../utils/types/team-type";
 
 interface TeamButtonProps {
@@ -62,13 +62,8 @@ export const PickTeamListRow = (props: PickTeamListRowProps) => {
   if (props.isByeRow) {
     dateDisplay = "Week 10";
   } else {
-    const dateObj = new Date(props.game.startTime);
-    const day = DAYS.get(dateObj.getDay());
-    const yearRegex = /(\/[^/]+$)/;
-    const date = dateObj.toLocaleDateString().replace(yearRegex, "");
-    const secondsRegex = /(:[\d]+ )/;
-    const time = dateObj.toLocaleTimeString().replace(secondsRegex, " ");
-    dateDisplay = `${day} ${date} ${time}`;
+    const dateObj = dateParser(props.game.startTime);
+    dateDisplay = `${dateObj.day} ${dateObj.date} ${dateObj.time}`;
     if (props.teamWinLossMap) {
       // TODO: fix rendering before teamWinLossMap is loaded
       if (props.teamWinLossMap[props.game.visTeam]) {
