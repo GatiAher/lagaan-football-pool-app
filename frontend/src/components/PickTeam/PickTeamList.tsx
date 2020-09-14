@@ -33,9 +33,6 @@ export const PickTeamList = (props: PickTeamListProps) => {
             props.games.map((game: GameType, idx) => (
               <PickTeamListRow
                 key={game.game_id}
-                disabled1={false}
-                disabled2={false}
-                isByeRow={false}
                 game={game}
                 teamWinLossMap={props.teamWinLossMap}
                 savedSelections={props.savedSelections}
