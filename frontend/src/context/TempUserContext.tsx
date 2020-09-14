@@ -6,7 +6,7 @@ type ValueType = {
 };
 
 const defaultValue = {
-  username: "",
+  username: "default",
   user_id: 0,
 };
 
