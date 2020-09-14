@@ -18,7 +18,7 @@ export const PickBye = (props: PickByeProps) => {
 
   const pseudoGame: GameType = {
     game_id: "bye_row",
-    startTime: 8640000000000000,
+    startTime: 8640000000000000, // max possible day, does not disable by time
     week: 0,
     season: 0,
     visTeam: "BYE1",

@@ -6,7 +6,6 @@ import { PickBye } from "./PickBye";
 import { useUser } from "../../context/TempUserContext";
 
 const fetchGames = async (
-  season: number,
   week: number,
   setGames: (arg0: any) => void,
   setLoading: (arg0: boolean) => void
@@ -87,7 +86,6 @@ const putUserSelections = async (
 
 export const PickTeam = () => {
   const { user } = useUser();
-  const [season, setSeason] = useState(54);
   const [week, setWeek] = useState(1);
   const [games, setGames] = useState([]);
   const [savedSelections, setSavedSelections] = useState([]);
@@ -99,8 +97,8 @@ export const PickTeam = () => {
   const [disabledBye2, setDisabledBye2] = useState(false);
 
   const fetchGamesCallback = useCallback(() => {
-    fetchGames(season, week, setGames, setLoading);
-  }, [season, week]);
+    fetchGames(week, setGames, setLoading);
+  }, [week]);
 
   const fetchUserDataCallback = useCallback(() => {
     fetchUserData(
@@ -128,7 +126,7 @@ export const PickTeam = () => {
   useEffect(() => {
     fetchGamesCallback();
     fetchUserDataCallback();
-  }, []);
+  }, [week]);
 
   const handleTeamSubmit = () => {
     putUserSelectionsCallback();
@@ -168,40 +166,40 @@ export const PickTeam = () => {
         <div className="form-wrapper">
           <div className="form-row">
             <fieldset>
-              <label className="form-label" htmlFor="season">
-                Enter Season:
-              </label>
-              <input
-                className="form-input"
-                type="number"
-                id="season"
-                name="season"
-                value={season}
-                onChange={(e) => {
-                  setSeason(parseInt(e.currentTarget.value, 10));
-                }}
-              />
-            </fieldset>
-            <fieldset>
               <label className="form-label" htmlFor="week">
                 Enter Week:
               </label>
-              <input
+              <select
                 className="form-input"
-                type="number"
                 id="week"
                 name="week"
                 value={week}
                 onChange={(e) => {
-                  setWeek(parseInt(e.currentTarget.value, 10));
+                  setWeek(parseInt(e.target.value, 10));
+                  handleFilterSubmit();
                 }}
-              />
+              >
+                <option value={1}>WEEK 1</option>
+                <option value={2}>WEEK 2</option>
+                <option value={3}>WEEK 3</option>
+                <option value={4}>WEEK 4</option>
+                <option value={5}>WEEK 5</option>
+                <option value={6}>WEEK 6</option>
+                <option value={7}>WEEK 7</option>
+                <option value={8}>WEEK 8</option>
+                <option value={9}>WEEK 9</option>
+                <option value={10}>WEEK 10</option>
+                <option value={11}>WEEK 11</option>
+                <option value={12}>WEEK 12</option>
+                <option value={13}>WEEK 13</option>
+                <option value={14}>WEEK 14</option>
+                <option value={15}>WEEK 15</option>
+                <option value={16}>WEEK 16</option>
+                <option value={17}>WEEK 17</option>
+              </select>
             </fieldset>
           </div>
         </div>
-        <button onClick={handleFilterSubmit} className="btn btn-add">
-          Set Season and Week
-        </button>
       </div>
       <PickTeamList
         games={games}
