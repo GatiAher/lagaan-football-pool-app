@@ -1,19 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
+
 import { Switch, Route } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
-import NavBar from "./NavBar/NavBar";
+import Routes, { IRoute } from "./Routes";
 import PrivateRoute from "./PrivateRoute";
-import "./MainPanel.css";
-import Home from "../../routes/home";
-import Game from "../../routes/game";
-import Select from "../../routes/select";
-import Leaderboard from "../../routes/leaderboard";
-import Profile from "../../routes/profile";
-import Admin from "../../routes/admin";
-import Loading from "../Loading";
+
+import NavigationBar from "./NavigationBar/NavigationBar";
+
+import { useAuth0 } from "@auth0/auth0-react";
 import TempUserDisplay from "./TempUserDisplay";
 
-const Main = () => {
+import Loading from "../Loading";
+
+const Main: React.FC = () => {
   const { isLoading } = useAuth0();
 
   if (isLoading) {
@@ -22,18 +20,28 @@ const Main = () => {
 
   return (
     <div>
-      <NavBar />
+      <NavigationBar />
       <TempUserDisplay />
-      <div className="content">
-        <Switch>
-          <Route component={Home} exact path="/" />
-          <Route component={Admin} path="/admin" />
-          <PrivateRoute component={Profile} path="/profile" />
-          <Route component={Leaderboard} path="/leaderboard" />
-          <Route component={Select} path="/select" />
-          <Route component={Game} path="/game" />
-        </Switch>
-      </div>
+      <Switch>
+        {Routes.map((route: IRoute) => {
+          if (route.private) {
+            return (
+              <PrivateRoute
+                exact
+                path={route.path}
+                key={route.path}
+                component={route.component}
+              />
+            );
+          } else {
+            return (
+              <Route exact path={route.path} key={route.path}>
+                <route.component />
+              </Route>
+            );
+          }
+        })}
+      </Switch>
     </div>
   );
 };

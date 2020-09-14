@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useUser } from "../context/TempUserContext";
-import { getCurrentWeek } from "../utils/get-current-week";
+import { useUser } from "../../context/TempUserContext";
+import { getCurrentWeek } from "../../utils/get-current-week";
 // modify user data
 // modify game data
 // reset user data
