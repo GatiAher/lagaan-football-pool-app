@@ -1,6 +1,21 @@
 import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import {
+  TableContainer,
+  Table,
+  TableRow,
+  TableCell,
+  TableBody,
+  Paper,
+} from "@material-ui/core";
 import { SeasonGameListRow } from "./SeasonGameListRow";
 import { GameType } from "../../utils/types/game-type";
+
+const useStyles = makeStyles({
+  table: {
+    minWidth: 650,
+  },
+});
 
 interface SeasonGameListProps {
   games: GameType[];
@@ -8,38 +23,26 @@ interface SeasonGameListProps {
 }
 
 export const SeasonGameList = (props: SeasonGameListProps) => {
+  const classes = useStyles();
   // Show loading message
   if (props.loading) return <p>Game table is loading...</p>;
   return (
-    <div className="container">
-      <table className="table">
-        <thead>
-          <tr>
-            <th className="table-head-item">Week</th>
-            <th className="table-head-item">Start Time</th>
-            <th className="table-head-item">Vis. Team</th>
-            <th className="table-head-item">Home Team</th>
-            <th className="table-head-item">Updated At</th>
-          </tr>
-        </thead>
-        <tbody className="table-body">
+    <TableContainer component={Paper}>
+      <Table className={classes.table} aria-label="simple table">
+        <TableBody>
           {props.games.length > 0 ? (
             props.games.map((game: GameType, idx) => (
               <SeasonGameListRow key={game.game_id} game={game} />
             ))
           ) : (
-            <tr className="table-row">
-              <td
-                className="table-item"
-                style={{ textAlign: "center" }}
-                colSpan={9}
-              >
+            <TableRow>
+              <TableCell style={{ textAlign: "center" }} colSpan={5}>
                 There are no games to show.
-              </td>
-            </tr>
+              </TableCell>
+            </TableRow>
           )}
-        </tbody>
-      </table>
-    </div>
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 };

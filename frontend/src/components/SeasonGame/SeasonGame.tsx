@@ -30,15 +30,5 @@ export const SeasonGame = () => {
     fetchGamesCallback();
   }, []);
 
-  return (
-    <div className="game-list-wrapper">
-      {/* Form for creating new book */}
-      <div className="game-list-form">
-        <div className="form-wrapper">
-          <div className="form-row"></div>
-        </div>
-      </div>
-      <SeasonGameList games={games} loading={loading} />
-    </div>
-  );
+  return <SeasonGameList games={games} loading={loading} />;
 };
