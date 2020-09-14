@@ -3,6 +3,7 @@ import axios from "axios";
 import { pickBy, omit, startsWith } from "lodash";
 import { PickTeamList } from "./PickTeamList";
 import { PickBye } from "./PickBye";
+import { TeamToWinLossMap } from "../../utils/types/team-type";
 import { useUser } from "../../context/TempUserContext";
 
 const fetchGames = async (
@@ -15,6 +16,30 @@ const fetchGames = async (
     .then((response) => {
       setGames(response.data);
       setLoading(false);
+    })
+    .catch((error) =>
+      console.error(`There was an error retrieving the game list: ${error}`)
+    );
+};
+
+const fetchTeamData = async (
+  setTeamWinLossMap: (arg0: any) => void,
+  setLoading: (arg0: boolean) => void
+) => {
+  axios
+    .get(`/team`)
+    .then((response) => {
+      if (Array.isArray(response.data)) {
+        const teamWinLossMap: TeamToWinLossMap = {};
+        response.data.forEach((teamObj) => {
+          teamWinLossMap[teamObj.team] = {
+            numOfWin: teamObj.numOfWin,
+            numOfLoss: teamObj.numOfLoss,
+          };
+        });
+        setTeamWinLossMap(teamWinLossMap);
+        setLoading(false);
+      }
     })
     .catch((error) =>
       console.error(`There was an error retrieving the game list: ${error}`)
@@ -88,6 +113,7 @@ export const PickTeam = () => {
   const { user } = useUser();
   const [week, setWeek] = useState(1);
   const [games, setGames] = useState([]);
+  const [teamWinLossMap, setTeamWinLossMap] = useState({});
   const [savedSelections, setSavedSelections] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectionA, setSelectionA] = useState("");
@@ -99,6 +125,10 @@ export const PickTeam = () => {
   const fetchGamesCallback = useCallback(() => {
     fetchGames(week, setGames, setLoading);
   }, [week]);
+
+  const fetchTeamDataCallback = useCallback(() => {
+    fetchTeamData(setTeamWinLossMap, setLoading);
+  }, []);
 
   const fetchUserDataCallback = useCallback(() => {
     fetchUserData(
@@ -126,11 +156,8 @@ export const PickTeam = () => {
   useEffect(() => {
     fetchGamesCallback();
     fetchUserDataCallback();
+    fetchTeamDataCallback();
   }, [week]);
-
-  const handleTeamSubmit = () => {
-    putUserSelectionsCallback();
-  };
 
   const handleFilterSubmit = () => {
     setSelectionA("");
@@ -150,6 +177,10 @@ export const PickTeam = () => {
     } else if (selectionB === "") {
       setSelectionB(team);
     }
+  };
+
+  const handleTeamSubmit = () => {
+    putUserSelectionsCallback();
   };
 
   const isTeamSelected = (team: string): boolean => {
@@ -203,6 +234,7 @@ export const PickTeam = () => {
       </div>
       <PickTeamList
         games={games}
+        teamWinLossMap={teamWinLossMap}
         loading={loading}
         savedSelections={savedSelections}
         handleTeamSelect={handleTeamSelect}

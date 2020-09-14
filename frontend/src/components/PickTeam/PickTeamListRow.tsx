@@ -1,6 +1,7 @@
 import React from "react";
 import { GameType } from "../../utils/types/game-type";
 import { DAYS } from "../../utils/maps/date-format";
+import { TeamToWinLossMap } from "../../utils/types/team-type";
 
 interface TeamButtonProps {
   disabled: boolean;
@@ -43,9 +44,10 @@ const TeamButton = (props: TeamButtonProps) => {
 };
 
 interface PickTeamListRowProps {
-  disabled1: boolean;
-  disabled2: boolean;
-  isByeRow: boolean;
+  disabled1?: boolean;
+  disabled2?: boolean;
+  isByeRow?: boolean;
+  teamWinLossMap?: TeamToWinLossMap;
   game: GameType;
   savedSelections: any;
   handleTeamSelect: (team: string) => void;
@@ -54,9 +56,11 @@ interface PickTeamListRowProps {
 }
 
 export const PickTeamListRow = (props: PickTeamListRowProps) => {
-  let content = "";
+  let dateDisplay = "";
+  let visTeamScoreTally = "";
+  let homeTeamScoreTally = "";
   if (props.isByeRow) {
-    content = "Week 10";
+    dateDisplay = "Week 10";
   } else {
     const dateObj = new Date(props.game.startTime);
     const day = DAYS.get(dateObj.getDay());
@@ -64,16 +68,28 @@ export const PickTeamListRow = (props: PickTeamListRowProps) => {
     const date = dateObj.toLocaleDateString().replace(yearRegex, "");
     const secondsRegex = /(:[\d]+ )/;
     const time = dateObj.toLocaleTimeString().replace(secondsRegex, " ");
-    content = `${day} ${date} ${time}`;
-    content = "Week 10";
+    dateDisplay = `${day} ${date} ${time}`;
+    if (props.teamWinLossMap) {
+      // TODO: fix rendering before teamWinLossMap is loaded
+      if (props.teamWinLossMap[props.game.visTeam]) {
+        visTeamScoreTally = `${
+          props.teamWinLossMap[props.game.visTeam].numOfWin
+        }-${props.teamWinLossMap[props.game.visTeam].numOfLoss}`;
+      }
+      if (props.teamWinLossMap[props.game.homeTeam]) {
+        homeTeamScoreTally = `${
+          props.teamWinLossMap[props.game.homeTeam].numOfWin
+        }-${props.teamWinLossMap[props.game.homeTeam].numOfLoss}`;
+      }
+    }
   }
-
   return (
     <tr className="table-row">
-      <td className="table-item">{content}</td>
+      <td className="table-item">{dateDisplay}</td>
+      <td className="table-item">{visTeamScoreTally}</td>
       <td className="table-item">
         <TeamButton
-          disabled={props.disabled1}
+          disabled={props.disabled1 ? props.disabled1 : false}
           team={props.game.visTeam}
           startTime={props.game.startTime}
           savedSelections={props.savedSelections}
@@ -84,7 +100,7 @@ export const PickTeamListRow = (props: PickTeamListRowProps) => {
       </td>
       <td className="table-item">
         <TeamButton
-          disabled={props.disabled2}
+          disabled={props.disabled2 ? props.disabled2 : false}
           team={props.game.homeTeam}
           startTime={props.game.startTime}
           savedSelections={props.savedSelections}
@@ -93,6 +109,7 @@ export const PickTeamListRow = (props: PickTeamListRowProps) => {
           isTwoTeamSelected={props.isTwoTeamSelected}
         />
       </td>
+      <td className="table-item">{homeTeamScoreTally}</td>
     </tr>
   );
 };
