@@ -68,7 +68,6 @@ export const SeasonGameListRow = (props: { game: GameType }) => {
 
   return (
     <TableRow>
-      <TableCell>{props.game.week}</TableCell>
       <TableCell>
         <DateBadge day={dateObj.day} date={dateObj.date} time={dateObj.time} />
       </TableCell>

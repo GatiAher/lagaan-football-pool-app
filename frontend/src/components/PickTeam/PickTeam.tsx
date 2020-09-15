@@ -159,14 +159,6 @@ export const PickTeam = () => {
     fetchTeamDataCallback();
   }, [week]);
 
-  const handleFilterSubmit = () => {
-    setSelectionA("");
-    setSelectionB("");
-    setSubmissionMessage("");
-    fetchGamesCallback();
-    fetchUserDataCallback();
-  };
-
   const handleTeamSelect = (team: string): void => {
     if (selectionA === team) {
       setSelectionA("");
@@ -179,10 +171,6 @@ export const PickTeam = () => {
     }
   };
 
-  const handleTeamSubmit = () => {
-    putUserSelectionsCallback();
-  };
-
   const isTeamSelected = (team: string): boolean => {
     return team === selectionA || team === selectionB;
   };
@@ -193,45 +181,41 @@ export const PickTeam = () => {
 
   return (
     <div className="game-list-wrapper">
-      <div className="game-list-form">
-        <div className="form-wrapper">
-          <div className="form-row">
-            <fieldset>
-              <label className="form-label" htmlFor="week">
-                Enter Week:
-              </label>
-              <select
-                className="form-input"
-                id="week"
-                name="week"
-                value={week}
-                onChange={(e) => {
-                  setWeek(parseInt(e.target.value, 10));
-                  handleFilterSubmit();
-                }}
-              >
-                <option value={1}>WEEK 1</option>
-                <option value={2}>WEEK 2</option>
-                <option value={3}>WEEK 3</option>
-                <option value={4}>WEEK 4</option>
-                <option value={5}>WEEK 5</option>
-                <option value={6}>WEEK 6</option>
-                <option value={7}>WEEK 7</option>
-                <option value={8}>WEEK 8</option>
-                <option value={9}>WEEK 9</option>
-                <option value={10}>WEEK 10</option>
-                <option value={11}>WEEK 11</option>
-                <option value={12}>WEEK 12</option>
-                <option value={13}>WEEK 13</option>
-                <option value={14}>WEEK 14</option>
-                <option value={15}>WEEK 15</option>
-                <option value={16}>WEEK 16</option>
-                <option value={17}>WEEK 17</option>
-              </select>
-            </fieldset>
-          </div>
-        </div>
-      </div>
+      <fieldset>
+        <label className="form-label" htmlFor="week">
+          Enter Week:
+        </label>
+        <select
+          className="form-input"
+          id="week"
+          name="week"
+          value={week}
+          onChange={(e) => {
+            setWeek(parseInt(e.target.value, 10));
+            setSelectionA("");
+            setSelectionB("");
+            setSubmissionMessage("");
+          }}
+        >
+          <option value={1}>WEEK 1</option>
+          <option value={2}>WEEK 2</option>
+          <option value={3}>WEEK 3</option>
+          <option value={4}>WEEK 4</option>
+          <option value={5}>WEEK 5</option>
+          <option value={6}>WEEK 6</option>
+          <option value={7}>WEEK 7</option>
+          <option value={8}>WEEK 8</option>
+          <option value={9}>WEEK 9</option>
+          <option value={10}>WEEK 10</option>
+          <option value={11}>WEEK 11</option>
+          <option value={12}>WEEK 12</option>
+          <option value={13}>WEEK 13</option>
+          <option value={14}>WEEK 14</option>
+          <option value={15}>WEEK 15</option>
+          <option value={16}>WEEK 16</option>
+          <option value={17}>WEEK 17</option>
+        </select>
+      </fieldset>
       <PickTeamList
         games={games}
         teamWinLossMap={teamWinLossMap}
@@ -251,7 +235,7 @@ export const PickTeam = () => {
         isTwoTeamSelected={isTwoTeamSelected}
       />
       <button
-        onClick={handleTeamSubmit}
+        onClick={putUserSelectionsCallback}
         className="btn btn-add"
         disabled={selectionA === "" || selectionB === ""}
       >
