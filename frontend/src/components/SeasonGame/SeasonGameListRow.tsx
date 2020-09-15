@@ -1,9 +1,9 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Box, TableCell, TableRow } from "@material-ui/core";
-import { dateParser } from "../../utils/date-parser";
 import { GameType } from "../../utils/types/game-type";
-import TeamLogo from "../TeamLogo/TeamLogo";
+import TeamDisplay from "../Display/TeamDisplay";
+import DateDisplay from "../Display/DateDisplay";
 
 const useStyles = makeStyles({
   neutral: {},
@@ -30,23 +30,7 @@ const getTableItemClassName = (styles: any, status: number): string => {
   }
 };
 
-const TeamBadge = (props: { team: string }) => (
-  <Box display="flex" flexDirection="column">
-    <Box m="auto">
-      <TeamLogo team={props.team} />
-    </Box>
-    <Box m="auto">{props.team}</Box>
-  </Box>
-);
-
-const DateBadge = (props: { day?: string; date?: string; time?: string }) => (
-  <Box display="flex" flexDirection="column">
-    <Box m="auto">{`${props.day} ${props.date}`}</Box>
-    <Box m="auto">{props.time}</Box>
-  </Box>
-);
-
-const PointsBadge = (props: { points: number }) => (
+const PointsDisplay = (props: { points: number }) => (
   <Box m="auto">
     <h3>{props.points}</h3>
   </Box>
@@ -62,27 +46,23 @@ export const SeasonGameListRow = (props: { game: GameType }) => {
     classes,
     props.game.homeStatus
   );
-
-  const dateObj = dateParser(props.game.startTime);
-  const dateDisplay = `${dateObj.day} ${dateObj.date} ${dateObj.time}`;
-
   return (
     <TableRow>
       <TableCell>
-        <DateBadge day={dateObj.day} date={dateObj.date} time={dateObj.time} />
+        <DateDisplay miliseconds={props.game.startTime} />
       </TableCell>
       <TableCell className={visStatusClassName}>
-        <TeamBadge team={props.game.visTeam} />
+        <TeamDisplay team={props.game.visTeam} />
       </TableCell>
       <TableCell className={visStatusClassName}>
-        <PointsBadge points={props.game.homePts} />
+        <PointsDisplay points={props.game.homePts} />
       </TableCell>
       <TableCell>@</TableCell>
       <TableCell className={homeStatusClassName}>
-        <PointsBadge points={props.game.homePts} />
+        <PointsDisplay points={props.game.homePts} />
       </TableCell>
       <TableCell className={homeStatusClassName}>
-        <TeamBadge team={props.game.homeTeam} />
+        <TeamDisplay team={props.game.homeTeam} />
       </TableCell>
     </TableRow>
   );
