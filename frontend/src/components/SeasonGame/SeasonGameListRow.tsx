@@ -1,8 +1,9 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { TableCell, TableRow } from "@material-ui/core";
+import { Box, TableCell, TableRow } from "@material-ui/core";
 import { dateParser } from "../../utils/date-parser";
 import { GameType } from "../../utils/types/game-type";
+import TeamLogo from "../TeamLogo/TeamLogo";
 
 const useStyles = makeStyles({
   neutral: {},
@@ -29,11 +30,29 @@ const getTableItemClassName = (styles: any, status: number): string => {
   }
 };
 
-interface SeasonGameListRowProps {
-  game: GameType;
-}
+const TeamBadge = (props: { team: string }) => (
+  <Box display="flex" flexDirection="column">
+    <Box m="auto">
+      <TeamLogo team={props.team} />
+    </Box>
+    <Box m="auto">{props.team}</Box>
+  </Box>
+);
 
-export const SeasonGameListRow = (props: SeasonGameListRowProps) => {
+const DateBadge = (props: { day?: string; date?: string; time?: string }) => (
+  <Box display="flex" flexDirection="column">
+    <Box m="auto">{`${props.day} ${props.date}`}</Box>
+    <Box m="auto">{props.time}</Box>
+  </Box>
+);
+
+const PointsBadge = (props: { points: number }) => (
+  <Box m="auto">
+    <h3>{props.points}</h3>
+  </Box>
+);
+
+export const SeasonGameListRow = (props: { game: GameType }) => {
   const classes = useStyles();
   const visStatusClassName = getTableItemClassName(
     classes,
@@ -44,27 +63,27 @@ export const SeasonGameListRow = (props: SeasonGameListRowProps) => {
     props.game.homeStatus
   );
 
-  let visTeamBadge = props.game.visTeam;
-  if (props.game.visPts !== -1) visTeamBadge += ` ${props.game.visPts}`;
-
-  let homeTeamBadge = props.game.homeTeam;
-  if (props.game.homePts !== -1) homeTeamBadge += ` ${props.game.homePts}`;
-
   const dateObj = dateParser(props.game.startTime);
   const dateDisplay = `${dateObj.day} ${dateObj.date} ${dateObj.time}`;
 
   return (
     <TableRow>
       <TableCell>{props.game.week}</TableCell>
-      <TableCell>{dateDisplay}</TableCell>
-      <TableCell className={visStatusClassName}>{props.game.visTeam}</TableCell>
-      <TableCell className={visStatusClassName}>{props.game.visPts}</TableCell>
+      <TableCell>
+        <DateBadge day={dateObj.day} date={dateObj.date} time={dateObj.time} />
+      </TableCell>
+      <TableCell className={visStatusClassName}>
+        <TeamBadge team={props.game.visTeam} />
+      </TableCell>
+      <TableCell className={visStatusClassName}>
+        <PointsBadge points={props.game.homePts} />
+      </TableCell>
       <TableCell>@</TableCell>
       <TableCell className={homeStatusClassName}>
-        {props.game.homePts}
+        <PointsBadge points={props.game.homePts} />
       </TableCell>
       <TableCell className={homeStatusClassName}>
-        {props.game.homeTeam}
+        <TeamBadge team={props.game.homeTeam} />
       </TableCell>
     </TableRow>
   );

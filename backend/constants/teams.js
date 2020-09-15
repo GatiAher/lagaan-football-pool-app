@@ -68,8 +68,6 @@ exports.TEAM_ABBR_TO_LONG = new Map([
   ["WAS", "Washington Football Team"],
 ]);
 
-exports.test = "test";
-
 exports.TEAMS = [
   "ARI",
   "ATL",

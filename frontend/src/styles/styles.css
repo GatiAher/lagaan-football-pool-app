@@ -17,9 +17,6 @@ body {
   margin: 0;
   padding: var(--padding-border);
   background: var(--neutral-medium-light);
-  font: 1rem / 1.414 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   color: #333;
 }
 :root {
@@ -35,7 +32,7 @@ body {
   --neutral-medium-light: #eeeeee;
   --neutral-light: #ffffff;
 }
-.game-list-wrapper {
+/* .game-list-wrapper {
   padding: 16px 0;
   margin: 0 auto 0;
   max-width: 768px;
@@ -178,4 +175,4 @@ body {
 }
 .table-item.tie {
   background-color: var(--neutral-medium-dark);
-}
+} */
