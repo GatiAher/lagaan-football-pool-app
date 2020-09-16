@@ -10,6 +10,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import TempUserDisplay from "./TempUserDisplay";
 
 import Loading from "../Loading";
+import { Container } from "@material-ui/core";
 
 const Main: React.FC = () => {
   const { isLoading } = useAuth0();
@@ -22,26 +23,28 @@ const Main: React.FC = () => {
     <div>
       <NavigationBar />
       <TempUserDisplay />
-      <Switch>
-        {Routes.map((route: IRoute) => {
-          if (route.private) {
-            return (
-              <PrivateRoute
-                exact
-                path={route.path}
-                key={route.path}
-                component={route.component}
-              />
-            );
-          } else {
-            return (
-              <Route exact path={route.path} key={route.path}>
-                <route.component />
-              </Route>
-            );
-          }
-        })}
-      </Switch>
+      <Container maxWidth="md">
+        <Switch>
+          {Routes.map((route: IRoute) => {
+            if (route.private) {
+              return (
+                <PrivateRoute
+                  exact
+                  path={route.path}
+                  key={route.path}
+                  component={route.component}
+                />
+              );
+            } else {
+              return (
+                <Route exact path={route.path} key={route.path}>
+                  <route.component />
+                </Route>
+              );
+            }
+          })}
+        </Switch>
+      </Container>
     </div>
   );
 };
