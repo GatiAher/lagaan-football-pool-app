@@ -1,69 +1,101 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Box, TableCell, TableRow } from "@material-ui/core";
+import {
+  Box,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  ListItemSecondaryAction,
+} from "@material-ui/core";
+import ArrowLeftIcon from "@material-ui/icons/ArrowLeft";
 import { GameType } from "../../utils/types/game-type";
-import TeamDisplay from "../Display/TeamDisplay";
 import DateDisplay from "../Display/DateDisplay";
+import TeamLogo from "../Display/TeamLogo";
 
 const useStyles = makeStyles({
   neutral: {},
   tie: {
-    color: "#686868",
+    color: "#a3a5a8",
   },
   win: {
-    color: "#05c947",
+    color: "black",
   },
   lose: {
-    color: "#d31212",
+    color: "#a3a5a8",
   },
 });
 
-const getTableItemClassName = (styles: any, status: number): string => {
+const getTableItemClassName = (classes: any, status: number): string => {
   if (status === 1) {
-    return styles.tie;
+    return classes.tie;
   } else if (status === 2) {
-    return styles.win;
+    return classes.win;
   } else if (status === 0) {
-    return styles.lose;
+    return classes.lose;
   } else {
-    return styles.neutral;
+    return classes.neutral;
   }
 };
 
-const PointsDisplay = (props: { points: number }) => (
-  <Box m="auto">
-    <h3>{props.points}</h3>
-  </Box>
-);
+const TeamListItem = (props: {
+  team: string;
+  points: number;
+  status: number;
+  startTime: number;
+  classes: any;
+}) => {
+  const classStatusName = getTableItemClassName(props.classes, props.status);
+  return (
+    <ListItem className={classStatusName} button={false} style={{ padding: 0 }}>
+      <ListItemAvatar>
+        <TeamLogo team={props.team} />
+      </ListItemAvatar>
+      <ListItemText primary={props.team} />
+      {props.status !== -1 && (
+        <ListItemSecondaryAction
+          style={{ right: 0, display: "flex", flexDirection: "row" }}
+        >
+          <Box m="auto">{props.points}</Box>
+          <ArrowLeftIcon />
+        </ListItemSecondaryAction>
+      )}
+    </ListItem>
+  );
+};
 
 export const SeasonGameListRow = (props: { game: GameType }) => {
   const classes = useStyles();
-  const visStatusClassName = getTableItemClassName(
-    classes,
-    props.game.visStatus
-  );
-  const homeStatusClassName = getTableItemClassName(
-    classes,
-    props.game.homeStatus
-  );
   return (
-    <TableRow>
-      <TableCell>
+    <Box
+      display="flex"
+      flexDirection="row"
+      justifyContent="space-between"
+      bgcolor="white"
+      py={4}
+      pl={3}
+    >
+      <Box borderRight={1} width="60%" p={0}>
+        <List dense={true} style={{ padding: 0, margin: 0 }}>
+          <TeamListItem
+            team={props.game.visTeam}
+            points={props.game.visPts}
+            status={props.game.visStatus}
+            startTime={props.game.startTime}
+            classes={classes}
+          />
+          <TeamListItem
+            team={props.game.homeTeam}
+            points={props.game.homePts}
+            status={props.game.homeStatus}
+            startTime={props.game.startTime}
+            classes={classes}
+          />
+        </List>
+      </Box>
+      <Box m="auto">
         <DateDisplay miliseconds={props.game.startTime} />
-      </TableCell>
-      <TableCell className={visStatusClassName}>
-        <TeamDisplay team={props.game.visTeam} />
-      </TableCell>
-      <TableCell className={visStatusClassName}>
-        <PointsDisplay points={props.game.homePts} />
-      </TableCell>
-      <TableCell>@</TableCell>
-      <TableCell className={homeStatusClassName}>
-        <PointsDisplay points={props.game.homePts} />
-      </TableCell>
-      <TableCell className={homeStatusClassName}>
-        <TeamDisplay team={props.game.homeTeam} />
-      </TableCell>
-    </TableRow>
+      </Box>
+    </Box>
   );
 };

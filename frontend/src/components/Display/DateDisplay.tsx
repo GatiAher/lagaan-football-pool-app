@@ -6,8 +6,8 @@ const DateDisplay = (props: { miliseconds: number }) => {
   const dateObj = dateParser(props.miliseconds);
   return (
     <Box display="flex" flexDirection="column">
-      <Box m="auto">{`${dateObj.day} ${dateObj.date}`}</Box>
-      <Box m="auto">{dateObj.time}</Box>
+      <Box>{`${dateObj.day} ${dateObj.date}`}</Box>
+      <Box>{dateObj.time}</Box>
     </Box>
   );
 };

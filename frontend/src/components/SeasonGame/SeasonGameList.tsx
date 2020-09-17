@@ -7,35 +7,53 @@ import {
   TableCell,
   TableBody,
   Paper,
+  isWidthUp,
+  withWidth,
+  Box,
 } from "@material-ui/core";
+import GridList from "@material-ui/core/GridList";
+import GridListTile from "@material-ui/core/GridListTile";
+import ListSubheader from "@material-ui/core/ListSubheader";
 import { SeasonGameListRow } from "./SeasonGameListRow";
 import { GameType } from "../../utils/types/game-type";
+
+const useStyles = makeStyles({
+  root: {
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    overflow: "hidden",
+  },
+});
 
 interface SeasonGameListProps {
   games: GameType[];
   loading: boolean;
+  width: "xs" | "sm" | "md" | "lg" | "xl";
 }
 
-export const SeasonGameList = (props: SeasonGameListProps) => {
-  // Show loading message
+function SeasonGameList(props: SeasonGameListProps): JSX.Element {
+  const classes = useStyles();
+  let gridListCols = props.width === "xs" ? 1 : 2;
   if (props.loading) return <p>Game table is loading...</p>;
   return (
-    <TableContainer component={Paper}>
-      <Table aria-label="simple table">
-        <TableBody>
-          {props.games.length > 0 ? (
-            props.games.map((game: GameType, idx) => (
-              <SeasonGameListRow key={game.game_id} game={game} />
-            ))
-          ) : (
-            <TableRow>
-              <TableCell style={{ textAlign: "center" }} colSpan={5}>
-                There are no games to show.
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <Box className={classes.root}>
+      <GridList
+        cellHeight="auto"
+        cols={gridListCols}
+        style={{ overflow: "hidden" }}
+      >
+        <GridListTile key="Subheader" cols={2} style={{ height: "auto" }}>
+          <ListSubheader component="div">WEEK</ListSubheader>
+        </GridListTile>
+        {props.games.map((game: GameType) => (
+          <GridListTile key={game.game_id}>
+            <SeasonGameListRow game={game} />
+          </GridListTile>
+        ))}
+      </GridList>
+    </Box>
   );
-};
+}
+
+export default withWidth()(SeasonGameList);
