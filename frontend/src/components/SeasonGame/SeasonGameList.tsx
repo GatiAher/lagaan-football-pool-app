@@ -1,19 +1,10 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  TableContainer,
-  Table,
-  TableRow,
-  TableCell,
-  TableBody,
-  Paper,
-  isWidthUp,
-  withWidth,
-  Box,
-} from "@material-ui/core";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import ListSubheader from "@material-ui/core/ListSubheader";
+import withWidth from "@material-ui/core/withWidth";
+import Box from "@material-ui/core/Box";
 import { SeasonGameListRow } from "./SeasonGameListRow";
 import { GameType } from "../../utils/types/game-type";
 
