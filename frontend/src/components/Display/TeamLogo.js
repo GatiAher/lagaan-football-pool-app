@@ -1,5 +1,4 @@
 import React from "react";
-import "./styles.css";
 import ARI from "../../assets/nfl-logos/ARI.png";
 import ATL from "../../assets/nfl-logos/ATL.png";
 import BAL from "../../assets/nfl-logos/BAL.png";
@@ -70,7 +69,16 @@ const teamToLogoMap = new Map([
 
 const TeamLogo = ({ team }) => {
   const logo = teamToLogoMap.get(team);
-  return <img className="small" src={logo} alt={team} />;
+  return (
+    <img
+      style={{
+        height: "40px",
+        width: "40px",
+      }}
+      src={logo}
+      alt={team}
+    />
+  );
 };
 
 export default TeamLogo;

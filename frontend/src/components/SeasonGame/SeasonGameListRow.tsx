@@ -12,29 +12,20 @@ import ArrowLeftIcon from "@material-ui/icons/ArrowLeft";
 import { GameType } from "../../utils/types/game-type";
 import DateDisplay from "../Display/DateDisplay";
 import TeamLogo from "../Display/TeamLogo";
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles({
   neutral: {},
-  tie: {
-    color: "#a3a5a8",
-  },
-  win: {
-    color: "black",
-  },
   lose: {
     color: "#a3a5a8",
   },
 });
 
 const getTableItemClassName = (classes: any, status: number): string => {
-  if (status === 1) {
-    return classes.tie;
-  } else if (status === 2) {
-    return classes.win;
-  } else if (status === 0) {
-    return classes.lose;
-  } else {
+  if (status === 2 || status === -1) {
     return classes.neutral;
+  } else {
+    return classes.lose;
   }
 };
 
@@ -54,10 +45,16 @@ const TeamListItem = (props: {
       <ListItemText primary={props.team} />
       {props.status !== -1 && (
         <ListItemSecondaryAction
-          style={{ right: 0, display: "flex", flexDirection: "row" }}
+          style={{
+            right: 0,
+            display: "flex",
+            flexDirection: "row",
+            margin: 0,
+            padding: 0,
+          }}
         >
-          <Box m="auto">{props.points}</Box>
-          <ArrowLeftIcon />
+          <Typography className={classStatusName}>{props.points}</Typography>
+          <ArrowLeftIcon className={classStatusName} />
         </ListItemSecondaryAction>
       )}
     </ListItem>
