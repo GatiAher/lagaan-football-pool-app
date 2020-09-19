@@ -1,10 +1,19 @@
-import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
+
+import React, { useEffect, useState, useCallback } from "react";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import Box from "@material-ui/core/Box";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
+
 import { pickBy, omit, startsWith } from "lodash";
+
 import { PickTeamList } from "./PickTeamList";
 import { PickBye } from "./PickBye";
 import { TeamToWinLossMap } from "../../utils/types/team-type";
 import { useUser } from "../../context/TempUserContext";
+import { Button } from "@material-ui/core";
 
 const fetchGames = async (
   week: number,
@@ -109,7 +118,17 @@ const putUserSelections = async (
     );
 };
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    formControl: {
+      margin: theme.spacing(2),
+      minWidth: 240,
+    },
+  })
+);
+
 export const PickTeam = () => {
+  const classes = useStyles();
   const { user } = useUser();
   const [week, setWeek] = useState(1);
   const [games, setGames] = useState([]);
@@ -180,21 +199,20 @@ export const PickTeam = () => {
   };
 
   return (
-    <div className="game-list-wrapper">
-      <fieldset>
-        <label className="form-label" htmlFor="week">
-          Enter Week:
-        </label>
-        <select
-          className="form-input"
-          id="week"
-          name="week"
+    <Box>
+      <FormControl variant="outlined" className={classes.formControl}>
+        <InputLabel htmlFor="outlined-week-native-simple">Week</InputLabel>
+        <Select
+          native
           value={week}
           onChange={(e) => {
+            // @ts-ignore
             setWeek(parseInt(e.target.value, 10));
-            setSelectionA("");
-            setSelectionB("");
-            setSubmissionMessage("");
+          }}
+          label="Week"
+          inputProps={{
+            name: "week",
+            id: "outlined-week-native-simple",
           }}
         >
           <option value={1}>WEEK 1</option>
@@ -214,8 +232,8 @@ export const PickTeam = () => {
           <option value={15}>WEEK 15</option>
           <option value={16}>WEEK 16</option>
           <option value={17}>WEEK 17</option>
-        </select>
-      </fieldset>
+        </Select>
+      </FormControl>
       <PickTeamList
         games={games}
         teamWinLossMap={teamWinLossMap}
@@ -234,14 +252,16 @@ export const PickTeam = () => {
         isTeamSelected={isTeamSelected}
         isTwoTeamSelected={isTwoTeamSelected}
       />
-      <button
+      <Button
+        fullWidth
+        variant="contained"
+        color="primary"
         onClick={putUserSelectionsCallback}
-        className="btn btn-add"
         disabled={selectionA === "" || selectionB === ""}
       >
         {`Pick: ${selectionA} ${selectionB}`}
-      </button>
+      </Button>
       <h1>{submissionMessage}</h1>
-    </div>
+    </Box>
   );
 };

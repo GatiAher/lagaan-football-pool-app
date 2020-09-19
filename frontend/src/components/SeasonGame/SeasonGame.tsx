@@ -29,9 +29,6 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: theme.spacing(2),
       minWidth: 240,
     },
-    selectEmpty: {
-      marginTop: theme.spacing(2),
-    },
   })
 );
 
