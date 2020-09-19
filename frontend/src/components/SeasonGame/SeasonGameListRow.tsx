@@ -14,31 +14,35 @@ import DateDisplay from "../Display/DateDisplay";
 import TeamLogo from "../Display/TeamLogo";
 import Typography from "@material-ui/core/Typography";
 
-const TeamListStatusIndicatorIcon = (props: { status: number }) => {
+const TeamListStatusIndicatorIcon = ({ status }: { status: number }) => {
   const theme = useTheme();
   const colorArrow =
-    props.status !== 2
+    status !== 2
       ? theme.palette.background.default
       : theme.palette.common.black;
   return <ArrowLeftIcon style={{ color: colorArrow }} />;
 };
 
-const TeamListItem = (props: {
+const TeamListItem = ({
+  team,
+  points,
+  status,
+}: {
   team: string;
   points: number;
   status: number;
 }) => {
   const colorText =
-    props.status === 2 || props.status === -1 ? "textPrimary" : "textSecondary";
+    status === 2 || status === -1 ? "textPrimary" : "textSecondary";
   return (
     <ListItem color={colorText} button={false} style={{ padding: 0 }}>
       <ListItemAvatar>
-        <TeamLogo team={props.team} />
+        <TeamLogo team={team} />
       </ListItemAvatar>
       <ListItemText>
-        <Typography color={colorText}>{props.team}</Typography>
+        <Typography color={colorText}>{team}</Typography>
       </ListItemText>
-      {props.status !== -1 && (
+      {status !== -1 && (
         <ListItemSecondaryAction
           style={{
             right: 0,
@@ -48,15 +52,15 @@ const TeamListItem = (props: {
             padding: 0,
           }}
         >
-          <Typography color={colorText}>{props.points}</Typography>
-          <TeamListStatusIndicatorIcon status={props.status} />
+          <Typography color={colorText}>{points}</Typography>
+          <TeamListStatusIndicatorIcon status={status} />
         </ListItemSecondaryAction>
       )}
     </ListItem>
   );
 };
 
-export const SeasonGameListRow = (props: { game: GameType }) => {
+const SeasonGameListRow = ({ game }: { game: GameType }) => {
   const theme = useTheme();
   return (
     <Box
@@ -70,20 +74,22 @@ export const SeasonGameListRow = (props: { game: GameType }) => {
       <Box borderRight={1} color={theme.palette.grey.A200} width="60%" p={0}>
         <List dense={true} style={{ padding: 0, margin: 0 }}>
           <TeamListItem
-            team={props.game.visTeam}
-            points={props.game.visPts}
-            status={props.game.visStatus}
+            team={game.visTeam}
+            points={game.visPts}
+            status={game.visStatus}
           />
           <TeamListItem
-            team={props.game.homeTeam}
-            points={props.game.homePts}
-            status={props.game.homeStatus}
+            team={game.homeTeam}
+            points={game.homePts}
+            status={game.homeStatus}
           />
         </List>
       </Box>
       <Box m="auto">
-        <DateDisplay miliseconds={props.game.startTime} />
+        <DateDisplay miliseconds={game.startTime} />
       </Box>
     </Box>
   );
 };
+
+export default SeasonGameListRow;
