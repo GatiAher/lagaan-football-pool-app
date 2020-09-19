@@ -4,33 +4,34 @@ import { PickTeam } from "../PickTeam/PickTeam";
 import { SeasonGame } from "../SeasonGame/SeasonGame";
 import Admin from "../Admin/Admin";
 import Profile from "../Profile/Profile";
+import Typography from "@material-ui/core/Typography";
 
 const HomePage: React.FC = () => {
-  return <h1>Home</h1>;
+  return <Typography variant="h4">Home</Typography>;
 };
 
-const LeaderboardPage: React.FC = () => {
+const RankingsPage: React.FC = () => {
   return (
     <div>
-      <h1>Leaderboard</h1>
+      <Typography variant="h4">Rankings</Typography>
       <Leaderboard />
     </div>
   );
 };
 
-const SelectPage: React.FC = () => {
+const PickSheetPage: React.FC = () => {
   return (
     <div>
-      <h2>Select</h2>
+      <Typography variant="h4">Pick Sheet</Typography>
       <PickTeam />
     </div>
   );
 };
 
-const GamePage: React.FC = () => {
+const NFLGamesPage: React.FC = () => {
   return (
     <div>
-      <h2>Game</h2>
+      <Typography variant="h4">NFL Games</Typography>
       <SeasonGame />
     </div>
   );
@@ -39,7 +40,7 @@ const GamePage: React.FC = () => {
 const AdminPage: React.FC = () => {
   return (
     <div>
-      <h1>Admin</h1>
+      <Typography variant="h4">Admin</Typography>
       <Admin />
     </div>
   );
@@ -48,7 +49,7 @@ const AdminPage: React.FC = () => {
 const ProfilePage: React.FC = () => {
   return (
     <div>
-      <h1>Profile</h1>
+      <Typography variant="h4">Profile</Typography>
       <Profile />
     </div>
   );
@@ -69,21 +70,21 @@ const Routes: IRoute[] = [
     private: false,
   },
   {
-    path: "/leaderboard",
-    sidebarName: "Leaderboard",
-    component: LeaderboardPage,
+    path: "/rankings",
+    sidebarName: "Rankings",
+    component: RankingsPage,
     private: false,
   },
   {
-    path: "/select",
-    sidebarName: "Select",
-    component: SelectPage,
+    path: "/pick_sheet",
+    sidebarName: "Pick Sheet",
+    component: PickSheetPage,
     private: false,
   },
   {
-    path: "/game",
-    sidebarName: "Game",
-    component: GamePage,
+    path: "/nfl_games",
+    sidebarName: "NFL Games",
+    component: NFLGamesPage,
     private: false,
   },
   {

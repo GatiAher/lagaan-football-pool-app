@@ -1,7 +1,6 @@
 import React from "react";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
-import ListSubheader from "@material-ui/core/ListSubheader";
 import withWidth from "@material-ui/core/withWidth";
 import { SeasonGameListRow } from "./SeasonGameListRow";
 import { GameType } from "../../utils/types/game-type";
@@ -17,13 +16,6 @@ function SeasonGameList(props: SeasonGameListProps): JSX.Element {
   if (props.loading) return <p>Game table is loading...</p>;
   return (
     <GridList cellHeight="auto" cols={gridListCols}>
-      <GridListTile
-        key="Subheader"
-        cols={gridListCols}
-        style={{ height: "auto" }}
-      >
-        <ListSubheader component="div">WEEK</ListSubheader>
-      </GridListTile>
       {props.games.map((game: GameType) => (
         <GridListTile key={game.game_id}>
           <SeasonGameListRow game={game} />

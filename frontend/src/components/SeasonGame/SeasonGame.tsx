@@ -1,6 +1,11 @@
 import React, { useEffect, useState, useCallback } from "react";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import axios from "axios";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
 import SeasonGameList from "./SeasonGameList";
+import Box from "@material-ui/core/Box";
 
 const fetchGames = async (
   week: number,
@@ -18,7 +23,20 @@ const fetchGames = async (
     );
 };
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    formControl: {
+      margin: theme.spacing(2),
+      minWidth: 240,
+    },
+    selectEmpty: {
+      marginTop: theme.spacing(2),
+    },
+  })
+);
+
 export const SeasonGame = () => {
+  const classes = useStyles();
   const [games, setGames] = useState([]);
   const [week, setWeek] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -33,18 +51,20 @@ export const SeasonGame = () => {
   }, [week]);
 
   return (
-    <div>
-      <fieldset>
-        <label className="form-label" htmlFor="week">
-          Enter Week:
-        </label>
-        <select
-          className="form-input"
-          id="week"
-          name="week"
+    <Box>
+      <FormControl variant="outlined" className={classes.formControl}>
+        <InputLabel htmlFor="outlined-age-native-simple">Week</InputLabel>
+        <Select
+          native
           value={week}
           onChange={(e) => {
+            // @ts-ignore
             setWeek(parseInt(e.target.value, 10));
+          }}
+          label="Week"
+          inputProps={{
+            name: "week",
+            id: "outlined-week-native-simple",
           }}
         >
           <option value={1}>WEEK 1</option>
@@ -64,9 +84,9 @@ export const SeasonGame = () => {
           <option value={15}>WEEK 15</option>
           <option value={16}>WEEK 16</option>
           <option value={17}>WEEK 17</option>
-        </select>
-      </fieldset>
+        </Select>
+      </FormControl>
       <SeasonGameList games={games} loading={loading} />
-    </div>
+    </Box>
   );
 };
