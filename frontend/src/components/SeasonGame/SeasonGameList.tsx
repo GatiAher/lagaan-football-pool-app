@@ -6,7 +6,7 @@ import withWidth from "@material-ui/core/withWidth";
 import SeasonGameListRow from "./SeasonGameListRow";
 import GameType from "../../utils/types/GameType";
 
-function SeasonGameList({
+const SeasonGameList = ({
   games,
   loading,
   width,
@@ -14,7 +14,7 @@ function SeasonGameList({
   games: GameType[];
   loading: boolean;
   width: "xs" | "sm" | "md" | "lg" | "xl";
-}): JSX.Element {
+}) => {
   let gridListCols = width === "xs" ? 1 : 2;
   if (loading) return <p>Game table is loading...</p>;
   return (
@@ -26,6 +26,6 @@ function SeasonGameList({
       ))}
     </GridList>
   );
-}
+};
 
 export default withWidth()(SeasonGameList);

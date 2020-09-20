@@ -1,6 +1,6 @@
 import React from "react";
 import GameType from "../../utils/types/GameType";
-import { dateParser } from "../../utils/date-parser";
+import dateParser from "../../utils/dateParser";
 import { TeamToWinLossMap } from "../../utils/types/TeamType";
 
 interface TeamButtonProps {

@@ -1,6 +1,5 @@
 import React from "react";
 import { useTheme } from "@material-ui/core/styles";
-import Box from "@material-ui/core/Box";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
@@ -10,7 +9,7 @@ import ArrowLeftIcon from "@material-ui/icons/ArrowLeft";
 import Typography from "@material-ui/core/Typography";
 
 import GameType from "../../utils/types/GameType";
-import DateDisplay from "../General/DateDisplay";
+import DateBox from "../General/DateBox";
 import TeamLogo from "../General/TeamLogo";
 
 const TeamListStatusIndicatorIcon = ({ status }: { status: number }) => {
@@ -60,34 +59,21 @@ const TeamListItem = ({
 };
 
 const SeasonGameListRow = ({ game }: { game: GameType }) => {
-  const theme = useTheme();
   return (
-    <Box
-      display="flex"
-      flexDirection="row"
-      justifyContent="space-between"
-      bgcolor={theme.palette.background.default}
-      py={4}
-      pl={3}
-    >
-      <Box borderRight={1} color={theme.palette.grey.A200} width="60%" p={0}>
-        <List dense={true} style={{ padding: 0, margin: 0 }}>
-          <TeamListItem
-            team={game.visTeam}
-            points={game.visPts}
-            status={game.visStatus}
-          />
-          <TeamListItem
-            team={game.homeTeam}
-            points={game.homePts}
-            status={game.homeStatus}
-          />
-        </List>
-      </Box>
-      <Box m="auto">
-        <DateDisplay miliseconds={game.startTime} />
-      </Box>
-    </Box>
+    <DateBox startTime={game.startTime}>
+      <List dense={true} style={{ padding: 0, margin: 0 }}>
+        <TeamListItem
+          team={game.visTeam}
+          points={game.visPts}
+          status={game.visStatus}
+        />
+        <TeamListItem
+          team={game.homeTeam}
+          points={game.homePts}
+          status={game.homeStatus}
+        />
+      </List>
+    </DateBox>
   );
 };
 

@@ -1,4 +1,4 @@
-import { DAYS } from "../utils/maps/date-format";
+import { DAYS } from "./maps/date-format";
 
 interface IDate {
   day?: string;
@@ -6,7 +6,7 @@ interface IDate {
   time?: string;
 }
 
-export const dateParser = (miliseconds: number): IDate => {
+const dateParser = (miliseconds: number): IDate => {
   const dateObj = new Date(miliseconds);
   const day = DAYS.get(dateObj.getDay());
   const yearRegex = /(\/[^/]+$)/;
@@ -19,3 +19,5 @@ export const dateParser = (miliseconds: number): IDate => {
     time,
   };
 };
+
+export default dateParser;
