@@ -7,9 +7,10 @@ import Button from "@material-ui/core/Button";
 
 import WeekPicker from "../General/WeekPicker";
 
-import PickTeamList from "./PickTeamList";
-import PickBye from "./PickBye";
+import PickTeamSection from "./PickTeamSection";
+import PickByeSection from "./PickByeSection";
 import { TeamToWinLossMap } from "../../utils/types/TeamType";
+
 import { useUser } from "../../context/TempUserContext";
 
 const fetchGames = async (
@@ -188,19 +189,19 @@ const PickTeam = () => {
   return (
     <Box>
       <WeekPicker week={week} setWeek={setWeek} />
-      <PickTeamList
+      <PickTeamSection
+        loading={loading}
         games={games}
         teamWinLossMap={teamWinLossMap}
-        loading={loading}
         savedSelections={savedSelections}
         handleTeamSelect={handleTeamSelect}
         isTeamSelected={isTeamSelected}
         isTwoTeamSelected={isTwoTeamSelected}
       />
-      <PickBye
+      <PickByeSection
+        loading={loading}
         disabled1={disabledBye1}
         disabled2={disabledBye2}
-        loading={loading}
         savedSelections={savedSelections}
         handleTeamSelect={handleTeamSelect}
         isTeamSelected={isTeamSelected}
