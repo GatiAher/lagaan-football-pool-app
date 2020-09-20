@@ -1,6 +1,8 @@
-import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
-import { LeaderboardList } from "./LeaderboardList";
+
+import React, { useEffect, useState, useCallback } from "react";
+
+import LeaderboardList from "./LeaderboardList";
 
 const fetchUsers = async (
   setUsers: (arg0: any) => void,
@@ -17,7 +19,7 @@ const fetchUsers = async (
     );
 };
 
-export const Leaderboard = () => {
+const Leaderboard = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -37,3 +39,5 @@ export const Leaderboard = () => {
     </div>
   );
 };
+
+export default Leaderboard;

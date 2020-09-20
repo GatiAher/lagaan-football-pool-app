@@ -1,7 +1,7 @@
 import React from "react";
-import { GameType } from "../../utils/types/game-type";
+import GameType from "../../utils/types/GameType";
 import { dateParser } from "../../utils/date-parser";
-import { TeamToWinLossMap } from "../../utils/types/team-type";
+import { TeamToWinLossMap } from "../../utils/types/TeamType";
 
 interface TeamButtonProps {
   disabled: boolean;
@@ -55,7 +55,7 @@ interface PickTeamListRowProps {
   isTwoTeamSelected: () => boolean;
 }
 
-export const PickTeamListRow = (props: PickTeamListRowProps) => {
+const PickTeamListRow = (props: PickTeamListRowProps) => {
   let dateDisplay = "";
   let visTeamScoreTally = "";
   let homeTeamScoreTally = "";
@@ -108,3 +108,5 @@ export const PickTeamListRow = (props: PickTeamListRowProps) => {
     </tr>
   );
 };
+
+export default PickTeamListRow;

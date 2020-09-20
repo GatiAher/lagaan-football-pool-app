@@ -1,13 +1,14 @@
 import React from "react";
-import { LeaderboardListRow } from "./LeaderboardListRow";
-import { UserType } from "../../utils/types/user-type";
+
+import LeaderboardListRow from "./LeaderboardListRow";
+import UserType from "../../utils/types/UserType";
 
 interface LeaderboardListProps {
   users: UserType[];
   loading: boolean;
 }
 
-export const LeaderboardList = (props: LeaderboardListProps) => {
+const LeaderboardList = (props: LeaderboardListProps) => {
   // Show loading message
   if (props.loading) return <p>Game table is loading...</p>;
 
@@ -88,3 +89,5 @@ export const LeaderboardList = (props: LeaderboardListProps) => {
     </div>
   );
 };
+
+export default LeaderboardList;

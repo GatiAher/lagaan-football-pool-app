@@ -1,18 +1,17 @@
 import React from "react";
 import { useTheme } from "@material-ui/core/styles";
-import {
-  Box,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-  ListItemSecondaryAction,
-} from "@material-ui/core";
+import Box from "@material-ui/core/Box";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ArrowLeftIcon from "@material-ui/icons/ArrowLeft";
-import { GameType } from "../../utils/types/game-type";
-import DateDisplay from "../Display/DateDisplay";
-import TeamLogo from "../Display/TeamLogo";
 import Typography from "@material-ui/core/Typography";
+
+import GameType from "../../utils/types/GameType";
+import DateDisplay from "../General/DateDisplay";
+import TeamLogo from "../General/TeamLogo";
 
 const TeamListStatusIndicatorIcon = ({ status }: { status: number }) => {
   const theme = useTheme();

@@ -1,19 +1,16 @@
 import axios from "axios";
-
-import React, { useEffect, useState, useCallback } from "react";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import Box from "@material-ui/core/Box";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import Select from "@material-ui/core/Select";
-
 import { pickBy, omit, startsWith } from "lodash";
 
-import { PickTeamList } from "./PickTeamList";
-import { PickBye } from "./PickBye";
-import { TeamToWinLossMap } from "../../utils/types/team-type";
+import React, { useEffect, useState, useCallback } from "react";
+import Box from "@material-ui/core/Box";
+import Button from "@material-ui/core/Button";
+
+import WeekPicker from "../General/WeekPicker";
+
+import PickTeamList from "./PickTeamList";
+import PickBye from "./PickBye";
+import { TeamToWinLossMap } from "../../utils/types/TeamType";
 import { useUser } from "../../context/TempUserContext";
-import { Button } from "@material-ui/core";
 
 const fetchGames = async (
   week: number,
@@ -118,17 +115,7 @@ const putUserSelections = async (
     );
 };
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    formControl: {
-      margin: theme.spacing(2),
-      minWidth: 240,
-    },
-  })
-);
-
-export const PickTeam = () => {
-  const classes = useStyles();
+const PickTeam = () => {
   const { user } = useUser();
   const [week, setWeek] = useState(1);
   const [games, setGames] = useState([]);
@@ -200,40 +187,7 @@ export const PickTeam = () => {
 
   return (
     <Box>
-      <FormControl variant="outlined" className={classes.formControl}>
-        <InputLabel htmlFor="outlined-week-native-simple">Week</InputLabel>
-        <Select
-          native
-          value={week}
-          onChange={(e) => {
-            // @ts-ignore
-            setWeek(parseInt(e.target.value, 10));
-          }}
-          label="Week"
-          inputProps={{
-            name: "week",
-            id: "outlined-week-native-simple",
-          }}
-        >
-          <option value={1}>WEEK 1</option>
-          <option value={2}>WEEK 2</option>
-          <option value={3}>WEEK 3</option>
-          <option value={4}>WEEK 4</option>
-          <option value={5}>WEEK 5</option>
-          <option value={6}>WEEK 6</option>
-          <option value={7}>WEEK 7</option>
-          <option value={8}>WEEK 8</option>
-          <option value={9}>WEEK 9</option>
-          <option value={10}>WEEK 10</option>
-          <option value={11}>WEEK 11</option>
-          <option value={12}>WEEK 12</option>
-          <option value={13}>WEEK 13</option>
-          <option value={14}>WEEK 14</option>
-          <option value={15}>WEEK 15</option>
-          <option value={16}>WEEK 16</option>
-          <option value={17}>WEEK 17</option>
-        </Select>
-      </FormControl>
+      <WeekPicker week={week} setWeek={setWeek} />
       <PickTeamList
         games={games}
         teamWinLossMap={teamWinLossMap}
@@ -265,3 +219,5 @@ export const PickTeam = () => {
     </Box>
   );
 };
+
+export default PickTeam;

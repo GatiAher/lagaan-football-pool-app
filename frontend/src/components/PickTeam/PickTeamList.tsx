@@ -1,7 +1,7 @@
 import React from "react";
-import { PickTeamListRow } from "./PickTeamListRow";
-import { GameType } from "../../utils/types/game-type";
-import { TeamToWinLossMap } from "../../utils/types/team-type";
+import PickTeamListRow from "./PickTeamListRow";
+import GameType from "../../utils/types/GameType";
+import { TeamToWinLossMap } from "../../utils/types/TeamType";
 
 interface PickTeamListProps {
   games: GameType[];
@@ -13,7 +13,7 @@ interface PickTeamListProps {
   isTwoTeamSelected: () => boolean;
 }
 
-export const PickTeamList = (props: PickTeamListProps) => {
+const PickTeamList = (props: PickTeamListProps) => {
   // Show loading message
   if (props.loading) return <p>Game table is loading...</p>;
   return (
@@ -57,3 +57,5 @@ export const PickTeamList = (props: PickTeamListProps) => {
     </div>
   );
 };
+
+export default PickTeamList;

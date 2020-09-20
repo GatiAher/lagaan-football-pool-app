@@ -9,7 +9,7 @@ import NavigationBar from "./NavigationBar/NavigationBar";
 import { useAuth0 } from "@auth0/auth0-react";
 // import TempUserDisplay from "./TempUserDisplay";
 
-import Loading from "../Loading";
+import Loading from "../General/Loading";
 import { Box, Container } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) =>

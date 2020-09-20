@@ -1,4 +1,4 @@
-export interface GameType {
+export default interface GameType {
   game_id: string;
   startTime: number;
   week: number;

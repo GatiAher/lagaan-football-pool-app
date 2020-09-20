@@ -2,8 +2,9 @@ import React from "react";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import withWidth from "@material-ui/core/withWidth";
+
 import SeasonGameListRow from "./SeasonGameListRow";
-import { GameType } from "../../utils/types/game-type";
+import GameType from "../../utils/types/GameType";
 
 function SeasonGameList({
   games,

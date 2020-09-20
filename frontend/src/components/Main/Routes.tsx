@@ -1,19 +1,19 @@
 import React from "react";
-import { Leaderboard } from "../Leaderboard/Leaderboard";
-import { PickTeam } from "../PickTeam/PickTeam";
-import { SeasonGame } from "../SeasonGame/SeasonGame";
+import PageHeader from "../General/PageHeader";
+import Leaderboard from "../Leaderboard/Leaderboard";
+import PickTeam from "../PickTeam/PickTeam";
+import SeasonGame from "../SeasonGame/SeasonGame";
 import Admin from "../Admin/Admin";
 import Profile from "../Profile/Profile";
-import Typography from "@material-ui/core/Typography";
 
 const HomePage: React.FC = () => {
-  return <Typography variant="h4">Home</Typography>;
+  return <PageHeader>Home</PageHeader>;
 };
 
 const RankingsPage: React.FC = () => {
   return (
     <div>
-      <Typography variant="h4">Rankings</Typography>
+      <PageHeader>Rankings</PageHeader>
       <Leaderboard />
     </div>
   );
@@ -22,7 +22,7 @@ const RankingsPage: React.FC = () => {
 const PickSheetPage: React.FC = () => {
   return (
     <div>
-      <Typography variant="h4">Pick Sheet</Typography>
+      <PageHeader>Pick Sheet</PageHeader>
       <PickTeam />
     </div>
   );
@@ -31,7 +31,7 @@ const PickSheetPage: React.FC = () => {
 const NFLGamesPage: React.FC = () => {
   return (
     <div>
-      <Typography variant="h4">NFL Games</Typography>
+      <PageHeader>NFL Games</PageHeader>
       <SeasonGame />
     </div>
   );
@@ -40,7 +40,7 @@ const NFLGamesPage: React.FC = () => {
 const AdminPage: React.FC = () => {
   return (
     <div>
-      <Typography variant="h4">Admin</Typography>
+      <PageHeader>Admin</PageHeader>
       <Admin />
     </div>
   );
@@ -49,7 +49,7 @@ const AdminPage: React.FC = () => {
 const ProfilePage: React.FC = () => {
   return (
     <div>
-      <Typography variant="h4">Profile</Typography>
+      <PageHeader>Profile</PageHeader>
       <Profile />
     </div>
   );

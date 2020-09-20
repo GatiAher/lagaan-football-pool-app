@@ -1,5 +1,6 @@
 import React from "react";
-import { UserType } from "../../utils/types/user-type";
+
+import UserType from "../../utils/types/UserType";
 import { useUser } from "../../context/TempUserContext";
 
 const makeTeamSelectionsList = (user: UserType) => {
@@ -33,8 +34,7 @@ const getTableItemClassName = (status: number) => {
 interface LeaderboardListRowProps {
   user: UserType;
 }
-
-export const LeaderboardListRow = (props: LeaderboardListRowProps) => {
+const LeaderboardListRow = (props: LeaderboardListRowProps) => {
   let className = "table-row";
   const { user } = useUser();
   if (user.user_id === props.user.user_id) {
@@ -52,3 +52,5 @@ export const LeaderboardListRow = (props: LeaderboardListRowProps) => {
     </tr>
   );
 };
+
+export default LeaderboardListRow;

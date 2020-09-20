@@ -1,6 +1,6 @@
 import React from "react";
-import { PickTeamListRow } from "./PickTeamListRow";
-import { GameType } from "../../utils/types/game-type";
+import PickTeamListRow from "./PickTeamListRow";
+import GameType from "../../utils/types/GameType";
 
 interface PickByeProps {
   disabled1: boolean;
@@ -12,7 +12,7 @@ interface PickByeProps {
   isTwoTeamSelected: () => boolean;
 }
 
-export const PickBye = (props: PickByeProps) => {
+const PickBye = (props: PickByeProps) => {
   // Show loading message
   if (props.loading) return <p>Game table is loading...</p>;
 
@@ -58,3 +58,5 @@ export const PickBye = (props: PickByeProps) => {
     </div>
   );
 };
+
+export default PickBye;
