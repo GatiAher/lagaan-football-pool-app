@@ -43,7 +43,7 @@ const PickByeSectionRow = (props: {
           handleTeamSelect={props.handleTeamSelect}
           isTeamSelected={props.isTeamSelected}
           isTwoTeamSelected={props.isTwoTeamSelected}
-        />
+        >{`test Bye 1`}</SelectionButton>
         <SelectionButton
           team="BYE2"
           disabled={disableBye1}
@@ -51,7 +51,7 @@ const PickByeSectionRow = (props: {
           handleTeamSelect={props.handleTeamSelect}
           isTeamSelected={props.isTeamSelected}
           isTwoTeamSelected={props.isTwoTeamSelected}
-        />
+        >{`test Bye 2`}</SelectionButton>
       </Box>
     </DateBox>
   );

@@ -30,7 +30,9 @@ const PickTeamSectionRow = (props: {
           handleTeamSelect={props.handleTeamSelect}
           isTeamSelected={props.isTeamSelected}
           isTwoTeamSelected={props.isTwoTeamSelected}
-        />
+        >
+          {`${props.game.visTeam} visteam`}
+        </SelectionButton>
         <SelectionButton
           team={props.game.homeTeam}
           disabled={isOver}
@@ -38,7 +40,9 @@ const PickTeamSectionRow = (props: {
           handleTeamSelect={props.handleTeamSelect}
           isTeamSelected={props.isTeamSelected}
           isTwoTeamSelected={props.isTwoTeamSelected}
-        />
+        >
+          {`${props.game.homeTeam} homeTeam`}
+        </SelectionButton>
       </Box>
     </DateBox>
   );

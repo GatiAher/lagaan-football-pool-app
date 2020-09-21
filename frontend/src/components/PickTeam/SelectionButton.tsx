@@ -1,33 +1,43 @@
 import React from "react";
 import Button, { ButtonProps } from "@material-ui/core/Button";
 
-const SelectionButton = (props: {
+type SelectionButtonProps = {
   team: string;
   disabled: boolean;
   savedSelections: any;
   handleTeamSelect: (team: string) => void;
   isTeamSelected: (team: string) => boolean;
   isTwoTeamSelected: () => boolean;
+};
+
+const SelectionButton: React.FC<SelectionButtonProps> = ({
+  children,
+  team,
+  disabled,
+  savedSelections,
+  handleTeamSelect,
+  isTeamSelected,
+  isTwoTeamSelected,
 }) => {
-  let disabled = props.disabled;
+  let disabledVal = disabled;
   let variant: ButtonProps["variant"] = "outlined";
-  if (props.isTeamSelected(props.team)) {
+  if (isTeamSelected(team)) {
     variant = "contained";
-  } else if (props.savedSelections.includes(props.team)) {
-    disabled = true;
-  } else if (props.isTwoTeamSelected()) {
-    disabled = true;
+  } else if (savedSelections.includes(team)) {
+    disabledVal = true;
+  } else if (isTwoTeamSelected()) {
+    disabledVal = true;
   }
   return (
     <Button
       color="secondary"
       variant={variant}
       onClick={() => {
-        props.handleTeamSelect(props.team);
+        handleTeamSelect(team);
       }}
-      disabled={disabled}
+      disabled={disabledVal}
     >
-      {props.team}
+      {children}
     </Button>
   );
 };
