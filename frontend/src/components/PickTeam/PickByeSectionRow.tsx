@@ -1,5 +1,5 @@
 import React from "react";
-import List from "@material-ui/core/List";
+import Box from "@material-ui/core/Box";
 
 import DateBox from "../General/DateBox";
 import SelectionButton from "./SelectionButton";
@@ -30,7 +30,12 @@ const PickByeSectionRow = (props: {
   }
   return (
     <DateBox week={props.week}>
-      <List dense={true} style={{ padding: 0, margin: 0 }}>
+      <Box
+        display="flex"
+        flexDirection="row"
+        justifyContent="space-evenly"
+        style={{ padding: 0, margin: 0 }}
+      >
         <SelectionButton
           team="BYE1"
           disabled={disableBye1}
@@ -47,7 +52,7 @@ const PickByeSectionRow = (props: {
           isTeamSelected={props.isTeamSelected}
           isTwoTeamSelected={props.isTwoTeamSelected}
         />
-      </List>
+      </Box>
     </DateBox>
   );
 };

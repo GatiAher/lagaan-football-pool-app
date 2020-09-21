@@ -1,5 +1,5 @@
-import List from "@material-ui/core/List";
 import React from "react";
+import Box from "@material-ui/core/Box";
 
 import GameType from "../../utils/types/GameType";
 import { TeamToWinLossMap } from "../../utils/types/TeamType";
@@ -17,7 +17,12 @@ const PickTeamSectionRow = (props: {
   const isOver = Date.now().valueOf() > props.game.startTime;
   return (
     <DateBox startTime={props.game.startTime}>
-      <List dense={true} style={{ padding: 0, margin: 0 }}>
+      <Box
+        display="flex"
+        flexDirection="row"
+        justifyContent="space-evenly"
+        style={{ padding: 0, margin: 0 }}
+      >
         <SelectionButton
           team={props.game.visTeam}
           disabled={isOver}
@@ -34,7 +39,7 @@ const PickTeamSectionRow = (props: {
           isTeamSelected={props.isTeamSelected}
           isTwoTeamSelected={props.isTwoTeamSelected}
         />
-      </List>
+      </Box>
     </DateBox>
   );
 };
