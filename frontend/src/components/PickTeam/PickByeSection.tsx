@@ -4,35 +4,43 @@ import GridListTile from "@material-ui/core/GridListTile";
 
 import PickByeSectionRow from "./PickByeSectionRow";
 
-interface PickByeProps {
-  disabled1: boolean;
-  disabled2: boolean;
+const PickByeSection = ({
+  loading,
+  week,
+  savedSelections,
+  setSelectionA,
+  setSelectionB,
+  handleTeamSelect,
+  isTeamSelected,
+  isTwoTeamSelected,
+}: {
   loading: boolean;
+  week: number;
   savedSelections: any;
+  setSelectionA: (team: string) => void;
+  setSelectionB: (team: string) => void;
   handleTeamSelect: (team: string) => void;
   isTeamSelected: (team: string) => boolean;
   isTwoTeamSelected: () => boolean;
-}
-
-const PickBye = (props: PickByeProps) => {
+}) => {
   // Show loading message
-  if (props.loading) return <p>Game table is loading...</p>;
+  if (loading) return <p>Game table is loading...</p>;
   return (
     <GridList cellHeight="auto" cols={1}>
       <GridListTile key="bye">
         <PickByeSectionRow
-          week={1}
-          disabled1={props.disabled1}
-          disabled2={props.disabled2}
           key="BYE"
-          savedSelections={props.savedSelections}
-          handleTeamSelect={props.handleTeamSelect}
-          isTeamSelected={props.isTeamSelected}
-          isTwoTeamSelected={props.isTwoTeamSelected}
+          week={week}
+          savedSelections={savedSelections}
+          setSelectionA={setSelectionA}
+          setSelectionB={setSelectionB}
+          handleTeamSelect={handleTeamSelect}
+          isTeamSelected={isTeamSelected}
+          isTwoTeamSelected={isTwoTeamSelected}
         />
       </GridListTile>
     </GridList>
   );
 };
 
-export default PickBye;
+export default PickByeSection;

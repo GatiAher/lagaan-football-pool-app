@@ -1,68 +1,47 @@
-import List from "@material-ui/core/List";
 import React from "react";
+import List from "@material-ui/core/List";
 
-import { TeamToWinLossMap } from "../../utils/types/TeamType";
 import DateBox from "../General/DateBox";
+import SelectionButton from "./SelectionButton";
 
-interface TeamButtonProps {
-  disabled: boolean;
-  name: string;
-  savedSelections: any;
-  handleTeamSelect: (team: string) => void;
-  isTeamSelected: (team: string) => boolean;
-  isTwoTeamSelected: () => boolean;
-}
-
-const TeamButton = (props: TeamButtonProps) => {
-  let disabled = props.disabled;
-  let className = "btn btn-add";
-  if (props.isTeamSelected(props.name)) {
-    className += " btn-selected";
-  } else if (props.savedSelections.includes(props.name)) {
-    className += " btn-forbidden";
-    disabled = true;
-  } else if (props.isTwoTeamSelected()) {
-    disabled = true;
-  }
-  return (
-    <button
-      className={className}
-      onClick={() => {
-        props.handleTeamSelect(props.name);
-      }}
-      disabled={disabled}
-    >
-      {props.name}
-    </button>
-  );
-};
-
-interface PickTeamListRowProps {
+const PickByeSectionRow = (props: {
   week: number;
-  disabled1?: boolean;
-  disabled2?: boolean;
-  teamWinLossMap?: TeamToWinLossMap;
   savedSelections: any;
+  setSelectionA: (team: string) => void;
+  setSelectionB: (team: string) => void;
   handleTeamSelect: (team: string) => void;
   isTeamSelected: (team: string) => boolean;
   isTwoTeamSelected: () => boolean;
-}
-
-const PickByeListRow = (props: PickTeamListRowProps) => {
+}) => {
+  let disableBye1 = false;
+  let disableBye2 = false;
+  if (props.week === 10) {
+    if (!props.savedSelections.includes("BYE1")) {
+      props.setSelectionA("BYE1");
+      disableBye1 = true;
+    }
+    if (!props.savedSelections.includes("BYE2")) {
+      props.setSelectionB("BYE2");
+      disableBye2 = true;
+    }
+  } else if (props.week > 10) {
+    disableBye1 = true;
+    disableBye2 = true;
+  }
   return (
     <DateBox week={props.week}>
       <List dense={true} style={{ padding: 0, margin: 0 }}>
-        <TeamButton
-          name="BYE1"
-          disabled={props.disabled1 ? props.disabled1 : false}
+        <SelectionButton
+          team="BYE1"
+          disabled={disableBye1}
           savedSelections={props.savedSelections}
           handleTeamSelect={props.handleTeamSelect}
           isTeamSelected={props.isTeamSelected}
           isTwoTeamSelected={props.isTwoTeamSelected}
         />
-        <TeamButton
-          name="BYE2"
-          disabled={props.disabled2 ? props.disabled2 : false}
+        <SelectionButton
+          team="BYE2"
+          disabled={disableBye1}
           savedSelections={props.savedSelections}
           handleTeamSelect={props.handleTeamSelect}
           isTeamSelected={props.isTeamSelected}
@@ -73,4 +52,4 @@ const PickByeListRow = (props: PickTeamListRowProps) => {
   );
 };
 
-export default PickByeListRow;
+export default PickByeSectionRow;

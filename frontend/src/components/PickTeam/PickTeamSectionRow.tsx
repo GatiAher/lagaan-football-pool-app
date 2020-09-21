@@ -4,67 +4,31 @@ import React from "react";
 import GameType from "../../utils/types/GameType";
 import { TeamToWinLossMap } from "../../utils/types/TeamType";
 import DateBox from "../General/DateBox";
+import SelectionButton from "./SelectionButton";
 
-interface TeamButtonProps {
-  team: string;
-  startTime: number;
-  savedSelections: any;
-  handleTeamSelect: (team: string) => void;
-  isTeamSelected: (team: string) => boolean;
-  isTwoTeamSelected: () => boolean;
-}
-
-const TeamButton = (props: TeamButtonProps) => {
-  let disabled = false;
-  let className = "btn btn-add";
-  if (props.isTeamSelected(props.team)) {
-    className += " btn-selected";
-  } else if (props.savedSelections.includes(props.team)) {
-    className += " btn-forbidden";
-    disabled = true;
-  } else if (props.isTwoTeamSelected()) {
-    disabled = true;
-  }
-  if (props.startTime < Date.now()) {
-    disabled = true;
-  }
-  return (
-    <button
-      className={className}
-      onClick={() => {
-        props.handleTeamSelect(props.team);
-      }}
-      disabled={disabled}
-    >
-      {props.team}
-    </button>
-  );
-};
-
-interface PickTeamListRowProps {
+const PickTeamSectionRow = (props: {
   game: GameType;
-  teamWinLossMap?: TeamToWinLossMap;
   savedSelections: any;
+  teamWinLossMap: TeamToWinLossMap;
   handleTeamSelect: (team: string) => void;
   isTeamSelected: (team: string) => boolean;
   isTwoTeamSelected: () => boolean;
-}
-
-const PickTeamListRow = (props: PickTeamListRowProps) => {
+}) => {
+  const isOver = Date.now().valueOf() > props.game.startTime;
   return (
     <DateBox startTime={props.game.startTime}>
       <List dense={true} style={{ padding: 0, margin: 0 }}>
-        <TeamButton
+        <SelectionButton
           team={props.game.visTeam}
-          startTime={props.game.startTime}
+          disabled={isOver}
           savedSelections={props.savedSelections}
           handleTeamSelect={props.handleTeamSelect}
           isTeamSelected={props.isTeamSelected}
           isTwoTeamSelected={props.isTwoTeamSelected}
         />
-        <TeamButton
+        <SelectionButton
           team={props.game.homeTeam}
-          startTime={props.game.startTime}
+          disabled={isOver}
           savedSelections={props.savedSelections}
           handleTeamSelect={props.handleTeamSelect}
           isTeamSelected={props.isTeamSelected}
@@ -75,4 +39,4 @@ const PickTeamListRow = (props: PickTeamListRowProps) => {
   );
 };
 
-export default PickTeamListRow;
+export default PickTeamSectionRow;

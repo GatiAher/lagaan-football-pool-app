@@ -2,7 +2,7 @@ import React from "react";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 
-import PickTeamListRow from "./PickTeamSectionRow";
+import PickTeamSectionRow from "./PickTeamSectionRow";
 import GameType from "../../utils/types/GameType";
 import { TeamToWinLossMap } from "../../utils/types/TeamType";
 
@@ -29,10 +29,11 @@ const PickTeamSection = ({
     <GridList cellHeight="auto" cols={1}>
       {games.map((game: GameType) => (
         <GridListTile key={game.game_id}>
-          <PickTeamListRow
+          <PickTeamSectionRow
             key={game.game_id}
             game={game}
             savedSelections={savedSelections}
+            teamWinLossMap={teamWinLossMap}
             handleTeamSelect={handleTeamSelect}
             isTeamSelected={isTeamSelected}
             isTwoTeamSelected={isTwoTeamSelected}

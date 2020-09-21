@@ -58,8 +58,6 @@ const fetchUserData = async (
   week: number,
   setSelectionA: (arg0: string) => void,
   setSelectionB: (arg0: string) => void,
-  setDisabledBye1: (arg0: boolean) => void,
-  setDisabledBye2: (arg0: boolean) => void,
   setSavedSelections: (arg0: any) => void
 ) => {
   axios.get(`/user/id/${userId}`).then((response) => {
@@ -77,19 +75,6 @@ const fetchUserData = async (
     );
     teamSelections = omit(teamSelections, [nameA, nameB]);
     const teamSelectionsList = Object.values(teamSelections);
-    if (week === 10) {
-      if (!teamSelectionsList.includes("BYE1")) {
-        setSelectionA("BYE1");
-        setDisabledBye1(true);
-      }
-      if (!teamSelectionsList.includes("BYE2")) {
-        setSelectionB("BYE2");
-        setDisabledBye2(true);
-      }
-    } else if (week > 10) {
-      setDisabledBye1(true);
-      setDisabledBye2(true);
-    }
     setSavedSelections(teamSelectionsList);
   });
 };
@@ -126,8 +111,6 @@ const PickTeam = () => {
   const [selectionA, setSelectionA] = useState("");
   const [selectionB, setSelectionB] = useState("");
   const [submissionMessage, setSubmissionMessage] = useState("");
-  const [disabledBye1, setDisabledBye1] = useState(false);
-  const [disabledBye2, setDisabledBye2] = useState(false);
 
   const fetchGamesCallback = useCallback(() => {
     fetchGames(week, setGames, setLoading);
@@ -143,8 +126,6 @@ const PickTeam = () => {
       week,
       setSelectionA,
       setSelectionB,
-      setDisabledBye1,
-      setDisabledBye2,
       setSavedSelections
     );
   }, [user, week]);
@@ -161,6 +142,8 @@ const PickTeam = () => {
 
   // Fetch all games on initial render
   useEffect(() => {
+    setSelectionA("");
+    setSelectionB("");
     fetchGamesCallback();
     fetchUserDataCallback();
     fetchTeamDataCallback();
@@ -200,9 +183,10 @@ const PickTeam = () => {
       />
       <PickByeSection
         loading={loading}
-        disabled1={disabledBye1}
-        disabled2={disabledBye2}
+        week={week}
         savedSelections={savedSelections}
+        setSelectionA={setSelectionA}
+        setSelectionB={setSelectionB}
         handleTeamSelect={handleTeamSelect}
         isTeamSelected={isTeamSelected}
         isTwoTeamSelected={isTwoTeamSelected}
