@@ -1,5 +1,6 @@
 import React from "react";
 import Button, { ButtonProps } from "@material-ui/core/Button";
+import { Box } from "@material-ui/core";
 
 type SelectionButtonProps = {
   team: string;
@@ -30,6 +31,10 @@ const SelectionButton: React.FC<SelectionButtonProps> = ({
   }
   return (
     <Button
+      style={{
+        maxWidth: "40%",
+        minWidth: "40%",
+      }}
       color="secondary"
       variant={variant}
       onClick={() => {

@@ -2,9 +2,10 @@ import React from "react";
 import Box from "@material-ui/core/Box";
 
 import GameType from "../../utils/types/GameType";
-import { TeamToWinLossMap } from "../../utils/types/TeamType";
 import DateBox from "../General/DateBox";
 import SelectionButton from "./SelectionButton";
+import { TeamToWinLossMap } from "../../utils/types/TeamType";
+import TeamDisplay from "./TeamDisplay";
 
 const PickTeamSectionRow = (props: {
   game: GameType;
@@ -31,7 +32,10 @@ const PickTeamSectionRow = (props: {
           isTeamSelected={props.isTeamSelected}
           isTwoTeamSelected={props.isTwoTeamSelected}
         >
-          {`${props.game.visTeam} visteam`}
+          <TeamDisplay
+            team={props.game.visTeam}
+            teamWinLossMap={props.teamWinLossMap}
+          />
         </SelectionButton>
         <SelectionButton
           team={props.game.homeTeam}
@@ -41,7 +45,10 @@ const PickTeamSectionRow = (props: {
           isTeamSelected={props.isTeamSelected}
           isTwoTeamSelected={props.isTwoTeamSelected}
         >
-          {`${props.game.homeTeam} homeTeam`}
+          <TeamDisplay
+            team={props.game.homeTeam}
+            teamWinLossMap={props.teamWinLossMap}
+          />
         </SelectionButton>
       </Box>
     </DateBox>

@@ -24,7 +24,7 @@ const DateBox: React.FC<DateBoxProps> = ({ children, startTime, week }) => {
       py={4}
       pl={3}
     >
-      <Box borderRight={1} color={theme.palette.grey.A200} width="60%" p={0}>
+      <Box borderRight={1} color={theme.palette.grey.A200} width="70%" p={0}>
         {children}
       </Box>
       <Box m="auto">

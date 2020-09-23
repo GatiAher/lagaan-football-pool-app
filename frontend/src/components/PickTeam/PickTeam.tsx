@@ -11,6 +11,7 @@ import PickTeamSection from "./PickTeamSection";
 import PickByeSection from "./PickByeSection";
 import { TeamToWinLossMap } from "../../utils/types/TeamType";
 
+import getCurrentWeek from "../../utils/getCurrentWeek";
 import { useUser } from "../../context/TempUserContext";
 
 const fetchGames = async (
@@ -103,7 +104,7 @@ const putUserSelections = async (
 
 const PickTeam = () => {
   const { user } = useUser();
-  const [week, setWeek] = useState(1);
+  const [week, setWeek] = useState(getCurrentWeek());
   const [games, setGames] = useState([]);
   const [teamWinLossMap, setTeamWinLossMap] = useState({});
   const [savedSelections, setSavedSelections] = useState([]);
