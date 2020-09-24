@@ -1,7 +1,37 @@
 import React from "react";
+import Box from "@material-ui/core/Box";
+import Typography from "@material-ui/core/Typography";
 
-import LeaderboardListRow from "./LeaderboardListRow";
+import MaterialTable from "material-table";
+
+import { pickBy, startsWith } from "lodash";
+
 import UserType from "../../utils/types/UserType";
+import { TEAMS } from "../../utils/constants/teams";
+import TeamLogo from "../General/TeamLogo";
+import { Avatar } from "@material-ui/core";
+
+const getSelectedTeams = (rowData: UserType) => {
+  const selectedTeams = pickBy(rowData, (value, key) => startsWith(key, "wk"));
+  const selectedTeamsStrings = Object.values(selectedTeams);
+  return selectedTeamsStrings;
+};
+
+const getTableItemColor = (status: number) => {
+  let color = "grey";
+  switch (status) {
+    case 1:
+      color = "yellow";
+      break;
+    case 2:
+      color = "green";
+      break;
+    case 0:
+      color = "red";
+      break;
+  }
+  return color;
+};
 
 interface LeaderboardListProps {
   users: UserType[];
@@ -24,68 +54,72 @@ const LeaderboardList = (props: LeaderboardListProps) => {
     });
   }
 
+  const columnLabels = ["rank", "username", "score"];
+  for (var i = 1; i <= 17; i++) {
+    columnLabels.push(`wk${i}A`);
+    columnLabels.push(`wk${i}B`);
+  }
+
   return (
-    <div className="container">
-      <table className="table">
-        <thead>
-          <tr>
-            <th className="table-head-item">Rank</th>
-            <th className="table-head-item">Name</th>
-            <th className="table-head-item">Score</th>
-            <th className="table-head-item">wk1A</th>
-            <th className="table-head-item">wk1B</th>
-            <th className="table-head-item">wk2A</th>
-            <th className="table-head-item">wk2B</th>
-            <th className="table-head-item">wk3A</th>
-            <th className="table-head-item">wk3B</th>
-            <th className="table-head-item">wk4A</th>
-            <th className="table-head-item">wk4B</th>
-            <th className="table-head-item">wk5A</th>
-            <th className="table-head-item">wk5B</th>
-            <th className="table-head-item">wk6A</th>
-            <th className="table-head-item">wk6B</th>
-            <th className="table-head-item">wk7A</th>
-            <th className="table-head-item">wk7B</th>
-            <th className="table-head-item">wk8A</th>
-            <th className="table-head-item">wk8B</th>
-            <th className="table-head-item">wk9A</th>
-            <th className="table-head-item">wk9B</th>
-            <th className="table-head-item">wk10A</th>
-            <th className="table-head-item">wk10B</th>
-            <th className="table-head-item">wk11A</th>
-            <th className="table-head-item">wk11B</th>
-            <th className="table-head-item">wk12A</th>
-            <th className="table-head-item">wk12B</th>
-            <th className="table-head-item">wk13A</th>
-            <th className="table-head-item">wk13B</th>
-            <th className="table-head-item">wk14A</th>
-            <th className="table-head-item">wk14B</th>
-            <th className="table-head-item">wk15A</th>
-            <th className="table-head-item">wk15B</th>
-            <th className="table-head-item">wk16A</th>
-            <th className="table-head-item">wk16B</th>
-            <th className="table-head-item">wk17A</th>
-            <th className="table-head-item">wk17B</th>
-          </tr>
-        </thead>
-        <tbody className="table-body">
-          {props.users.length > 0 ? (
-            props.users.map((user: UserType, idx) => (
-              <LeaderboardListRow key={user.user_id} user={user} />
-            ))
-          ) : (
-            <tr className="table-row">
-              <td
-                className="table-item"
-                style={{ textAlign: "center" }}
-                colSpan={37}
+    <div>
+      <MaterialTable
+        title="Users"
+        // @ts-ignore
+        columns={columnLabels.map((key) => {
+          if (startsWith(key, "wk")) {
+            return {
+              title: key,
+              field: key,
+              render: (rowData) => {
+                let idx = key.substring(2);
+                console.log(rowData[`sc${idx}`]);
+                let color = getTableItemColor(rowData[`sc${idx}`]);
+                return <Box color={color}>{rowData[key]}</Box>;
+              },
+            };
+          }
+          return {
+            title: key,
+            field: key,
+          };
+        })}
+        data={props.users}
+        detailPanel={(rowData) => {
+          const selectedTeams = getSelectedTeams(rowData);
+          return (
+            <Box bgcolor="black" p={2}>
+              <Typography variant="h6" color="primary">
+                Not Picked
+              </Typography>
+              <Box
+                display="flex"
+                flexDirection="row"
+                justifyContent="space-evenly"
+                p={1}
               >
-                There are no games to show.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+                {TEAMS.map((team) => {
+                  const bgcolor = selectedTeams.includes(team)
+                    ? "black"
+                    : "white";
+                  const color = selectedTeams.includes(team) ? "gray" : "black";
+                  return (
+                    <Box
+                      border={1}
+                      color={color}
+                      bgcolor={bgcolor}
+                      display="flex"
+                      flexDirection="row"
+                    >
+                      <TeamLogo team={team} />
+                      {team}
+                    </Box>
+                  );
+                })}
+              </Box>
+            </Box>
+          );
+        }}
+      />
     </div>
   );
 };

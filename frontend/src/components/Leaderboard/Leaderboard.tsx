@@ -32,12 +32,7 @@ const Leaderboard = () => {
     fetchUsersCallback();
   }, [fetchUsersCallback]);
 
-  return (
-    <div className="game-list-wrapper">
-      {/* Form for creating new book */}
-      <LeaderboardList users={users} loading={loading} />
-    </div>
-  );
+  return <LeaderboardList users={users} loading={loading} />;
 };
 
 export default Leaderboard;
