@@ -60,7 +60,7 @@ const TeamDisplay = (props: {
   teamWinLossMap: TeamToWinLossMap;
   width: "xs" | "sm" | "md" | "lg" | "xl";
 }) => {
-  if (props.width === "xs") {
+  if (props.width === "xs" || props.width === "sm") {
     return (
       <TeamDisplayTall
         team={props.team}

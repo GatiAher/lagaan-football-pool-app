@@ -5,6 +5,7 @@ import GridListTile from "@material-ui/core/GridListTile";
 import PickTeamSectionRow from "./PickTeamSectionRow";
 import GameType from "../../utils/types/GameType";
 import { TeamToWinLossMap } from "../../utils/types/TeamType";
+import Box from "@material-ui/core/Box";
 
 const PickTeamSection = ({
   games,

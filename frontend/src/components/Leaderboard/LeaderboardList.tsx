@@ -1,6 +1,7 @@
 import React from "react";
 import Box from "@material-ui/core/Box";
 import GridList from "@material-ui/core/GridList";
+import GridListTile from "@material-ui/core/GridListTile";
 import Typography from "@material-ui/core/Typography";
 
 import MaterialTable from "material-table";
@@ -9,13 +10,13 @@ import { pickBy, startsWith } from "lodash";
 
 import UserType from "../../utils/types/UserType";
 import { TEAMS } from "../../utils/constants/teams";
-import TeamLogo from "../General/TeamLogo";
 import getCurrentWeek from "../../utils/getCurrentWeek";
 import { TeamToWinLossMap } from "../../utils/types/TeamType";
 import TeamDisplay from "../General/TeamDisplay";
 
 const getTableItemColor = (status: number) => {
-  let color = "grey";
+  console.log("STA", status);
+  let color = "";
   switch (status) {
     case 1:
       color = "yellow";
@@ -50,35 +51,38 @@ const WeekSummary = ({
         {weeks.map((week) => {
           // @ts-ignore
           const teamA = rowData[`wk${week}A`];
+          // @ts-ignore
           const colorA = getTableItemColor(
             // @ts-ignore
-            rowData[`sc$${week}A`]
+            rowData[`sc${week}A`]
           );
           // @ts-ignore
           const teamB = rowData[`wk${week}B`];
           const colorB = getTableItemColor(
             // @ts-ignore
-            rowData[`sc$${week}A`]
+            rowData[`sc${week}A`]
           );
           return (
-            <Box
-              display="flex"
-              flexDirection="row"
-              justifyContent="flex-start"
-              border={1}
-            >
-              <Box p={1}>
-                <Typography variant="h6" color="primary">
-                  {week}
-                </Typography>
+            <GridListTile key={week}>
+              <Box
+                display="flex"
+                flexDirection="row"
+                justifyContent="space-around"
+                bgcolor="white"
+              >
+                <Box p={1}>
+                  <Typography variant="h6" color="primary">
+                    {week}
+                  </Typography>
+                </Box>
+                <Box p={1} bgcolor={colorA}>
+                  <TeamDisplay team={teamA} teamWinLossMap={teamWinLossMap} />
+                </Box>
+                <Box p={1} bgcolor={colorB}>
+                  <TeamDisplay team={teamB} teamWinLossMap={teamWinLossMap} />
+                </Box>
               </Box>
-              <Box p={1} color={colorA}>
-                <TeamDisplay team={teamA} teamWinLossMap={teamWinLossMap} />
-              </Box>
-              <Box p={1} color={colorB}>
-                <TeamDisplay team={teamB} teamWinLossMap={teamWinLossMap} />
-              </Box>
-            </Box>
+            </GridListTile>
           );
         })}
       </GridList>
@@ -110,9 +114,11 @@ const RemainingTeams = ({
           const bgcolor = selectedTeams.includes(team) ? "yellow" : "white";
           const color = selectedTeams.includes(team) ? "gray" : "black";
           return (
-            <Box p={1} bgcolor={bgcolor} color={color}>
-              <TeamDisplay team={team} teamWinLossMap={teamWinLossMap} />
-            </Box>
+            <GridListTile key={team}>
+              <Box p={1} bgcolor={bgcolor} color={color}>
+                <TeamDisplay team={team} teamWinLossMap={teamWinLossMap} />
+              </Box>
+            </GridListTile>
           );
         })}
       </GridList>

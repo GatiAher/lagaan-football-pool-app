@@ -1,4 +1,6 @@
 import React from "react";
+import Box from "@material-ui/core/Box";
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import ARI from "../../assets/nfl-logos/ARI.png";
 import ATL from "../../assets/nfl-logos/ATL.png";
 import BAL from "../../assets/nfl-logos/BAL.png";
@@ -68,16 +70,22 @@ const teamToLogoMap = new Map([
 ]);
 
 const TeamLogo = ({ team }) => {
-  const logo = teamToLogoMap.get(team);
+  if (team && team != "BYE1" && team != "BYE2") {
+    return (
+      <img
+        style={{
+          height: "40px",
+          width: "40px",
+        }}
+        src={teamToLogoMap.get(team)}
+        alt={team}
+      />
+    );
+  }
   return (
-    <img
-      style={{
-        height: "40px",
-        width: "40px",
-      }}
-      src={logo}
-      alt={team}
-    />
+    <Box width="40px" height="40px" padding="auto">
+      <HighlightOffIcon color="disabled" />
+    </Box>
   );
 };
 
