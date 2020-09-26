@@ -5,7 +5,7 @@ import GameType from "../../utils/types/GameType";
 import DateBox from "../General/DateBox";
 import SelectionButton from "./SelectionButton";
 import { TeamToWinLossMap } from "../../utils/types/TeamType";
-import TeamDisplay from "./TeamDisplay";
+import TeamDisplay from "../General/TeamDisplay";
 
 const PickTeamSectionRow = (props: {
   game: GameType;

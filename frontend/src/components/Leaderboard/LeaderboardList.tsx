@@ -1,5 +1,6 @@
 import React from "react";
 import Box from "@material-ui/core/Box";
+import GridList from "@material-ui/core/GridList";
 import Typography from "@material-ui/core/Typography";
 
 import MaterialTable from "material-table";
@@ -9,13 +10,9 @@ import { pickBy, startsWith } from "lodash";
 import UserType from "../../utils/types/UserType";
 import { TEAMS } from "../../utils/constants/teams";
 import TeamLogo from "../General/TeamLogo";
-import { Avatar } from "@material-ui/core";
-
-const getSelectedTeams = (rowData: UserType) => {
-  const selectedTeams = pickBy(rowData, (value, key) => startsWith(key, "wk"));
-  const selectedTeamsStrings = Object.values(selectedTeams);
-  return selectedTeamsStrings;
-};
+import getCurrentWeek from "../../utils/getCurrentWeek";
+import { TeamToWinLossMap } from "../../utils/types/TeamType";
+import TeamDisplay from "../General/TeamDisplay";
 
 const getTableItemColor = (status: number) => {
   let color = "grey";
@@ -33,9 +30,100 @@ const getTableItemColor = (status: number) => {
   return color;
 };
 
+const WeekSummary = ({
+  rowData,
+  teamWinLossMap,
+}: {
+  rowData: UserType;
+  teamWinLossMap: TeamToWinLossMap;
+}) => {
+  const weeks = [];
+  for (let i = 1; i <= 17; i++) {
+    weeks.push(i);
+  }
+  return (
+    <Box py={1}>
+      <Typography variant="h6" color="primary">
+        Week Summary
+      </Typography>
+      <GridList cellHeight="auto" cols={2}>
+        {weeks.map((week) => {
+          // @ts-ignore
+          const teamA = rowData[`wk${week}A`];
+          const colorA = getTableItemColor(
+            // @ts-ignore
+            rowData[`sc$${week}A`]
+          );
+          // @ts-ignore
+          const teamB = rowData[`wk${week}B`];
+          const colorB = getTableItemColor(
+            // @ts-ignore
+            rowData[`sc$${week}A`]
+          );
+          return (
+            <Box
+              display="flex"
+              flexDirection="row"
+              justifyContent="flex-start"
+              border={1}
+            >
+              <Box p={1}>
+                <Typography variant="h6" color="primary">
+                  {week}
+                </Typography>
+              </Box>
+              <Box p={1} color={colorA}>
+                <TeamDisplay team={teamA} teamWinLossMap={teamWinLossMap} />
+              </Box>
+              <Box p={1} color={colorB}>
+                <TeamDisplay team={teamB} teamWinLossMap={teamWinLossMap} />
+              </Box>
+            </Box>
+          );
+        })}
+      </GridList>
+    </Box>
+  );
+};
+
+const getSelectedTeams = (rowData: UserType) => {
+  const selectedTeams = pickBy(rowData, (value, key) => startsWith(key, "wk"));
+  const selectedTeamsStrings = Object.values(selectedTeams);
+  return selectedTeamsStrings;
+};
+
+const RemainingTeams = ({
+  rowData,
+  teamWinLossMap,
+}: {
+  rowData: UserType;
+  teamWinLossMap: TeamToWinLossMap;
+}) => {
+  const selectedTeams = getSelectedTeams(rowData);
+  return (
+    <Box py={1}>
+      <Typography variant="h6" color="primary">
+        Picked
+      </Typography>
+      <GridList cellHeight="auto" cols={4}>
+        {TEAMS.map((team) => {
+          const bgcolor = selectedTeams.includes(team) ? "yellow" : "white";
+          const color = selectedTeams.includes(team) ? "gray" : "black";
+          return (
+            <Box p={1} bgcolor={bgcolor} color={color}>
+              <TeamDisplay team={team} teamWinLossMap={teamWinLossMap} />
+            </Box>
+          );
+        })}
+      </GridList>
+    </Box>
+  );
+};
+
 interface LeaderboardListProps {
   users: UserType[];
   loading: boolean;
+  teamWinLossMap: TeamToWinLossMap;
 }
 
 const LeaderboardList = (props: LeaderboardListProps) => {
@@ -54,11 +142,8 @@ const LeaderboardList = (props: LeaderboardListProps) => {
     });
   }
 
-  const columnLabels = ["rank", "username", "score"];
-  for (var i = 1; i <= 17; i++) {
-    columnLabels.push(`wk${i}A`);
-    columnLabels.push(`wk${i}B`);
-  }
+  const currentWeek = getCurrentWeek();
+  const columnLabels = ["rank", "username", "score", "A", "B"];
 
   return (
     <div>
@@ -66,15 +151,16 @@ const LeaderboardList = (props: LeaderboardListProps) => {
         title="Users"
         // @ts-ignore
         columns={columnLabels.map((key) => {
-          if (startsWith(key, "wk")) {
+          if (key == "A" || key == "B") {
+            const field = `wk${currentWeek - 1}${key}`;
             return {
-              title: key,
-              field: key,
+              title: field,
+              field: field,
               render: (rowData) => {
-                let idx = key.substring(2);
-                console.log(rowData[`sc${idx}`]);
-                let color = getTableItemColor(rowData[`sc${idx}`]);
-                return <Box color={color}>{rowData[key]}</Box>;
+                let color = getTableItemColor(
+                  rowData[`sc$${currentWeek - 1}${key}`]
+                );
+                return <Box color={color}>{rowData[field]}</Box>;
               },
             };
           }
@@ -85,37 +171,16 @@ const LeaderboardList = (props: LeaderboardListProps) => {
         })}
         data={props.users}
         detailPanel={(rowData) => {
-          const selectedTeams = getSelectedTeams(rowData);
           return (
-            <Box bgcolor="black" p={2}>
-              <Typography variant="h6" color="primary">
-                Not Picked
-              </Typography>
-              <Box
-                display="flex"
-                flexDirection="row"
-                justifyContent="space-evenly"
-                p={1}
-              >
-                {TEAMS.map((team) => {
-                  const bgcolor = selectedTeams.includes(team)
-                    ? "black"
-                    : "white";
-                  const color = selectedTeams.includes(team) ? "gray" : "black";
-                  return (
-                    <Box
-                      border={1}
-                      color={color}
-                      bgcolor={bgcolor}
-                      display="flex"
-                      flexDirection="row"
-                    >
-                      <TeamLogo team={team} />
-                      {team}
-                    </Box>
-                  );
-                })}
-              </Box>
+            <Box bgcolor="white" p={2}>
+              <WeekSummary
+                rowData={rowData}
+                teamWinLossMap={props.teamWinLossMap}
+              />
+              <RemainingTeams
+                rowData={rowData}
+                teamWinLossMap={props.teamWinLossMap}
+              />
             </Box>
           );
         }}

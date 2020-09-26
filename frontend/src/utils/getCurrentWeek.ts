@@ -1,9 +1,8 @@
-// TODO: set to dynamic kickoff time
-const kickOffDateTime = new Date(2020, 8, 10).getTime();
+import { KICKOFF } from "./constants/week";
 
 const getCurrentWeek = (): number => {
   const currentDateObj = new Date();
-  const diff = (currentDateObj.getTime() - kickOffDateTime) / 1000;
+  const diff = (currentDateObj.getTime() - KICKOFF) / 1000;
   const weeksDiff = diff / (60 * 60 * 24 * 7);
   const weeks = Math.ceil(weeksDiff);
   if (currentDateObj.getDay() == 2 || currentDateObj.getDay() == 3)
