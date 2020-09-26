@@ -1,23 +1,19 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-
-const cutOffWeek = 10;
-
-// TODO: replace with adjustable kick off date
-const kickOffDate = new Date(2020, 8, 10).valueOf(); // 2020, Sept 10
+import { BYE_WEEK_START, BYE_WEEK_END } from "../../utils/constants/bye-week";
 
 const DateBoxByeDisplay = ({ currentWeek }: { currentWeek: number }) => {
-  const isOver = currentWeek > cutOffWeek;
-  const textColor = isOver ? "textSecondary" : "textPrimary";
+  const isOpen = currentWeek >= BYE_WEEK_START && currentWeek <= BYE_WEEK_END;
+  const textColor = !isOpen ? "textSecondary" : "textPrimary";
   return (
     <Box display="flex" flexDirection="column">
       <Typography
         color={textColor}
         variant="body2"
-      >{`Week ${cutOffWeek}`}</Typography>
+      >{`Week ${currentWeek}`}</Typography>
       <Typography color={textColor} variant="body2">
-        {isOver ? "DONE" : "OPEN"}
+        {!isOpen ? "CLOSED" : "OPEN"}
       </Typography>
     </Box>
   );

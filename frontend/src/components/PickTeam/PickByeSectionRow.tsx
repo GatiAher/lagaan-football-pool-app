@@ -3,6 +3,7 @@ import Box from "@material-ui/core/Box";
 
 import DateBox from "../General/DateBox";
 import SelectionButton from "./SelectionButton";
+import { BYE_WEEK_START, BYE_WEEK_END } from "../../utils/constants/bye-week";
 
 const PickByeSectionRow = (props: {
   week: number;
@@ -15,7 +16,7 @@ const PickByeSectionRow = (props: {
 }) => {
   let disableBye1 = false;
   let disableBye2 = false;
-  if (props.week === 10) {
+  if (props.week === BYE_WEEK_END) {
     if (!props.savedSelections.includes("BYE1")) {
       props.setSelectionA("BYE1");
       disableBye1 = true;
@@ -24,7 +25,7 @@ const PickByeSectionRow = (props: {
       props.setSelectionB("BYE2");
       disableBye2 = true;
     }
-  } else if (props.week > 10) {
+  } else if (props.week < BYE_WEEK_START || props.week > BYE_WEEK_END) {
     disableBye1 = true;
     disableBye2 = true;
   }
