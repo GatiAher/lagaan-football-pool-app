@@ -29,56 +29,56 @@ exports.userAllOrderOfScore = async (req, res) => {
 
 exports.userCreate = async (req, res) => {
   knex("User")
-    .insert({ username: req.body.username, user_id: req.body.user_id })
+    .insert({ username: req.body.username, id: req.body.id })
     .then(() => {
       res.json({
-        message: `User ${req.body.username} ${req.body.user_id} created.`,
+        message: `User ${req.body.username} ${req.body.id} created.`,
       });
     })
     .catch((err) => {
       res.status(500).json({
-        message: `There was an error creating user ${req.body.username} ${req.body.user_id}: ${err}`,
+        message: `There was an error creating user ${req.body.username} ${req.body.id}: ${err}`,
       });
     });
 };
 
-exports.userByUserId = async (req, res) => {
+exports.userById = async (req, res) => {
   knex("User")
-    .where("user_id", req.params.user_id)
+    .where("id", req.params.id)
     .then((userData) => {
       res.json(userData);
     })
     .catch((err) => {
       res.status(500).json({
-        message: `There was an error retrieving user ${req.body.user_id}: ${err}`,
+        message: `There was an error retrieving user ${req.body.id}: ${err}`,
       });
     });
 };
 
-exports.userUpdateByUserId = async (req, res) => {
+exports.userUpdateById = async (req, res) => {
   knex("User")
-    .where("user_id", req.params.user_id)
+    .where("id", req.params.id)
     .update(req.body)
     .then(() => {
-      res.json({ message: `User ${req.params.user_id} updated.` });
+      res.json({ message: `User ${req.params.id} updated.` });
     })
     .catch((err) => {
       res.status(500).json({
-        message: `There was an error updating user ${req.params.user_id}: ${err}`,
+        message: `There was an error updating user ${req.params.id}: ${err}`,
       });
     });
 };
 
-exports.userDeleteByUserId = async (req, res) => {
+exports.userDeleteById = async (req, res) => {
   knex("User")
-    .where("user_id", req.body.user_id)
+    .where("id", req.body.id)
     .del()
     .then(() => {
-      res.json({ message: `User ${req.body.user_id} deleted.` });
+      res.json({ message: `User ${req.body.id} deleted.` });
     })
     .catch((err) => {
       res.status(500).json({
-        message: `There was an error deleting user ${req.body.user_id}: ${err}`,
+        message: `There was an error deleting user ${req.body.id}: ${err}`,
       });
     });
 };

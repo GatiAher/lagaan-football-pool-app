@@ -7,7 +7,7 @@ const { TEAMS } = require("../constants/teams");
 ////////////
 
 exports.updateScore = async (req, res) => {
-  const { game_id, visPts, homePts } = req.body;
+  const { id, visPts, homePts } = req.body;
   let visStatus, homeStatus;
   if (visPts > homePts) {
     visStatus = 2;
@@ -19,10 +19,10 @@ exports.updateScore = async (req, res) => {
     visStatus = 1;
     homeStatus = 1;
   }
-  const [season, week, homeTeam, visTeam] = game_id.split("_");
+  const [season, week, visTeam, homeTeam] = id.split("_");
   try {
     // update Game
-    await knex("Game").where("game_id", game_id).update({
+    await knex("Game").where("id", id).update({
       visPts,
       homePts,
       visStatus,
@@ -30,20 +30,28 @@ exports.updateScore = async (req, res) => {
     });
     // update Team
     if (homeStatus === 2) {
-      await knex("Team").where("team", homeTeam).increment({
+      await knex("Team").where("id", homeTeam).increment({
         numOfWin: 1,
       });
+    } else if (homeStatus === 1) {
+      await knex("Team").where("id", homeTeam).increment({
+        numOfTie: 1,
+      });
     } else if (homeStatus === 0) {
-      await knex("Team").where("team", homeTeam).increment({
+      await knex("Team").where("id", homeTeam).increment({
         numOfLoss: 1,
       });
     }
     if (visStatus === 2) {
-      await knex("Team").where("team", visTeam).increment({
+      await knex("Team").where("id", visTeam).increment({
         numOfWin: 1,
       });
+    } else if (visStatus === 1) {
+      await knex("Team").where("id", visTeam).increment({
+        numOfTie: 1,
+      });
     } else if (visStatus === 0) {
-      await knex("Team").where("team", visTeam).increment({
+      await knex("Team").where("di", visTeam).increment({
         numOfLoss: 1,
       });
     }
@@ -81,10 +89,10 @@ exports.updateScore = async (req, res) => {
         [`sc${week}B`]: visStatus,
       });
     // done
-    res.json({ message: `Game ${game_id} updated. User scores updated.` });
+    res.json({ message: `Game ${id} updated. User scores updated.` });
   } catch (err) {
     res.json({
-      message: `There was an error updating ${game_id} Game: ${err}`,
+      message: `There was an error updating ${id} Game: ${err}`,
     });
   }
 };
@@ -127,8 +135,8 @@ exports.userClearAll = async (req, res) => {
 exports.teamResetAll = async (req, res) => {
   try {
     // reset team data
-    const teams = TEAMS.map((team) => ({
-      team,
+    const teams = TEAMS.map((id) => ({
+      id,
     }));
     console.log(teams);
     await knex("Team").truncate();

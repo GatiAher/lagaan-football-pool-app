@@ -19,6 +19,9 @@ const MONTHS = new Map([
   ["December", 11],
 ]);
 
+// NOTE: season 54, (year 2020)
+const SEASON = 54;
+
 /* 
 returns number of milliseconds since Jan 1, 1979 00:00:00 UTC
 date: LongName Int
@@ -37,7 +40,7 @@ const getDateValue = (date, time) => {
   // set time
   let hours = Number(time.match(/^(\d+)/)[1]);
   const minutes = Number(time.match(/:(\d+)/)[1]);
-  const AMPM = time.match(/\s(.*)$/)[1];
+  const AMPM = time.substring(time.length - 2);
   if (AMPM == "PM" && hours < 12) hours = hours + 12;
   if (AMPM == "AM" && hours == 12) hours = hours - 12;
 
@@ -49,20 +52,19 @@ const getGamesListFromTable = (table) => {
   const games = [];
   table[0].forEach((weekNum, idx) => {
     if (weekNum !== "Week") {
-      const date = table[2][idx].match(/>(.*)</).pop();
-      const time = table[8][idx];
+      const date = table[2][idx];
+      const time = table[3][idx];
       const startTime = getDateValue(date, time);
       const week = weekNum;
-      // NOTE: season 54, (year 2020)
-      const season = 54;
+      const season = SEASON;
       const visTeam = TEAM_LONG_TO_ABBR.get(
-        table[3][idx].match(/>(.*)</).pop()
+        table[4][idx].match(/">(.*)<\/a/).pop()
       );
       const homeTeam = TEAM_LONG_TO_ABBR.get(
         table[6][idx].match(/>(.*)</).pop()
       );
-      const game_id = `${season}_${week}_${visTeam}_${homeTeam}`;
-      games.push({ startTime, week, season, visTeam, homeTeam, game_id });
+      const id = `${season}_${week}_${visTeam}_${homeTeam}`;
+      games.push({ startTime, week, season, visTeam, homeTeam, id });
     }
   });
   return games;
