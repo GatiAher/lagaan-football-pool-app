@@ -23,13 +23,13 @@ const Admin = () => {
     axios
       .post("/user/create", {
         username: username,
-        user_id: userId,
+        id: userId,
       })
       .then((res) => {
         setMessage(res.data.message);
         setUser({
           username: username,
-          user_id: userId,
+          id: userId,
         });
       })
       .catch((err) => {
@@ -45,7 +45,7 @@ const Admin = () => {
         setMessage(JSON.stringify(res.data));
         setUser({
           username: res.data[0].username,
-          user_id: res.data[0].user_id,
+          id: res.data[0].id,
         });
       })
       .catch((err) => {

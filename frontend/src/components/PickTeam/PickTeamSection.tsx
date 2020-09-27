@@ -29,9 +29,9 @@ const PickTeamSection = ({
   return (
     <GridList cellHeight="auto" cols={1}>
       {games.map((game: GameType) => (
-        <GridListTile key={game.game_id}>
+        <GridListTile key={game.id}>
           <PickTeamSectionRow
-            key={game.game_id}
+            key={game.id}
             game={game}
             savedSelections={savedSelections}
             teamWinLossMap={teamWinLossMap}

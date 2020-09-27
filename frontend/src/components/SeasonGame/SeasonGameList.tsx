@@ -20,7 +20,7 @@ const SeasonGameList = ({
   return (
     <GridList cellHeight="auto" cols={gridListCols}>
       {games.map((game: GameType) => (
-        <GridListTile key={game.game_id}>
+        <GridListTile key={game.id}>
           <SeasonGameListRow game={game} />
         </GridListTile>
       ))}

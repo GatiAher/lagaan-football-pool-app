@@ -30,9 +30,10 @@ const fetchTeamData = async (
       if (Array.isArray(response.data)) {
         const teamWinLossMap: TeamToWinLossMap = {};
         response.data.forEach((teamObj) => {
-          teamWinLossMap[teamObj.team] = {
+          teamWinLossMap[teamObj.id] = {
             numOfWin: teamObj.numOfWin,
             numOfLoss: teamObj.numOfLoss,
+            numOfTie: teamObj.numOfTie,
           };
         });
         setTeamWinLossMap(teamWinLossMap);

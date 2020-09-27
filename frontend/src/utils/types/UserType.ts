@@ -1,6 +1,6 @@
 export default interface UserType {
   username: string;
-  user_id: number;
+  id: number;
   rank: number;
   score: number;
   wk1A: string;

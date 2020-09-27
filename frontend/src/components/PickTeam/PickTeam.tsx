@@ -43,6 +43,7 @@ const fetchTeamData = async (
           teamWinLossMap[teamObj.team] = {
             numOfWin: teamObj.numOfWin,
             numOfLoss: teamObj.numOfLoss,
+            numOfTie: teamObj.numOfLoss,
           };
         });
         setTeamWinLossMap(teamWinLossMap);
@@ -55,13 +56,13 @@ const fetchTeamData = async (
 };
 
 const fetchUserData = async (
-  userId: number,
+  id: number,
   week: number,
   setSelectionA: (arg0: string) => void,
   setSelectionB: (arg0: string) => void,
   setSavedSelections: (arg0: any) => void
 ) => {
-  axios.get(`/user/id/${userId}`).then((response) => {
+  axios.get(`/user/id/${id}`).then((response) => {
     const userData = response.data[0];
     const nameA = `wk${week}A`;
     const nameB = `wk${week}B`;
@@ -81,14 +82,14 @@ const fetchUserData = async (
 };
 
 const putUserSelections = async (
-  user_id: number,
+  id: number,
   week: number,
   selectionA: string,
   selectionB: string,
   setSubmissionMessage: (arg0: string) => void
 ) => {
   axios
-    .put(`/user/update/id/${user_id}`, {
+    .put(`/user/update/id/${id}`, {
       [`wk${week}A`]: selectionA,
       [`wk${week}B`]: selectionB,
     })
