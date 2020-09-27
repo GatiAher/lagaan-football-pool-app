@@ -53,7 +53,6 @@ knex.schema
       return knex.schema
         .createTable("Team", (table) => {
           table.string("id").primary(); // `${season}_${week}_${visTeam}_${homeTeam}`
-          table.integer("season");
           table.integer("numOfWin").defaultTo(0);
           table.integer("numOfLoss").defaultTo(0);
           table.integer("numOfTie").defaultTo(0);

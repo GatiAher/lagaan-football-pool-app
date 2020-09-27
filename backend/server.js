@@ -9,6 +9,7 @@ const adminRouter = require("./routes/admin-route");
 const gameRouter = require("./routes/game-route");
 const teamRouter = require("./routes/team-route");
 const userRouter = require("./routes/user-route");
+const raGameRouter = require("./routes/ra-game-route");
 // Set default port for express app
 const PORT = process.env.PORT || 3001;
 // Create express app
@@ -25,6 +26,7 @@ app.use("/admin", adminRouter);
 app.use("/game", gameRouter);
 app.use("/team", teamRouter);
 app.use("/user", userRouter);
+app.use("/ragame", raGameRouter);
 // Implement 500 error route
 app.use(function (err, req, res, next) {
   console.error(err.stack);
