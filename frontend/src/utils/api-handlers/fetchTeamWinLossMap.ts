@@ -17,9 +17,11 @@ const fetchTeamWinLossMap = async (callback: (arg0: any) => void) => {
         callback(teamWinLossMap);
       }
     })
-    .catch((error) =>
-      console.error(`There was an error retrieving the team list: ${error}`)
-    );
+    .catch((error) => {
+      console.error(
+        `Encountered an error while retrieving the team list: ${error}`
+      );
+    });
 };
 
 export default fetchTeamWinLossMap;

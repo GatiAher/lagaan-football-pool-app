@@ -73,19 +73,19 @@ const Routes: IRoute[] = [
     path: "/rankings",
     sidebarName: "Rankings",
     component: RankingsPage,
-    private: false,
+    private: true,
   },
   {
     path: "/pick_sheet",
     sidebarName: "Pick Sheet",
     component: PickSheetPage,
-    private: false,
+    private: true,
   },
   {
     path: "/nfl_games",
     sidebarName: "NFL Games",
     component: NFLGamesPage,
-    private: false,
+    private: true,
   },
   {
     path: "/admin",

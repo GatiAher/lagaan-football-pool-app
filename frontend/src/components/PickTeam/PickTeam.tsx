@@ -25,24 +25,31 @@ const fetchUserData = async (
   setSavedSelections: (arg0: any) => void,
   setLoading: (arg0: boolean) => void
 ) => {
-  axios.get(`/user/${id}`).then((response) => {
-    const userData = response.data[0];
-    const nameA = `wk${week}A`;
-    const nameB = `wk${week}B`;
-    if (userData[nameA] !== null) {
-      setSelectionA(userData[nameA]);
-    }
-    if (userData[nameB] !== null) {
-      setSelectionB(userData[nameB]);
-    }
-    let teamSelections = pickBy(userData, (value, key) =>
-      startsWith(key, "wk")
-    );
-    teamSelections = omit(teamSelections, [nameA, nameB]);
-    const teamSelectionsList = Object.values(teamSelections);
-    setSavedSelections(teamSelectionsList);
-    setLoading(false);
-  });
+  axios
+    .get(`/user/${id}`)
+    .then((response) => {
+      const userData = response.data[0];
+      const nameA = `wk${week}A`;
+      const nameB = `wk${week}B`;
+      if (userData[nameA] !== null) {
+        setSelectionA(userData[nameA]);
+      }
+      if (userData[nameB] !== null) {
+        setSelectionB(userData[nameB]);
+      }
+      let teamSelections = pickBy(userData, (value, key) =>
+        startsWith(key, "wk")
+      );
+      teamSelections = omit(teamSelections, [nameA, nameB]);
+      const teamSelectionsList = Object.values(teamSelections);
+      setSavedSelections(teamSelectionsList);
+      setLoading(false);
+    })
+    .catch((error) => {
+      console.error(
+        `Encountered an error while getting the user data: ${error}`
+      );
+    });
 };
 
 const putUserSelections = async (
@@ -60,11 +67,11 @@ const putUserSelections = async (
     .then((response) => {
       setSubmissionMessage(response.data.message);
     })
-    .catch((error) =>
+    .catch((error) => {
       console.error(
-        `There was an error in submitting the user selections: ${error}`
-      )
-    );
+        `Encountered an error while submitting the user selections: ${error}`
+      );
+    });
 };
 
 const PickTeam = () => {

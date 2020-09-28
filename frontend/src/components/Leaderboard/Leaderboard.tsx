@@ -15,9 +15,11 @@ const fetchUsers = async (callback: (arg0: any) => void) => {
     .then((response) => {
       callback(response.data);
     })
-    .catch((error) =>
-      console.error(`There was an error retrieving the game list: ${error}`)
-    );
+    .catch((error) => {
+      console.error(
+        `Encountered an error while retrieving the game list: ${error}`
+      );
+    });
 };
 
 const Leaderboard = () => {
