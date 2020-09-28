@@ -6,9 +6,9 @@ const cors = require("cors");
 const helmet = require("helmet");
 // Import routes
 const updateScoreRouter = require("./routes/update-score-route");
-const raGameRouter = require("./routes/ra-route")("GAME");
-const raTeamRouter = require("./routes/ra-route")("TEAM");
-const raUserRouter = require("./routes/ra-route")("USER");
+const gameRouter = require("./routes/generic-route")("GAME");
+const teamRouter = require("./routes/generic-route")("TEAM");
+const userRouter = require("./routes/generic-route")("USER");
 // Set default port for express app
 const PORT = process.env.PORT || 3001;
 // Create express app
@@ -22,9 +22,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 // Implement routes
 app.use("/updatescore", updateScoreRouter);
-app.use("/ragame", raGameRouter);
-app.use("/rateam", raTeamRouter);
-app.use("/rauser", raUserRouter);
+app.use("/game", gameRouter);
+app.use("/team", teamRouter);
+app.use("/user", userRouter);
 // Implement 500 error route
 app.use(function (err, req, res, next) {
   console.error(err.stack);

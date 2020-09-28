@@ -3,7 +3,7 @@ import { TeamToWinLossMap } from "../types/TeamType";
 
 const fetchTeamWinLossMap = async (callback: (arg0: any) => void) => {
   axios
-    .get("/rateam")
+    .get("/team")
     .then((response) => {
       if (Array.isArray(response.data)) {
         const teamWinLossMap: TeamToWinLossMap = {};

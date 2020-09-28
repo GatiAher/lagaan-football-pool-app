@@ -1,7 +1,7 @@
 const express = require("express");
 
 module.exports = function (TABLE) {
-  const controller = require("../controllers/ra-controller.js")(TABLE);
+  const controller = require("../controllers/generic-controller.js")(TABLE);
   const resetController = require("../controllers/reset-controller")(TABLE);
   const router = express.Router();
 

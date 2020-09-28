@@ -6,7 +6,7 @@ const fetchGames = async (week: number, callback: (arg0: any) => void) => {
     filter: JSON.stringify({ week: week }),
   };
   axios
-    .get("/ragame", { params: query })
+    .get("/game", { params: query })
     .then((response) => {
       callback(response.data);
     })

@@ -23,7 +23,7 @@ const fetchUserData = async (
   setSelectionB: (arg0: string) => void,
   setSavedSelections: (arg0: any) => void
 ) => {
-  axios.get(`/rauser/${id}`).then((response) => {
+  axios.get(`/user/${id}`).then((response) => {
     const userData = response.data[0];
     const nameA = `wk${week}A`;
     const nameB = `wk${week}B`;
@@ -50,7 +50,7 @@ const putUserSelections = async (
   setSubmissionMessage: (arg0: string) => void
 ) => {
   axios
-    .put(`/rauser/${id}`, {
+    .put(`/user/${id}`, {
       [`wk${week}A`]: selectionA,
       [`wk${week}B`]: selectionB,
     })

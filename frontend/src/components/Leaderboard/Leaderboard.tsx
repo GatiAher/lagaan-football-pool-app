@@ -11,7 +11,7 @@ const fetchUsers = async (callback: (arg0: any) => void) => {
     sort: JSON.stringify(["score", "asc"]),
   };
   axios
-    .get("/rauser", { params: query })
+    .get("/user", { params: query })
     .then((response) => {
       callback(response.data);
     })
