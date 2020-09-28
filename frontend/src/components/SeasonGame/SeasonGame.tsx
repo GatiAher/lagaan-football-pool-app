@@ -1,39 +1,23 @@
-import axios from "axios";
-
 import React, { useEffect, useState, useCallback } from "react";
 import Box from "@material-ui/core/Box";
 
 import WeekPicker from "../General/WeekPicker";
 import SeasonGameList from "./SeasonGameList";
 
-const fetchGames = async (
-  week: number,
-  setGames: (arg0: any) => void,
-  setLoading: (arg0: boolean) => void
-) => {
-  axios
-    .get(`/game/week/${week}`)
-    .then((response) => {
-      setGames(response.data);
-      setLoading(false);
-    })
-    .catch((error) =>
-      console.error(`There was an error retrieving the game list: ${error}`)
-    );
-};
+import fetchGames from "../../utils/api-handlers/fetchGames";
+import getCurrentWeek from "../../utils/getCurrentWeek";
 
 const SeasonGame = () => {
   const [games, setGames] = useState([]);
-  const [week, setWeek] = useState(1);
+  const [week, setWeek] = useState(getCurrentWeek());
   const [loading, setLoading] = useState(true);
 
-  const fetchGamesCallback = useCallback(() => {
-    fetchGames(week, setGames, setLoading);
-  }, [week]);
-
-  // Fetch all books on initial render
+  // Fetch on initial render
   useEffect(() => {
-    fetchGamesCallback();
+    fetchGames(week, (data) => {
+      setGames(data);
+      setLoading(false);
+    });
   }, [week]);
 
   return (

@@ -6,7 +6,7 @@ module.exports = function (TABLE) {
   const getIdsFromQuery = (reqQuery) => {
     let ids = [];
     if (reqQuery.filter) {
-      const parsed = JSON.parse(JSON.parse(reqQuery.filter));
+      const parsed = JSON.parse(reqQuery.filter);
       if (parsed) ids = parsed;
     }
     return ids;
@@ -53,13 +53,14 @@ module.exports = function (TABLE) {
     // TODO: add header for content-range
     let filter = {};
     if (req.query.filter) {
-      const parsed = JSON.parse(JSON.parse(req.query.filter));
+      const parsed = JSON.parse(req.query.filter);
       if (parsed) filter = parsed;
     }
     let field = "id";
     let order = "asc";
     if (req.query.sort) {
-      const parsed = JSON.parse(JSON.parse(req.query.sort));
+      const parsed = JSON.parse(req.query.sort);
+      console.log(parsed);
       if (parsed[0]) field = parsed[0];
       if (parsed[1]) order = parsed[0];
     }

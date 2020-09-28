@@ -3,42 +3,17 @@ import axios from "axios";
 import React, { useEffect, useState, useCallback } from "react";
 
 import LeaderboardList from "./LeaderboardList";
-import { TeamToWinLossMap } from "../../utils/types/TeamType";
 
-const fetchUsers = async (
-  setUsers: (arg0: any) => void,
-  setLoading: (arg0: boolean) => void
-) => {
-  axios
-    .get(`/user/ranked`)
-    .then((response) => {
-      setUsers(response.data);
-      setLoading(false);
-    })
-    .catch((error) =>
-      console.error(`There was an error retrieving the game list: ${error}`)
-    );
-};
+import fetchTeamWinLossMap from "../../utils/api-handlers/fetchTeamWinLossMap";
 
-const fetchTeamData = async (
-  setTeamWinLossMap: (arg0: any) => void,
-  setLoading: (arg0: boolean) => void
-) => {
+const fetchUsers = async (callback: (arg0: any) => void) => {
+  const query = {
+    sort: JSON.stringify(["score", "asc"]),
+  };
   axios
-    .get(`/team`)
+    .get("/rauser", { params: query })
     .then((response) => {
-      if (Array.isArray(response.data)) {
-        const teamWinLossMap: TeamToWinLossMap = {};
-        response.data.forEach((teamObj) => {
-          teamWinLossMap[teamObj.id] = {
-            numOfWin: teamObj.numOfWin,
-            numOfLoss: teamObj.numOfLoss,
-            numOfTie: teamObj.numOfTie,
-          };
-        });
-        setTeamWinLossMap(teamWinLossMap);
-        setLoading(false);
-      }
+      callback(response.data);
     })
     .catch((error) =>
       console.error(`There was an error retrieving the game list: ${error}`)
@@ -50,19 +25,17 @@ const Leaderboard = () => {
   const [loading, setLoading] = useState(true);
   const [teamWinLossMap, setTeamWinLossMap] = useState({});
 
-  const fetchUsersCallback = useCallback(() => {
-    fetchUsers(setUsers, setLoading);
-  }, []);
-
-  const fetchTeamDataCallback = useCallback(() => {
-    fetchTeamData(setTeamWinLossMap, setLoading);
-  }, []);
-
-  // Fetch all books on initial render
+  // Fetch on initial render
   useEffect(() => {
-    fetchUsersCallback();
-    fetchTeamDataCallback();
-  }, [fetchUsersCallback]);
+    fetchTeamWinLossMap((data) => {
+      setTeamWinLossMap(data);
+      setLoading(false);
+    });
+    fetchUsers((data) => {
+      setUsers(data);
+      setLoading(false);
+    });
+  }, []);
 
   return (
     <LeaderboardList

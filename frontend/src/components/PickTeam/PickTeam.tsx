@@ -9,51 +9,12 @@ import WeekPicker from "../General/WeekPicker";
 
 import PickTeamSection from "./PickTeamSection";
 import PickByeSection from "./PickByeSection";
-import { TeamToWinLossMap } from "../../utils/types/TeamType";
 
+import fetchGames from "../../utils/api-handlers/fetchGames";
+import fetchTeamWinLossMap from "../../utils/api-handlers/fetchTeamWinLossMap";
 import getCurrentWeek from "../../utils/getCurrentWeek";
+
 import { useUser } from "../../context/TempUserContext";
-
-const fetchGames = async (
-  week: number,
-  setGames: (arg0: any) => void,
-  setLoading: (arg0: boolean) => void
-) => {
-  axios
-    .get(`/game/week/${week}`)
-    .then((response) => {
-      setGames(response.data);
-      setLoading(false);
-    })
-    .catch((error) =>
-      console.error(`There was an error retrieving the game list: ${error}`)
-    );
-};
-
-const fetchTeamData = async (
-  setTeamWinLossMap: (arg0: any) => void,
-  setLoading: (arg0: boolean) => void
-) => {
-  axios
-    .get(`/team`)
-    .then((response) => {
-      if (Array.isArray(response.data)) {
-        const teamWinLossMap: TeamToWinLossMap = {};
-        response.data.forEach((teamObj) => {
-          teamWinLossMap[teamObj.team] = {
-            numOfWin: teamObj.numOfWin,
-            numOfLoss: teamObj.numOfLoss,
-            numOfTie: teamObj.numOfLoss,
-          };
-        });
-        setTeamWinLossMap(teamWinLossMap);
-        setLoading(false);
-      }
-    })
-    .catch((error) =>
-      console.error(`There was an error retrieving the game list: ${error}`)
-    );
-};
 
 const fetchUserData = async (
   id: number,
@@ -62,7 +23,7 @@ const fetchUserData = async (
   setSelectionB: (arg0: string) => void,
   setSavedSelections: (arg0: any) => void
 ) => {
-  axios.get(`/user/id/${id}`).then((response) => {
+  axios.get(`/rauser/${id}`).then((response) => {
     const userData = response.data[0];
     const nameA = `wk${week}A`;
     const nameB = `wk${week}B`;
@@ -89,7 +50,7 @@ const putUserSelections = async (
   setSubmissionMessage: (arg0: string) => void
 ) => {
   axios
-    .put(`/user/update/id/${id}`, {
+    .put(`/rauser/${id}`, {
       [`wk${week}A`]: selectionA,
       [`wk${week}B`]: selectionB,
     })
@@ -114,24 +75,6 @@ const PickTeam = () => {
   const [selectionB, setSelectionB] = useState("");
   const [submissionMessage, setSubmissionMessage] = useState("");
 
-  const fetchGamesCallback = useCallback(() => {
-    fetchGames(week, setGames, setLoading);
-  }, [week]);
-
-  const fetchTeamDataCallback = useCallback(() => {
-    fetchTeamData(setTeamWinLossMap, setLoading);
-  }, []);
-
-  const fetchUserDataCallback = useCallback(() => {
-    fetchUserData(
-      user.user_id,
-      week,
-      setSelectionA,
-      setSelectionB,
-      setSavedSelections
-    );
-  }, [user, week]);
-
   const putUserSelectionsCallback = useCallback(() => {
     putUserSelections(
       user.user_id,
@@ -142,14 +85,26 @@ const PickTeam = () => {
     );
   }, [user.user_id, week, selectionA, selectionB]);
 
-  // Fetch all games on initial render
+  // Fetch on initial render
   useEffect(() => {
     setSelectionA("");
     setSelectionB("");
-    fetchGamesCallback();
-    fetchUserDataCallback();
-    fetchTeamDataCallback();
-  }, [week]);
+    fetchUserData(
+      user.user_id,
+      week,
+      setSelectionA,
+      setSelectionB,
+      setSavedSelections
+    );
+    fetchGames(week, (data) => {
+      setGames(data);
+      setLoading(false);
+    });
+    fetchTeamWinLossMap((data) => {
+      setTeamWinLossMap(data);
+      setLoading(false);
+    });
+  }, [user.user_id, week]);
 
   const handleTeamSelect = (team: string): void => {
     if (selectionA === team) {
