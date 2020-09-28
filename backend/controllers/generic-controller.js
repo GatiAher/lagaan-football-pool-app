@@ -60,7 +60,6 @@ module.exports = function (TABLE) {
     let order = "asc";
     if (req.query.sort) {
       const parsed = JSON.parse(req.query.sort);
-      console.log(parsed);
       if (parsed[0]) field = parsed[0];
       if (parsed[1]) order = parsed[0];
     }
