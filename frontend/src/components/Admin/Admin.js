@@ -1,13 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
+
+import { useAuth0 } from "@auth0/auth0-react";
 import { useUser } from "../../context/TempUserContext";
+
 import getCurrentWeek from "../../utils/getCurrentWeek";
-// modify user data
-// modify game data
-// reset user data
-// reset game data
-// set current week
-// set current season
 
 const Admin = () => {
   const { user, setUser } = useUser();
@@ -21,7 +18,7 @@ const Admin = () => {
 
   const handleUserCreate = () => {
     axios
-      .post("/user/create", {
+      .post("/user", {
         username: username,
         id: userId,
       })
@@ -39,7 +36,7 @@ const Admin = () => {
 
   const handleUserGet = () => {
     axios
-      .get(`/user/id/${userId}`)
+      .get(`/user/${userId}`)
       .then((res) => {
         console.log(res);
         setMessage(JSON.stringify(res.data));

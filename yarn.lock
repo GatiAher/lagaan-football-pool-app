@@ -2,17 +2,17 @@
 # yarn lockfile v1
 
 
-"@auth0/auth0-react@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@auth0/auth0-react/-/auth0-react-1.0.0.tgz#3eeced9557d54d4092032ecc071cd74052d09da7"
-  integrity sha512-AaGftJFXYsJNEHZq/PNNr5HVSOQCVjstBF2pD3gAwOrgjKO7fYoeNgKKQOcTLm/ge5vAkEBGgSBzWBj2SgZ38w==
+"@auth0/auth0-react@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@auth0/auth0-react/-/auth0-react-1.1.0.tgz#deeb5f1872f7c0d813cdb9115dfdf0a70a34e1c2"
+  integrity sha512-FqRzdSkraM2GFOl8NhdlpocALxCd9oNRxiPpIV0Lm5ophHUQRXaE8raTGjnPhHleJGJMw9XoEJ3ye9mjbkvweQ==
   dependencies:
-    "@auth0/auth0-spa-js" "^1.9.0"
+    "@auth0/auth0-spa-js" "^1.12.1"
 
-"@auth0/auth0-spa-js@^1.9.0":
-  version "1.12.0"
-  resolved "https://registry.yarnpkg.com/@auth0/auth0-spa-js/-/auth0-spa-js-1.12.0.tgz#632e22c022bd3d28c279fbbbcd45586f5fb73cf0"
-  integrity sha512-BBuUDj5ZgRpTs+Lk+1o9oVI3HvmhfeNdd7hY7/KjzL6GtDJ7kVXTdJ6Ik8OUsZiHWFik69pBBwFBjBLlOZ8ctA==
+"@auth0/auth0-spa-js@^1.12.1":
+  version "1.12.1"
+  resolved "https://registry.yarnpkg.com/@auth0/auth0-spa-js/-/auth0-spa-js-1.12.1.tgz#791cdda722afa25f4c8879b93b8d7ab54a26e4c1"
+  integrity sha512-YdXtA1T2wK4iNG79VlGS/CPfNNezS1nqZURerj71jKSf8ICVKmvJgUNXFEZEwNNU/KFdCCPCHd5wMeWLDyEILw==
   dependencies:
     abortcontroller-polyfill "^1.5.0"
     browser-tabs-lock "^1.2.9"
