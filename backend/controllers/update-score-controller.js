@@ -1,10 +1,4 @@
 const knex = require("../db");
-const gameScrapper54 = require("../web-scraping/schedule-scraper_season_54");
-const { TEAMS } = require("../constants/teams");
-
-////////////
-// UPDATE //
-////////////
 
 exports.updateScore = async (req, res) => {
   const { id, visPts, homePts } = req.body;
@@ -94,70 +88,5 @@ exports.updateScore = async (req, res) => {
     res.json({
       message: `There was an error updating ${id} Game: ${err}`,
     });
-  }
-};
-
-///////////////
-// CLEAR ALL //
-///////////////
-
-// Remove all games on the list
-exports.gameClearAll = async (req, res) => {
-  knex("Game")
-    .truncate() // remove the selection
-    .then(() => {
-      res.json({ message: "Game list cleared." });
-    })
-    .catch((err) => {
-      res.json({ message: `There was an error resetting Game list: ${err}.` });
-    });
-};
-
-// Remove all users on the list
-exports.userClearAll = async (req, res) => {
-  knex("User")
-    .truncate() // remove the selection
-    .then(() => {
-      res.json({ message: "User list cleared." });
-    })
-    .catch((err) => {
-      res
-        .status(500)
-        .json({ message: `There was an error resetting User list: ${err}.` });
-    });
-};
-
-///////////
-// RESET //
-///////////
-
-// clear old teams and add teams to database
-exports.teamResetAll = async (req, res) => {
-  try {
-    // reset team data
-    const teams = TEAMS.map((id) => ({
-      id,
-    }));
-    console.log(teams);
-    await knex("Team").truncate();
-    await knex.batchInsert("Team", teams, 35);
-    // done
-    res.json({ message: "Team list created." });
-  } catch (err) {
-    res.json({ message: `There was an error resetting Team list: ${err}.` });
-  }
-};
-
-// clear old games and add new games from web scraper to database
-exports.gameResetAll = async (req, res) => {
-  try {
-    // reset game data
-    const games = await gameScrapper54.getGames();
-    await knex("Game").truncate();
-    await knex.batchInsert("Game", games, 30);
-    // done
-    res.json({ message: "Game list created." });
-  } catch (err) {
-    res.json({ message: `There was an error resetting Game list: ${err}.` });
   }
 };

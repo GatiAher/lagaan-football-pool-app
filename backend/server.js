@@ -5,11 +5,7 @@ const compression = require("compression");
 const cors = require("cors");
 const helmet = require("helmet");
 // Import routes
-const adminRouter = require("./routes/admin-route");
-// TODO: remove commented code
-// const gameRouter = require("./routes/game-route");
-// const teamRouter = require("./routes/team-route");
-// const userRouter = require("./routes/user-route");
+const updateScoreRouter = require("./routes/update-score-route");
 const raGameRouter = require("./routes/ra-route")("GAME");
 const raTeamRouter = require("./routes/ra-route")("TEAM");
 const raUserRouter = require("./routes/ra-route")("USER");
@@ -25,11 +21,7 @@ app.use(compression());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 // Implement routes
-app.use("/admin", adminRouter);
-// TODO: remove commented code
-// app.use("/game", gameRouter);
-// app.use("/team", teamRouter);
-// app.use("/user", userRouter);
+app.use("/updatescore", updateScoreRouter);
 app.use("/ragame", raGameRouter);
 app.use("/rateam", raTeamRouter);
 app.use("/rauser", raUserRouter);
