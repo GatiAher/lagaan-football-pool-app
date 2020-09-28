@@ -1,17 +1,45 @@
 const knex = require("../db");
 const TABLE = "GAME";
 
-exports.create = async (req, res) => {
+const getIdsFromQuery = (reqQuery) => {
+  let ids = [];
+  if (reqQuery.filter) {
+    const parsed = JSON.parse(JSON.parse(reqQuery.filter));
+    if (parsed) ids = parsed;
+  }
+  return ids;
+};
+
+const getIdFromParams = (reqParams) => {
+  return reqParams.id;
+};
+
+exports.getMany = async (req, res) => {
+  const ids = getIdsFromQuery(req.query);
   knex(TABLE)
-    .insert(req.body)
-    .then(() => {
-      res.json({
-        message: `${TABLE}: ${req.body.id} created.`,
-      });
+    .whereIn("id", ids)
+    .then((data) => {
+      res.json(data);
     })
     .catch((err) => {
       res.status(500).json({
-        message: `${TABLE}: there was an error creating ${req.body.id}: ${err}`,
+        message: `${TABLE}: there was an error getting ${ids}: ${err}`,
+      });
+    });
+};
+
+exports.getOne = async (req, res) => {
+  const id = getIdFromParams(req.params);
+  knex(TABLE)
+    .where("id", id)
+    .then((data) => {
+      if (data.length === 0)
+        throw new Error(`${id} cannot be retrieved because it does not exist.`);
+      res.json(data);
+    })
+    .catch((err) => {
+      res.status(500).json({
+        message: `${TABLE}: there was an error getting ${id}: ${err}`,
       });
     });
 };
@@ -44,91 +72,92 @@ exports.getList = async (req, res) => {
     });
 };
 
-exports.getOne = async (req, res) => {
-  knex(TABLE)
-    .where("id", req.params.id)
-    .then((data) => {
-      res.json(data);
-    })
-    .catch((err) => {
-      res.status(500).json({
-        message: `${TABLE}: there was an error getting ${req.params.id}: ${err}`,
-      });
-    });
-};
-
-exports.getMany = async (req, res) => {
-  // TODO: not being called
-  console.log("HII");
-  let ids = ["54_5_LAC_NO"];
-  if (req.query.filter) {
-    const parsed = JSON.parse(JSON.parse(req.query.filter));
-    if (parsed) ids = parsed;
-  }
-  knex(TABLE)
-    .whereIn("id", ids)
-    .then((data) => {
-      res.json(data);
-    })
-    .catch((err) => {
-      res.status(500).json({
-        message: `${TABLE}: there was an error getting ${req.query.filter.id}: ${err}`,
-      });
-    });
-};
-
 exports.update = async (req, res) => {
+  const id = getIdFromParams(req.params);
   knex(TABLE)
-    .where("id", req.params.id)
+    .where("id", id)
     .update(req.body)
-    .then((data) => {
-      res.json(data);
+    .then((numItems) => {
+      if (numItems === 0)
+        throw new Error(`${id} cannot be updated because it does not exist.`);
+      res.json({
+        message: `${TABLE}: ${id} updated.`,
+      });
     })
     .catch((err) => {
       res.status(500).json({
-        message: `${TABLE}: there was an error updating ${req.params.id}: ${err}`,
+        message: `${TABLE}: there was an error updating ${id}: ${err}`,
       });
     });
 };
 
 exports.updateMany = async (req, res) => {
+  const ids = getIdsFromQuery(req.query);
   knex(TABLE)
-    .whereIn("id", req.query.filter.id)
+    .whereIn("id", ids)
     .update(req.body)
-    .then((data) => {
-      res.json(data);
+    .then((numItems) => {
+      res.json({
+        message: `${TABLE}: ${numItems} / ${ids.length} items updated.`,
+      });
     })
     .catch((err) => {
       res.status(500).json({
-        message: `${TABLE}: there was an error updating ${req.query.filter.id}: ${err}`,
+        message: `${TABLE}: there was an error updating ${ids}: ${err}`,
       });
     });
 };
 
 exports.delete = async (req, res) => {
+  const id = getIdFromParams(req.params);
   knex(TABLE)
-    .where("id", req.params.id)
+    .where("id", id)
     .del()
-    .then(() => {
-      res.json({ message: `${TABLE}: ${req.body.id} deleted.` });
+    .then((numItems) => {
+      if (numItems === 0)
+        throw new Error(`${id} cannot be deleted because it does not exist.`);
+      res.json({ message: `${TABLE}: ${id} deleted.` });
     })
     .catch((err) => {
       res.status(500).json({
-        message: `${TABLE}: there was an error deleting ${req.body.id}: ${err}`,
+        message: `${TABLE}: there was an error deleting ${id}: ${err}`,
       });
     });
 };
 
 exports.deleteMany = async (req, res) => {
+  const ids = getIdsFromQuery(req.query);
   knex(TABLE)
-    .whereIn("id", req.query.filter.id)
+    .whereIn("id", ids)
     .del()
-    .then(() => {
-      res.json({ message: `${TABLE}: ${req.query.filter.id} deleted.` });
+    .then((numItems) => {
+      res.json({
+        message: `${TABLE}: ${numItems} / ${ids.length} items deleted.`,
+      });
     })
     .catch((err) => {
       res.status(500).json({
-        message: `${TABLE}: there was an error deleting ${req.query.filter.id}: ${err}`,
+        message: `${TABLE}: there was an error deleting ${ids}: ${err}`,
+      });
+    });
+};
+
+exports.create = async (req, res) => {
+  if (!req.body.id) {
+    res.status(400).json({
+      message: `${TABLE}: there was an error during creation: id not present in request body`,
+    });
+  }
+  knex(TABLE)
+    .insert(req.body)
+    .then(() => {
+      res.json({
+        message: `${TABLE}: ${req.body.id} created.`,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        message: `${TABLE}: there was an error creating ${req.body.id}: ${err}`,
       });
     });
 };

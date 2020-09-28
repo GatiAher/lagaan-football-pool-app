@@ -3,12 +3,12 @@ const controller = require("../controllers/ra-game-controller.js");
 
 const router = express.Router();
 router.get("/ids", controller.getMany); // works
-router.post("/", controller.create);
-router.get("/", controller.getList); // works
 router.get("/:id", controller.getOne); // works
-router.put("/:id", controller.update);
-router.put("/", controller.updateMany);
-router.delete("/:id", controller.delete);
-router.delete("/", controller.deleteMany);
+router.get("/", controller.getList); // works, partially
+router.put("/:id", controller.update); // works
+router.put("/", controller.updateMany); // works
+router.delete("/:id", controller.delete); // works
+router.delete("/", controller.deleteMany); // works
+router.post("/", controller.create); // works
 
 module.exports = router;
