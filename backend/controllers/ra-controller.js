@@ -166,5 +166,18 @@ module.exports = function (TABLE) {
       });
   };
 
+  module.clearTable = async (req, res) => {
+    knex(TABLE)
+      .truncate() // remove the selection
+      .then(() => {
+        res.json({ message: `${TABLE}: removed all items from table.` });
+      })
+      .catch((err) => {
+        res.status(500).json({
+          message: `${TABLE}: there was an error removing all items from table: ${err}.`,
+        });
+      });
+  };
+
   return module;
 };

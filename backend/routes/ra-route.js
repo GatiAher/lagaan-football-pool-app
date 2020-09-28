@@ -2,9 +2,13 @@ const express = require("express");
 
 module.exports = function (TABLE) {
   const controller = require("../controllers/ra-controller.js")(TABLE);
+  const resetController = require("../controllers/reset-controller")(TABLE);
   const router = express.Router();
 
   router.get("/ids", controller.getMany); // works
+  router.delete("/clear", controller.clearTable); // works
+  router.delete("/reset", resetController.resetTable); // works
+
   router.get("/:id", controller.getOne); // works
   router.get("/", controller.getList); // works, partially
   router.put("/:id", controller.update); // works
