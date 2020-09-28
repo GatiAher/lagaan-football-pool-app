@@ -23,8 +23,8 @@ const PickByeSection = ({
   isTeamSelected: (team: string) => boolean;
   isTwoTeamSelected: () => boolean;
 }) => {
-  // Show loading message
-  if (loading) return <p>Game table is loading...</p>;
+  // Show nothing
+  if (loading) return <div></div>;
   return (
     <GridList cellHeight="auto" cols={1}>
       <GridListTile key="bye">

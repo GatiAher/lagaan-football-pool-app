@@ -1,5 +1,8 @@
 import React from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import Box from "@material-ui/core/Box";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import { Switch, Route } from "react-router-dom";
 import Routes, { IRoute } from "./Routes";
@@ -7,10 +10,8 @@ import PrivateRoute from "./PrivateRoute";
 
 import NavigationBar from "./NavigationBar/NavigationBar";
 import { useAuth0 } from "@auth0/auth0-react";
-// import TempUserDisplay from "./TempUserDisplay";
 
-import Loading from "../General/Loading";
-import { Box, Container } from "@material-ui/core";
+// import TempUserDisplay from "./TempUserDisplay";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -25,7 +26,7 @@ const Main: React.FC = () => {
   const { isLoading } = useAuth0();
 
   if (isLoading) {
-    return <Loading />;
+    return <CircularProgress />;
   }
 
   return (

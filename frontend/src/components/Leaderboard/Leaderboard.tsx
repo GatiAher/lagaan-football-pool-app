@@ -21,19 +21,21 @@ const fetchUsers = async (callback: (arg0: any) => void) => {
 };
 
 const Leaderboard = () => {
+  const [loadingUsers, setLoadingUsers] = useState(true);
   const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
+
+  const [loadingTeamWinLossMap, setLoadingTeamWinLossMap] = useState(true);
   const [teamWinLossMap, setTeamWinLossMap] = useState({});
 
   // Fetch on initial render
   useEffect(() => {
     fetchTeamWinLossMap((data) => {
       setTeamWinLossMap(data);
-      setLoading(false);
+      setLoadingTeamWinLossMap(false);
     });
     fetchUsers((data) => {
       setUsers(data);
-      setLoading(false);
+      setLoadingUsers(false);
     });
   }, []);
 
@@ -41,7 +43,7 @@ const Leaderboard = () => {
     <LeaderboardList
       users={users}
       teamWinLossMap={teamWinLossMap}
-      loading={loading}
+      loading={loadingUsers || loadingTeamWinLossMap}
     />
   );
 };

@@ -3,6 +3,7 @@ import Box from "@material-ui/core/Box";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import Typography from "@material-ui/core/Typography";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import MaterialTable from "material-table";
 
@@ -134,7 +135,9 @@ interface LeaderboardListProps {
 
 const LeaderboardList = (props: LeaderboardListProps) => {
   // Show loading message
-  if (props.loading) return <p>Game table is loading...</p>;
+  if (props.loading) {
+    return <CircularProgress />;
+  }
 
   let rank = 0;
   let score = 0;
