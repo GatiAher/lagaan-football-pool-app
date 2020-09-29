@@ -1,4 +1,4 @@
-import { DAYS } from "./maps/date-format";
+import { DAYS } from "./constants/date-format";
 
 interface IDate {
   day?: string;

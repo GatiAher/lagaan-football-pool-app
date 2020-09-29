@@ -7,7 +7,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Typography from "@material-ui/core/Typography";
 
 import TeamLogo from "./TeamLogo";
-import { TEAM_ABBR_TO_MEDIUM } from "../../utils/maps/team";
+import { TEAM_ABBR_TO_MEDIUM } from "../../utils/constants/teams";
 import { TeamToWinLossMap } from "../../utils/types/TeamType";
 
 interface TeamDisplayProps {
