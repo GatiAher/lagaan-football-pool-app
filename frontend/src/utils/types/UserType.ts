@@ -1,6 +1,8 @@
 export default interface UserType {
   username: string;
-  id: number;
+  id: string;
+  firstName: string;
+  lastName: string;
   rank: number;
   score: number;
   wk1A: string;

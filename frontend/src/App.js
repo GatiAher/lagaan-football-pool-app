@@ -5,7 +5,6 @@ import Auth0ProviderWithHistory from "./utils/auth0-provider-with-history";
 import { UserProvider } from "./context/TempUserContext";
 
 const App = () => {
-  const userHook = useState({ username: "default", user_id: 0 });
   return (
     <UserProvider>
       <BrowserRouter>

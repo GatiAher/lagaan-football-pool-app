@@ -4,12 +4,8 @@ import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useUser } from "../../context/TempUserContext";
 
-import getCurrentWeek from "../../utils/getCurrentWeek";
-
 const Admin = () => {
   const { user, setUser } = useUser();
-  const currentWeek = getCurrentWeek(new Date(2020, 8, 10));
-  console.log(currentWeek);
 
   // temporary testing, create and select fake users
   const [username, setUsername] = useState(user.username);
@@ -77,12 +73,12 @@ const Admin = () => {
               </label>
               <input
                 className="form-input"
-                type="number"
+                type="text"
                 id="userId"
                 name="userId"
                 value={userId}
                 onChange={(e) => {
-                  setUserId(parseInt(e.currentTarget.value, 10));
+                  setUserId(e.currentTarget.value);
                 }}
               />
             </fieldset>

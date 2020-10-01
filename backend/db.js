@@ -82,7 +82,9 @@ knex.schema
       return knex.schema
         .createTable("User", (table) => {
           table.string("username").notNullable();
-          table.integer("id").primary();
+          table.string("id").primary();
+          table.string("firstName");
+          table.string("lastName");
           table.integer("rank");
           table.integer("score").defaultTo(0);
           table.string("wk1A");

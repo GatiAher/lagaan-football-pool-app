@@ -18,7 +18,7 @@ import getCurrentWeek from "../../utils/getCurrentWeek";
 import { useUser } from "../../context/TempUserContext";
 
 const fetchUserData = async (
-  id: number,
+  id: string,
   week: number,
   setSelectionA: (arg0: string) => void,
   setSelectionB: (arg0: string) => void,
@@ -53,7 +53,7 @@ const fetchUserData = async (
 };
 
 const putUserSelections = async (
-  id: number,
+  id: string,
   week: number,
   selectionA: string,
   selectionB: string,
