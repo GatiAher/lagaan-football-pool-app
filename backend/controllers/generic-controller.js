@@ -49,8 +49,6 @@ module.exports = function (TABLE) {
   };
 
   module.getList = async (req, res) => {
-    // TODO: add query for range
-    // TODO: add header for content-range
     let filter = {};
     if (req.query.filter) {
       const parsed = JSON.parse(req.query.filter);
@@ -61,13 +59,23 @@ module.exports = function (TABLE) {
     if (req.query.sort) {
       const parsed = JSON.parse(req.query.sort);
       if (parsed[0]) field = parsed[0];
-      if (parsed[1]) order = parsed[0];
+      if (parsed[1]) order = parsed[1];
+    }
+    let startRange = 0;
+    let endRange = undefined;
+    if (req.query.range) {
+      const parsed = JSON.parse(req.query.range);
+      if (parsed[0]) startRange = parsed[0];
+      if (parsed[1]) endRange = parsed[1];
     }
     knex(TABLE)
       .where(filter)
       .orderBy(field, order)
       .then((data) => {
-        res.json(data);
+        const slicedData = endRange
+          ? data.slice(startRange, endRange)
+          : data.slice(startRange);
+        return res.sendRange(slicedData, slicedData.length);
       })
       .catch((err) => {
         res.status(500).json({
