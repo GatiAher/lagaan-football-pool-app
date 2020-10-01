@@ -470,11 +470,6 @@ clone-response@^1.0.2:
   dependencies:
     mimic-response "^1.0.0"
 
-clone@^1.0.2:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/clone/-/clone-1.0.4.tgz#da309cc263df15994c688ca902179ca3c7cd7c7e"
-  integrity sha1-2jCcwmPfFZlMaIypAheco8fNfH4=
-
 code-point-at@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
@@ -570,11 +565,6 @@ content-disposition@0.5.3:
   integrity sha512-ExO0774ikEObIAEV9kDo50o+79VCUdEB6n6lzKgGwupcVeRlhrj3qGAfwq8G6uBJjkqLrhT0qEYFcWng8z1z0g==
   dependencies:
     safe-buffer "5.1.2"
-
-content-range@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/content-range/-/content-range-0.2.0.tgz#a629a26f4058b610a85bca44d3d77f2ac1100a83"
-  integrity sha1-pimib0BYthCoW8pE09d/KsEQCoM=
 
 content-security-policy-builder@2.1.0:
   version "2.1.0"
@@ -903,16 +893,6 @@ expand-tilde@^2.0.0, expand-tilde@^2.0.2:
   integrity sha1-l+gBqgUt8CRU3kawK/YhZCzchQI=
   dependencies:
     homedir-polyfill "^1.0.1"
-
-express-response-range@^0.2.11:
-  version "0.2.11"
-  resolved "https://registry.yarnpkg.com/express-response-range/-/express-response-range-0.2.11.tgz#73bcd7054d81cd028b95e7bf2c616601b43eaa6b"
-  integrity sha512-SAkf/KHdkSN/GjPhfcHoUteYElHg2Um2JY5/zfaIfhiI/AjJHUL+bmAW5PuRK3+gRcqmMDBJEihXi5IFqpLNbA==
-  dependencies:
-    clone "^1.0.2"
-    content-range "^0.2.0"
-    extend "^3.0.0"
-    http-range-parse "^1.0.0"
 
 express@^4.17.1:
   version "4.17.1"
@@ -1403,11 +1383,6 @@ http-errors@~1.7.2:
     setprototypeof "1.1.1"
     statuses ">= 1.5.0 < 2"
     toidentifier "1.0.0"
-
-http-range-parse@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/http-range-parse/-/http-range-parse-1.0.0.tgz#481582bdb5c38838d78496bfdf956a716b8b9952"
-  integrity sha1-SBWCvbXDiDjXhJa/35VqcWuLmVI=
 
 http-signature@~1.2.0:
   version "1.2.0"

@@ -4,7 +4,6 @@ const bodyParser = require("body-parser");
 const compression = require("compression");
 const cors = require("cors");
 const helmet = require("helmet");
-const responseRange = require("express-response-range");
 // Import routes
 const scoreRouter = require("./routes/score-route");
 const gameRouter = require("./routes/generic-route")("GAME");
@@ -21,7 +20,6 @@ app.use(helmet());
 app.use(compression());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(responseRange({}));
 // Implement routes
 app.use("/score", scoreRouter);
 app.use("/game", gameRouter);

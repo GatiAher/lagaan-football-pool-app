@@ -72,10 +72,13 @@ module.exports = function (TABLE) {
       .where(filter)
       .orderBy(field, order)
       .then((data) => {
-        const slicedData = endRange
-          ? data.slice(startRange, endRange)
-          : data.slice(startRange);
-        return res.sendRange(slicedData, slicedData.length);
+        if (!endRange) endRange = data.length - 1;
+        const slicedData = data.slice(startRange, endRange);
+        res.set(
+          "Content-Range",
+          `item ${startRange}-${endRange}/${data.length}`
+        );
+        res.json(slicedData);
       })
       .catch((err) => {
         res.status(500).json({

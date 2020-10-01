@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  Edit,
-  SimpleForm,
-  TextInput,
-  NumberInput,
-  DateInput,
-} from "react-admin";
+import { Edit, SimpleForm, TextInput, NumberInput } from "react-admin";
 
 const UserTitle = ({ record }) => {
   return <span>Editing User {record ? `"${record.username}"` : ""}</span>;
@@ -88,8 +82,6 @@ const UserEdit = (props) => (
       <TextInput source="sc16B" />
       <TextInput source="sc17A" />
       <TextInput source="sc17B" />
-      <DateInput disabled source="created_at" />
-      <DateInput disabled source="updated_at" />
     </SimpleForm>
   </Edit>
 );
