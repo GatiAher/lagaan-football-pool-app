@@ -35,10 +35,11 @@ module.exports = function (TABLE) {
     knex(TABLE)
       .where("id", id)
       .then((data) => {
-        if (data.length === 0)
+        if (data.length === 0) {
           throw new Error(
             `${id} cannot be retrieved because it does not exist.`
           );
+        }
         res.json(data);
       })
       .catch((err) => {
@@ -72,7 +73,7 @@ module.exports = function (TABLE) {
       .where(filter)
       .orderBy(field, order)
       .then((data) => {
-        if (!endRange) endRange = data.length - 1;
+        if (endRange === undefined) endRange = data.length;
         const slicedData = data.slice(startRange, endRange);
         res.set(
           "Content-Range",
@@ -93,8 +94,9 @@ module.exports = function (TABLE) {
       .where("id", id)
       .update(req.body)
       .then((numItems) => {
-        if (numItems === 0)
+        if (numItems === 0) {
           throw new Error(`${id} cannot be updated because it does not exist.`);
+        }
         res.json({
           message: `${TABLE}: ${id} updated.`,
         });
@@ -129,8 +131,9 @@ module.exports = function (TABLE) {
       .where("id", id)
       .del()
       .then((numItems) => {
-        if (numItems === 0)
+        if (numItems === 0) {
           throw new Error(`${id} cannot be deleted because it does not exist.`);
+        }
         res.json({ message: `${TABLE}: ${id} deleted.` });
       })
       .catch((err) => {
@@ -162,19 +165,20 @@ module.exports = function (TABLE) {
       res.status(400).json({
         message: `${TABLE}: there was an error during creation: id not present in request body`,
       });
+    } else {
+      knex(TABLE)
+        .insert(req.body)
+        .then(() => {
+          res.json({
+            message: `${TABLE}: ${req.body.id} created.`,
+          });
+        })
+        .catch((err) => {
+          res.status(500).json({
+            message: `${TABLE}: there was an error creating ${req.body.id}: ${err}`,
+          });
+        });
     }
-    knex(TABLE)
-      .insert(req.body)
-      .then(() => {
-        res.json({
-          message: `${TABLE}: ${req.body.id} created.`,
-        });
-      })
-      .catch((err) => {
-        res.status(500).json({
-          message: `${TABLE}: there was an error creating ${req.body.id}: ${err}`,
-        });
-      });
   };
 
   module.clearTable = async (req, res) => {

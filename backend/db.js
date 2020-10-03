@@ -52,10 +52,29 @@ knex.schema
     if (!exists) {
       return knex.schema
         .createTable("Team", (table) => {
-          table.string("id").primary(); // `${season}_${week}_${visTeam}_${homeTeam}`
+          table.string("id").primary();
+          table.string("mascotName");
+          table.string("fullName");
           table.integer("numOfWin").defaultTo(0);
           table.integer("numOfLoss").defaultTo(0);
           table.integer("numOfTie").defaultTo(0);
+          table.string("wk1");
+          table.string("wk2");
+          table.string("wk3");
+          table.string("wk4");
+          table.string("wk5");
+          table.string("wk6");
+          table.string("wk7");
+          table.string("wk8");
+          table.string("wk9");
+          table.string("wk10");
+          table.string("wk11");
+          table.string("wk12");
+          table.string("wk13");
+          table.string("wk14");
+          table.string("wk15");
+          table.string("wk16");
+          table.string("wk17");
           table.timestamps(true, true);
         })
         .then(() => {
@@ -121,40 +140,6 @@ knex.schema
           table.string("wk16B");
           table.string("wk17A");
           table.string("wk17B");
-          table.string("sc1A").defaultTo("default");
-          table.string("sc1B").defaultTo("default");
-          table.string("sc2A").defaultTo("default");
-          table.string("sc2B").defaultTo("default");
-          table.string("sc3A").defaultTo("default");
-          table.string("sc3B").defaultTo("default");
-          table.string("sc4A").defaultTo("default");
-          table.string("sc4B").defaultTo("default");
-          table.string("sc5A").defaultTo("default");
-          table.string("sc5B").defaultTo("default");
-          table.string("sc6A").defaultTo("default");
-          table.string("sc6B").defaultTo("default");
-          table.string("sc7A").defaultTo("default");
-          table.string("sc7B").defaultTo("default");
-          table.string("sc8A").defaultTo("default");
-          table.string("sc8B").defaultTo("default");
-          table.string("sc9A").defaultTo("default");
-          table.string("sc9B").defaultTo("default");
-          table.string("sc10A").defaultTo("default");
-          table.string("sc10B").defaultTo("default");
-          table.string("sc11A").defaultTo("default");
-          table.string("sc11B").defaultTo("default");
-          table.string("sc12A").defaultTo("default");
-          table.string("sc12B").defaultTo("default");
-          table.string("sc13A").defaultTo("default");
-          table.string("sc13B").defaultTo("default");
-          table.string("sc14A").defaultTo("default");
-          table.string("sc14B").defaultTo("default");
-          table.string("sc15A").defaultTo("default");
-          table.string("sc15B").defaultTo("default");
-          table.string("sc16A").defaultTo("default");
-          table.string("sc16B").defaultTo("default");
-          table.string("sc17A").defaultTo("default");
-          table.string("sc17B").defaultTo("default");
           table.timestamps(true, true);
         })
         .then(() => {

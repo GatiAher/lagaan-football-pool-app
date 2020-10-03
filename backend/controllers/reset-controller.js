@@ -24,12 +24,8 @@ module.exports = function (TABLE) {
   // clear old teams and add teams to database
   const resetTableTeam = async (req, res) => {
     try {
-      // get new team items
-      const teams = TEAMS.map((id) => ({
-        id,
-      }));
       await knex("Team").truncate();
-      await knex.batchInsert("Team", teams, 35);
+      await knex.batchInsert("Team", TEAMS, 35);
       // done
       res.json({ message: "Team: table cleared and repopulated." });
     } catch (err) {
@@ -49,8 +45,6 @@ module.exports = function (TABLE) {
     for (let i = 1; i <= 17; i++) {
       updateRecord[`wk${i}A`] = null;
       updateRecord[`wk${i}B`] = null;
-      updateRecord[`sc${i}A`] = null;
-      updateRecord[`sc${i}B`] = null;
     }
     knex("USER")
       .update(updateRecord)

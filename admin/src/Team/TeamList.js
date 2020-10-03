@@ -20,6 +20,7 @@ const TeamList = (props) => (
   <List filters={<TeamFilter />} {...props}>
     <Datagrid>
       <TextField source="id" />
+      <TextField source="fullName" />
       <NumberField source="numOfWin" />
       <NumberField source="numOfLoss" />
       <NumberField source="numOfTie" />

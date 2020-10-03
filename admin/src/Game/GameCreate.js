@@ -3,7 +3,7 @@ import { Create, SimpleForm, TextInput, NumberInput } from "react-admin";
 
 const GameCreate = (props) => (
   <Create {...props}>
-    <SimpleForm>
+    <SimpleForm redirect="list">
       <TextInput source="id" />
       <NumberInput source="startTime" />
       <NumberInput source="week" />
