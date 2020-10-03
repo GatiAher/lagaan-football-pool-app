@@ -16,20 +16,6 @@ module.exports = function (TABLE) {
     return reqParams.id;
   };
 
-  module.getMany = async (req, res) => {
-    const ids = getIdsFromQuery(req.query);
-    knex(TABLE)
-      .whereIn("id", ids)
-      .then((data) => {
-        res.json(data);
-      })
-      .catch((err) => {
-        res.status(500).json({
-          message: `${TABLE}: there was an error getting ${ids}: ${err}`,
-        });
-      });
-  };
-
   module.getOne = async (req, res) => {
     const id = getIdFromParams(req.params);
     knex(TABLE)
@@ -50,6 +36,7 @@ module.exports = function (TABLE) {
   };
 
   module.getList = async (req, res) => {
+    const ids = getIdsFromQuery(req.query);
     let filter = {};
     if (req.query.filter) {
       const parsed = JSON.parse(req.query.filter);
@@ -69,17 +56,26 @@ module.exports = function (TABLE) {
       if (parsed[0]) startRange = parsed[0];
       if (parsed[1]) endRange = parsed[1];
     }
-    knex(TABLE)
-      .where(filter)
-      .orderBy(field, order)
+    const builder = knex(TABLE).where(filter).orderBy(field, order);
+
+    if (ids.length) {
+      builder.whereIn("id", ids);
+    }
+
+    builder
       .then((data) => {
+        console.log(filter);
+        console.log(data.length);
+        console.log("HERE", endRange);
+        console.log("s", startRange);
         if (endRange === undefined) endRange = data.length;
+        console.log("e", endRange);
         const slicedData = data.slice(startRange, endRange);
         res.set(
           "Content-Range",
           `item ${startRange}-${endRange}/${data.length}`
         );
-        res.json(slicedData);
+        res.status(206).json(slicedData);
       })
       .catch((err) => {
         res.status(500).json({

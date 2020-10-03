@@ -5,7 +5,6 @@ module.exports = function (TABLE) {
   const resetController = require("../controllers/reset-controller")(TABLE);
   const router = express.Router();
 
-  router.get("/ids", controller.getMany); // works
   router.delete("/clear", controller.clearTable); // works
   router.delete("/reset", resetController.resetTable); // works
 
