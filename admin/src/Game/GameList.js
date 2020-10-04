@@ -22,7 +22,7 @@ const GameList = (props) => (
   <List filters={<GameFilter />} {...props}>
     <Datagrid>
       <NumberField source="week" />
-      <NumberField source="startTime" />
+      <DateField source="startTime" />
       <TextField source="visTeam" />
       <TextField source="homeTeam" />
       <DateField source="updated_at" />

@@ -6,13 +6,14 @@ import {
   NumberInput,
   ReferenceInput,
   SelectInput,
+  DateInput,
 } from "react-admin";
 
 const GameCreate = (props) => (
   <Create {...props}>
     <SimpleForm redirect="list">
       <TextInput source="id" />
-      <NumberInput source="startTime" />
+      <DateInput source="startTime" />
       <NumberInput source="week" />
       <ReferenceInput
         source="visTeam"

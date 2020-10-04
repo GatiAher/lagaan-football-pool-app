@@ -6,13 +6,14 @@ import {
   NumberInput,
   ReferenceInput,
   SelectInput,
+  DateInput,
 } from "react-admin";
 
 const GameEdit = (props) => (
   <Edit {...props}>
     <SimpleForm>
       <TextInput source="id" />
-      <NumberInput source="startTime" />
+      <DateInput source="startTime" />
       <NumberInput source="week" />
       <ReferenceInput
         source="visTeam"
