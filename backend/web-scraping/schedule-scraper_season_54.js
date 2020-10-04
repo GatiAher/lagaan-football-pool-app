@@ -25,9 +25,6 @@ const MONTHS = new Map([
   ["December", 11],
 ]);
 
-// NOTE: season 54, (year 2020)
-const SEASON = 54;
-
 /* 
 returns number of milliseconds since Jan 1, 1979 00:00:00 UTC
 date: string: LongMonthName Day
@@ -62,15 +59,14 @@ const getGamesListFromTable = (table) => {
       const time = table[3][idx];
       const startTime = getDateValue(date, time);
       const week = weekNum;
-      const season = SEASON;
       const visTeam = TEAM_LONG_TO_ABBR.get(
         table[4][idx].match(/">(.*)<\/a/).pop()
       );
       const homeTeam = TEAM_LONG_TO_ABBR.get(
         table[6][idx].match(/>(.*)</).pop()
       );
-      const id = `${season}_${week}_${visTeam}_${homeTeam}`;
-      games.push({ startTime, week, season, visTeam, homeTeam, id });
+      const id = `${week}_${visTeam}_${homeTeam}`;
+      games.push({ startTime, week, visTeam, homeTeam, id });
     }
   });
   return games;
