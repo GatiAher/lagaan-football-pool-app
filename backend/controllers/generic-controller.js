@@ -7,7 +7,7 @@ module.exports = function (TABLE) {
     let ids = [];
     if (reqQuery.filter) {
       const parsed = JSON.parse(reqQuery.filter);
-      if (parsed) ids = parsed;
+      if (parsed && parsed.id && parsed.id.length > 0) ids = parsed.id;
     }
     return ids;
   };
@@ -36,46 +36,48 @@ module.exports = function (TABLE) {
   };
 
   module.getList = async (req, res) => {
-    const ids = getIdsFromQuery(req.query);
-    let filter = {};
-    if (req.query.filter) {
-      const parsed = JSON.parse(req.query.filter);
-      if (parsed) filter = parsed;
-    }
-    let field = "id";
-    let order = "asc";
-    if (req.query.sort) {
-      const parsed = JSON.parse(req.query.sort);
-      if (parsed[0]) field = parsed[0];
-      if (parsed[1]) order = parsed[1];
-    }
-    let startRange = 0;
-    let endRange = undefined;
-    if (req.query.range) {
-      const parsed = JSON.parse(req.query.range);
-      if (parsed[0]) startRange = parsed[0];
-      if (parsed[1]) endRange = parsed[1];
-    }
-    const builder = knex(TABLE).where(filter).orderBy(field, order);
+    const builder = knex(TABLE);
 
+    const ids = getIdsFromQuery(req.query);
     if (ids.length) {
       builder.whereIn("id", ids);
     }
 
+    let filter = {};
+    if (ids.length == 0 && req.query.filter) {
+      const parsed = JSON.parse(req.query.filter);
+      if (parsed) {
+        filter = parsed;
+        builder.where(filter);
+      }
+    }
+
+    if (req.query.sort) {
+      const parsed = JSON.parse(req.query.sort);
+      if (parsed) {
+        const [field, order] = parsed;
+        if (field && order) {
+          builder.orderBy(field, order);
+        }
+      }
+    }
+
     builder
       .then((data) => {
-        console.log(filter);
-        console.log(data.length);
-        console.log("HERE", endRange);
-        console.log("s", startRange);
-        if (endRange === undefined) endRange = data.length;
-        console.log("e", endRange);
-        const slicedData = data.slice(startRange, endRange);
-        res.set(
-          "Content-Range",
-          `item ${startRange}-${endRange}/${data.length}`
-        );
-        res.status(206).json(slicedData);
+        let responseData = data;
+        if (req.query.range) {
+          const parsed = JSON.parse(req.query.range);
+          const [startRange, endRange] = parsed;
+          if (startRange != undefined && endRange != undefined) {
+            responseData = data.slice(startRange, endRange);
+            res.set(
+              "Content-Range",
+              `item ${startRange}-${endRange}/${data.length}`
+            );
+            res.status(206);
+          }
+        }
+        res.json(responseData);
       })
       .catch((err) => {
         res.status(500).json({

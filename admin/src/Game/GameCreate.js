@@ -1,5 +1,12 @@
 import React from "react";
-import { Create, SimpleForm, TextInput, NumberInput } from "react-admin";
+import {
+  Create,
+  SimpleForm,
+  TextInput,
+  NumberInput,
+  ReferenceInput,
+  SelectInput,
+} from "react-admin";
 
 const GameCreate = (props) => (
   <Create {...props}>
@@ -8,10 +15,24 @@ const GameCreate = (props) => (
       <NumberInput source="startTime" />
       <NumberInput source="week" />
       <NumberInput source="season" />
-      <TextInput source="visTeam" />
+      <ReferenceInput
+        source="visTeam"
+        reference="team"
+        perPage="35"
+        sort={{ field: "id", order: "ASC" }}
+      >
+        <SelectInput optionText="id" />
+      </ReferenceInput>
       <NumberInput source="visPts" />
       <TextInput source="visStatus" />
-      <TextInput source="homeTeam" />
+      <ReferenceInput
+        source="homeTeam"
+        reference="team"
+        perPage="35"
+        sort={{ field: "id", order: "ASC" }}
+      >
+        <SelectInput optionText="id" />
+      </ReferenceInput>
       <NumberInput source="homePts" />
       <TextInput source="homeStatus" />
     </SimpleForm>

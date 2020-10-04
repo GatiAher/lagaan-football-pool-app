@@ -1,5 +1,12 @@
 import React from "react";
-import { Edit, SimpleForm, TextInput, NumberInput } from "react-admin";
+import {
+  Edit,
+  SimpleForm,
+  TextInput,
+  NumberInput,
+  ReferenceInput,
+  SelectInput,
+} from "react-admin";
 
 const UserTitle = ({ record }) => {
   return <span>Editing User {record ? `"${record.username}"` : ""}</span>;
@@ -14,40 +21,51 @@ const UserEdit = (props) => (
       <TextInput source="lastName" />
       <TextInput source="rank" />
       <NumberInput source="score" />
-      <TextInput source="wk1A" />
-      <TextInput source="wk1B" />
-      <TextInput source="wk2A" />
-      <TextInput source="wk2B" />
-      <TextInput source="wk3A" />
-      <TextInput source="wk3B" />
-      <TextInput source="wk4A" />
-      <TextInput source="wk4B" />
-      <TextInput source="wk5A" />
-      <TextInput source="wk5B" />
-      <TextInput source="wk6A" />
-      <TextInput source="wk6B" />
-      <TextInput source="wk7A" />
-      <TextInput source="wk7B" />
-      <TextInput source="wk8A" />
-      <TextInput source="wk8B" />
-      <TextInput source="wk9A" />
-      <TextInput source="wk9B" />
-      <TextInput source="wk10A" />
-      <TextInput source="wk10B" />
-      <TextInput source="wk11A" />
-      <TextInput source="wk11B" />
-      <TextInput source="wk12A" />
-      <TextInput source="wk12B" />
-      <TextInput source="wk13A" />
-      <TextInput source="wk13B" />
-      <TextInput source="wk14A" />
-      <TextInput source="wk14B" />
-      <TextInput source="wk15A" />
-      <TextInput source="wk15B" />
-      <TextInput source="wk16A" />
-      <TextInput source="wk16B" />
-      <TextInput source="wk17A" />
-      <TextInput source="wk17B" />
+      {[
+        "wk1A",
+        "wk1B",
+        "wk2A",
+        "wk2B",
+        "wk3A",
+        "wk3B",
+        "wk4A",
+        "wk4B",
+        "wk5A",
+        "wk5B",
+        "wk6A",
+        "wk6B",
+        "wk7A",
+        "wk7B",
+        "wk8A",
+        "wk8B",
+        "wk9A",
+        "wk9B",
+        "wk10A",
+        "wk10B",
+        "wk11A",
+        "wk11B",
+        "wk12A",
+        "wk12B",
+        "wk13A",
+        "wk13B",
+        "wk14A",
+        "wk14B",
+        "wk15A",
+        "wk15B",
+        "wk16A",
+        "wk16B",
+        "wk17A",
+        "wk17B",
+      ].map((teamSelectionWeek) => (
+        <ReferenceInput
+          source={teamSelectionWeek}
+          reference="team"
+          perPage="35"
+          sort={{ field: "id", order: "ASC" }}
+        >
+          <SelectInput optionText="id" />
+        </ReferenceInput>
+      ))}
     </SimpleForm>
   </Edit>
 );
