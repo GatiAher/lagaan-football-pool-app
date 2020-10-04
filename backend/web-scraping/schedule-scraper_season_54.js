@@ -1,8 +1,14 @@
+/*
+Season: 54 (year 2020-2021)
+Source: "https://www.pro-football-reference.com/years/2020/games.htm
+Warning: format of site changes when season starts
+*/
+
 const request = require("request-promise");
 const cheerio = require("cheerio");
 const cheerioTableparser = require("cheerio-tableparser");
 
-const { TEAM_LONG_TO_ABBR } = require("../constants/teams");
+const { TEAM_LONG_TO_ABBR } = require("./team-name-map");
 
 const MONTHS = new Map([
   ["January", 0],
@@ -24,10 +30,10 @@ const SEASON = 54;
 
 /* 
 returns number of milliseconds since Jan 1, 1979 00:00:00 UTC
-date: LongName Int
-time: HH:MM XX
+date: string: LongMonthName Day
+time: string: HH:MM XX
 
-NOTE: assume year 2020 or 2021 for January
+NOTE: assume year 2020, or 2021 for January
 NOTE: assume server timezone eastern (GMT-400) for Date
 */
 const getDateValue = (date, time) => {

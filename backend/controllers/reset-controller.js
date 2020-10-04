@@ -1,6 +1,6 @@
 const knex = require("../db");
 const gameScrapper54 = require("../web-scraping/schedule-scraper_season_54");
-const { TEAMS } = require("../constants/teams");
+const { TEAMS } = require("../maps/teamMap");
 
 module.exports = function (TABLE) {
   const module = {};

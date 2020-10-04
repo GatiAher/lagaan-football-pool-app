@@ -14,7 +14,6 @@ const GameCreate = (props) => (
       <TextInput source="id" />
       <NumberInput source="startTime" />
       <NumberInput source="week" />
-      <NumberInput source="season" />
       <ReferenceInput
         source="visTeam"
         reference="team"
@@ -23,8 +22,6 @@ const GameCreate = (props) => (
       >
         <SelectInput optionText="id" />
       </ReferenceInput>
-      <NumberInput source="visPts" />
-      <TextInput source="visStatus" />
       <ReferenceInput
         source="homeTeam"
         reference="team"
@@ -33,8 +30,6 @@ const GameCreate = (props) => (
       >
         <SelectInput optionText="id" />
       </ReferenceInput>
-      <NumberInput source="homePts" />
-      <TextInput source="homeStatus" />
     </SimpleForm>
   </Create>
 );

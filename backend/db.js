@@ -22,28 +22,24 @@ knex.schema
           table.integer("week");
           table.integer("season");
           table.string("visTeam");
-          table.integer("visPts").defaultTo(0);
-          table.string("visStatus").defaultTo("default");
           table.string("homeTeam");
-          table.integer("homePts").defaultTo(0);
-          table.string("homeStatus").defaultTo("default");
           table.timestamps(true, true);
         })
         .then(() => {
           // Log success message
-          console.log("Table 'Game' created");
+          console.log("Game: table created");
         })
         .catch((error) => {
-          console.error(`There was an error creating table: ${error}`);
+          console.error(`Game: there was an error creating table: ${error}`);
         });
     }
   })
   .then(() => {
     // Log success message
-    console.log("done");
+    console.log("Game: exists");
   })
   .catch((error) => {
-    console.error(`There was an error setting up the database: ${error}`);
+    console.error(`Game: there was an error setting up the database: ${error}`);
   });
 
 knex.schema
@@ -78,20 +74,18 @@ knex.schema
           table.timestamps(true, true);
         })
         .then(() => {
-          // Log success message
-          console.log("Table 'Game' created");
+          console.log("Team: table created");
         })
         .catch((error) => {
-          console.error(`There was an error creating table: ${error}`);
+          console.error(`Team: there was an error creating table: ${error}`);
         });
     }
   })
   .then(() => {
-    // Log success message
-    console.log("done");
+    console.log("Team: exists");
   })
   .catch((error) => {
-    console.error(`There was an error setting up the database: ${error}`);
+    console.error(`Team: there was an error setting up the database: ${error}`);
   });
 
 knex.schema
@@ -144,27 +138,28 @@ knex.schema
         })
         .then(() => {
           // Log success message
-          console.log("Table 'User' created");
+          console.log("User: table created");
         })
         .catch((error) => {
-          console.error(`There was an error creating table: ${error}`);
+          console.error(`User: there was an error creating table: ${error}`);
         });
     }
   })
   .then(() => {
     // Log success message
-    console.log("done");
+    console.log("User: exists");
   })
   .catch((error) => {
-    console.error(`There was an error setting up the database: ${error}`);
+    console.error(`User: there was an error setting up the database: ${error}`);
   });
 
-// Just for debugging purposes:
-// Log all data in table
-knex
-  .select("*")
-  .from("Game")
-  // .then((data) => console.log("data:", data))
-  .catch((err) => console.log(err));
+// // Just for debugging purposes:
+// // Log all data in table
+// knex
+//   .select("*")
+//   .from("Game")
+//   .then((data) => console.log("data:", data))
+//   .catch((err) => console.log(err));
+
 // Export the database
 module.exports = knex;

@@ -1,5 +1,5 @@
 const knex = require("../db");
-const { STATUS_TO_POINTS } = require("../constants/score");
+const { STATUS_TO_POINTS } = require("../maps/scoreMap");
 
 const updateTeamScore = async (team, status) => {
   if (status === "win") {
@@ -60,20 +60,11 @@ exports.updateScore = async (req, res) => {
     if (numItem == 0) throw new Error("Game does not exist.");
 
     // update Team score
-    // TODO: add recalculation option
     await updateTeamScore(homeTeam, homeStatus);
     await updateTeamScore(visTeam, visStatus);
 
-    // update User selection status
-    await updateUserSelectionStatus(homeTeam, homeStatus, week, "A");
-    await updateUserSelectionStatus(homeTeam, homeStatus, week, "B");
-    await updateUserSelectionStatus(visTeam, visStatus, week, "A");
-    await updateUserSelectionStatus(visTeam, visStatus, week, "B");
-
     // update User score
-    // TODO: add recalculation option
     await updateUserScore(homeTeam, homeStatus, week);
-    await updateUserScore(visTeam, visStatus, week);
 
     // done
     res.json({ message: `Game ${id} updated. User scores updated.` });
