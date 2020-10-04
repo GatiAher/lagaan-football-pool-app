@@ -15,14 +15,17 @@ import {
   ListItemText,
   ListItemSecondaryAction,
   Divider,
+  Snackbar,
 } from "@material-ui/core";
 
-const callTable = (resource, endpoint) => {
+const callTable = (resource, endpoint, handleClick) => {
   axios
     .delete(`http://localhost:3001/${resource}/${endpoint}`)
-    .then((response) => console.log(response))
+    .then((response) => {
+      handleClick(response.data.message, false);
+    })
     .catch((error) => {
-      throw console.error(error);
+      handleClick(JSON.stringify(error), true);
     });
 };
 
@@ -36,7 +39,7 @@ const DangerButton = styled(Button)({
   },
 });
 
-const ClearOption = ({ resource }) => (
+const ClearOption = ({ resource, handleClick }) => (
   <ListItem>
     <ListItemText
       primary={`Clear ${resource}`}
@@ -46,14 +49,14 @@ const ClearOption = ({ resource }) => (
       <DangerButton
         variant="outlined"
         onClick={() => {
-          callTable(resource, "clear");
+          callTable(resource, "clear", handleClick);
         }}
       >{`Clear ${resource}`}</DangerButton>
     </ListItemSecondaryAction>
   </ListItem>
 );
 
-const ResetOption = ({ resource }) => (
+const ResetOption = ({ resource, handleClick }) => (
   <ListItem>
     <ListItemText
       primary={`Reset ${resource}`}
@@ -63,32 +66,70 @@ const ResetOption = ({ resource }) => (
       <DangerButton
         variant="outlined"
         onClick={() => {
-          callTable(resource, "reset");
+          callTable(resource, "reset", handleClick);
         }}
       >{`Reset ${resource}`}</DangerButton>
     </ListItemSecondaryAction>
   </ListItem>
 );
 
-export default () => (
-  <Card>
-    <CardHeader title="Welcome to the Admin Site" />
-    <CardContent>
-      You can create, read, update, and delete table data from here!
-      <Box py={2}>
-        <Typography variant="h6">Danger Zone</Typography>
-        <Box py={2} border={1} color="#cb2431" borderRadius={4}>
-          <List>
-            <ResetOption resource="game" />
-            <ResetOption resource="team" />
-            <ResetOption resource="user" />
-            <Divider />
-            <ClearOption resource="game" />
-            <ClearOption resource="team" />
-            <ClearOption resource="user" />
-          </List>
+export default () => {
+  const [open, setOpen] = React.useState(false);
+  const [isFail, setFail] = React.useState(false);
+  const [snackBarMessage, setSnackBarMessage] = React.useState("");
+
+  const handleClick = (message, failValue) => {
+    setSnackBarMessage(message);
+    setFail(failValue);
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+    setFail(false);
+    setSnackBarMessage("");
+  };
+
+  return (
+    <Card>
+      <CardHeader title="Welcome to the Admin Site" />
+      <CardContent>
+        You can create, read, update, and delete table data from here!
+        <Box py={2}>
+          <Typography variant="h6">Danger Zone</Typography>
+          <Box py={2} border={1} color="#cb2431" borderRadius={4}>
+            <List>
+              <ResetOption resource="game" handleClick={handleClick} />
+              <ResetOption resource="team" handleClick={handleClick} />
+              <ResetOption resource="user" handleClick={handleClick} />
+              <Divider />
+              <ClearOption resource="game" handleClick={handleClick} />
+              <ClearOption resource="team" handleClick={handleClick} />
+              <ClearOption resource="user" handleClick={handleClick} />
+            </List>
+          </Box>
         </Box>
-      </Box>
-    </CardContent>
-  </Card>
-);
+      </CardContent>
+      <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+        open={open}
+        autoHideDuration={3000}
+        onClose={handleClose}
+        message={snackBarMessage}
+        ContentProps={
+          isFail && {
+            style: {
+              background: "#e57373",
+            },
+          }
+        }
+      />
+    </Card>
+  );
+};
