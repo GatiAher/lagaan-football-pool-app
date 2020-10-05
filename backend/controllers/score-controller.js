@@ -60,9 +60,7 @@ exports.recalculateTeamScore = async (req, res) => {
       else if (status == "tie") numOfTie++;
       else if (status == "loss") numOfLoss++;
     }
-    console.log("numOfWin", numOfWin);
-    console.log("numOfTie", numOfTie);
-    console.log("numOfLoss", numOfLoss);
+    console.log("W-L-T", `${numOfWin}-${numOfLoss}-${numOfTie}`);
     // add this to an array of Promises
     promises.push(
       knex("Team").where("id", id).update({
