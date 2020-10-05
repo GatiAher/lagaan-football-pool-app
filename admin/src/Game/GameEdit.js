@@ -4,10 +4,10 @@ import {
   SimpleForm,
   TextInput,
   NumberInput,
-  ReferenceInput,
   SelectInput,
   DateInput,
 } from "react-admin";
+import teamChoices from "../team-choices";
 
 const GameEdit = (props) => (
   <Edit {...props}>
@@ -15,22 +15,8 @@ const GameEdit = (props) => (
       <TextInput source="id" />
       <DateInput source="startTime" />
       <NumberInput source="week" />
-      <ReferenceInput
-        source="visTeam"
-        reference="team"
-        perPage="35"
-        sort={{ field: "id", order: "ASC" }}
-      >
-        <SelectInput optionText="id" />
-      </ReferenceInput>
-      <ReferenceInput
-        source="homeTeam"
-        reference="team"
-        perPage="35"
-        sort={{ field: "id", order: "ASC" }}
-      >
-        <SelectInput optionText="id" />
-      </ReferenceInput>
+      <SelectInput source="visTeam" choices={teamChoices} />
+      <SelectInput source="homeTeam" choices={teamChoices} />
     </SimpleForm>
   </Edit>
 );

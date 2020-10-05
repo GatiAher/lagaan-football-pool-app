@@ -1,5 +1,6 @@
 import React from "react";
-import { Create, SimpleForm, TextInput, NumberInput } from "react-admin";
+import { Create, SimpleForm, TextInput, SelectInput } from "react-admin";
+import weeks from "../weeks";
 
 const TeamCreate = (props) => (
   <Create {...props}>
@@ -7,26 +8,17 @@ const TeamCreate = (props) => (
       <TextInput source="id" />
       <TextInput source="mascotName" />
       <TextInput source="fullName" />
-      <NumberInput source="numOfWin" />
-      <NumberInput source="numOfLoss" />
-      <NumberInput source="numOfTie" />
-      <TextInput source="wk1" />
-      <TextInput source="wk2" />
-      <TextInput source="wk3" />
-      <TextInput source="wk4" />
-      <TextInput source="wk5" />
-      <TextInput source="wk6" />
-      <TextInput source="wk7" />
-      <TextInput source="wk8" />
-      <TextInput source="wk9" />
-      <TextInput source="wk10" />
-      <TextInput source="wk11" />
-      <TextInput source="wk12" />
-      <TextInput source="wk13" />
-      <TextInput source="wk14" />
-      <TextInput source="wk15" />
-      <TextInput source="wk16" />
-      <TextInput source="wk17" />
+      {weeks.map((weekId) => (
+        <SelectInput
+          source={weekId}
+          choices={[
+            { id: "win", name: "Win" },
+            { id: "loss", name: "Loss" },
+            { id: "tie", name: "Tie" },
+            { id: "default", name: "Default" },
+          ]}
+        />
+      ))}
     </SimpleForm>
   </Create>
 );
