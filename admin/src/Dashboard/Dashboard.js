@@ -18,9 +18,12 @@ import {
   Snackbar,
 } from "@material-ui/core";
 
-const callTable = (resource, endpoint, handleClick) => {
-  axios
-    .delete(`http://localhost:3001/${resource}/${endpoint}`)
+const errorSnackbarErrorColor = "#e57373";
+const callTable = (method, resource, endpoint, handleClick) => {
+  axios({
+    method,
+    url: `http://localhost:3001/${resource}/${endpoint}`,
+  })
     .then((response) => {
       handleClick(response.data.message, false);
     })
@@ -29,15 +32,44 @@ const callTable = (resource, endpoint, handleClick) => {
     });
 };
 
-const DangerButton = styled(Button)({
+const scoreColor = "#00BFFF";
+const NormalButton = styled(Button)({
   background: "white",
   borderRadius: 4,
-  color: "#cb2431",
+  color: scoreColor,
   "&:hover": {
-    backgroundColor: "#cb2431",
+    backgroundColor: scoreColor,
     color: "white",
   },
 });
+
+const dangerColor = "#cb2431";
+const DangerButton = styled(Button)({
+  background: "white",
+  borderRadius: 4,
+  color: dangerColor,
+  "&:hover": {
+    backgroundColor: dangerColor,
+    color: "white",
+  },
+});
+
+const ScoreOption = ({ resource, handleClick }) => (
+  <ListItem>
+    <ListItemText
+      primary={`Score ${resource}`}
+      secondary={`Calculate the score for all items in ${resource} table.`}
+    />
+    <ListItemSecondaryAction>
+      <NormalButton
+        variant="outlined"
+        onClick={() => {
+          callTable("get", "score", resource, handleClick);
+        }}
+      >{`Reset ${resource}`}</NormalButton>
+    </ListItemSecondaryAction>
+  </ListItem>
+);
 
 const ClearOption = ({ resource, handleClick }) => (
   <ListItem>
@@ -49,7 +81,7 @@ const ClearOption = ({ resource, handleClick }) => (
       <DangerButton
         variant="outlined"
         onClick={() => {
-          callTable(resource, "clear", handleClick);
+          callTable("delete", resource, "clear", handleClick);
         }}
       >{`Clear ${resource}`}</DangerButton>
     </ListItemSecondaryAction>
@@ -66,7 +98,7 @@ const ResetOption = ({ resource, handleClick }) => (
       <DangerButton
         variant="outlined"
         onClick={() => {
-          callTable(resource, "reset", handleClick);
+          callTable("delete", resource, "reset", handleClick);
         }}
       >{`Reset ${resource}`}</DangerButton>
     </ListItemSecondaryAction>
@@ -99,8 +131,13 @@ export default () => {
       <CardContent>
         You can create, read, update, and delete table data from here!
         <Box py={2}>
+          <Typography variant="h6">Score Calculation</Typography>
+          <List>
+            <ScoreOption resource="user" handleClick={handleClick} />
+            <ScoreOption resource="team" handleClick={handleClick} />
+          </List>
           <Typography variant="h6">Danger Zone</Typography>
-          <Box py={2} border={1} color="#cb2431" borderRadius={4}>
+          <Box border={1} color={dangerColor} borderRadius={4}>
             <List>
               <ResetOption resource="game" handleClick={handleClick} />
               <ResetOption resource="team" handleClick={handleClick} />
@@ -125,7 +162,7 @@ export default () => {
         ContentProps={
           isFail && {
             style: {
-              background: "#e57373",
+              background: errorSnackbarErrorColor,
             },
           }
         }
