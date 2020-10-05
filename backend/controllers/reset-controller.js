@@ -46,23 +46,23 @@ module.exports = function (TABLE) {
       updateRecord[`wk${i}A`] = null;
       updateRecord[`wk${i}B`] = null;
     }
-    knex("USER")
+    knex("User")
       .update(updateRecord)
       .then((numItems) => {
         res.json({
-          message: `USER: ${numItems} users reset.`,
+          message: `User: ${numItems} users reset.`,
         });
       })
       .catch((err) => {
         res.status(500).json({
-          message: `USER: there was an error updating users: ${err}`,
+          message: `User: there was an error updating users: ${err}`,
         });
       });
   };
 
-  if (TABLE == "GAME") module.resetTable = resetTableGame;
-  else if (TABLE == "TEAM") module.resetTable = resetTableTeam;
-  else if (TABLE == "USER") module.resetTable = resetTableUser;
+  if (TABLE == "Game") module.resetTable = resetTableGame;
+  else if (TABLE == "Team") module.resetTable = resetTableTeam;
+  else if (TABLE == "User") module.resetTable = resetTableUser;
 
   return module;
 };

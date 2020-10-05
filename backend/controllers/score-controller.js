@@ -1,76 +1,82 @@
 const knex = require("../db");
 const { STATUS_TO_POINTS } = require("../maps/scoreMap");
+const { WEEKS } = require("../maps/weeks");
 
-const updateTeamScore = async (team, status) => {
-  if (status === "win") {
-    await knex("Team").where("id", team).increment({
-      numOfWin: 1,
-    });
-  } else if (status === "tie") {
-    await knex("Team").where("id", team).increment({
-      numOfTie: 1,
-    });
-  } else if (status === "loss") {
-    await knex("Team").where("id", team).increment({
-      numOfLoss: 1,
-    });
+/**
+ * Recalculate user scores
+ */
+exports.recalculateUserScore = async (req, res) => {
+  const teams = await knex("Team");
+  const users = await knex("User");
+
+  // create map to easily access week status by team
+  const teamsMap = new Map();
+  for (let team of teams) {
+    teamsMap.set(team.id, team);
   }
+
+  // for each user, calculate its score
+  const promises = [];
+  for (let user of users) {
+    let score = 0;
+    let id = user.id;
+    for (let wk of WEEKS) {
+      if (user[`${wk}A`]) {
+        score += STATUS_TO_POINTS.get(teamsMap.get(user[`${wk}A`])[wk]);
+      }
+      if (user[`${wk}B`]) {
+        score += STATUS_TO_POINTS.get(teamsMap.get(user[`${wk}B`])[wk]);
+      }
+    }
+    console.log("user final score:", score);
+    // add this to an array of Promises
+    promises.push(knex("User").where("id", id).update("score", score));
+  }
+
+  // keep track of these to return in final message
+  const numTotalUsers = users.length;
+  const numOfUpdatedUsers = (await Promise.all(promises)).length;
+  res.json({
+    message: `User: ${numOfUpdatedUsers} / ${numTotalUsers} users scored.`,
+  });
 };
 
-const updateUserScore = async (team, status, week) => {
-  await knex("User")
-    .where(`wk${week}A`, team)
-    .orWhere(`wk${week}B`, team)
-    .increment({
-      score: STATUS_TO_POINTS.get(status),
-    });
-};
+/**
+ * Recalculate team win, loss, tie
+ */
+exports.recalculateTeamScore = async (req, res) => {
+  const teams = await knex("Team");
 
-const updateUserSelectionStatus = async (team, status, week, letter) => {
-  await knex("User")
-    .where(`wk${week}${letter}`, team)
-    .update({
-      [`sc${week}${letter}`]: status,
-    });
-};
-
-exports.updateScore = async (req, res) => {
-  const { id, visPts, homePts } = req.body;
-  let visStatus, homeStatus;
-  if (visPts > homePts) {
-    visStatus = "win";
-    homeStatus = "loss";
-  } else if (visPts < homePts) {
-    visStatus = "loss";
-    homeStatus = "win";
-  } else {
-    visStatus = "tie";
-    homeStatus = "tie";
+  // for each team, calculate its score
+  const promises = [];
+  for (let team of teams) {
+    let numOfWin = 0;
+    let numOfTie = 0;
+    let numOfLoss = 0;
+    let id = team.id;
+    for (let wk of WEEKS) {
+      let status = team[wk];
+      if (status == "win") numOfWin++;
+      else if (status == "tie") numOfTie++;
+      else if (status == "loss") numOfLoss++;
+    }
+    console.log("numOfWin", numOfWin);
+    console.log("numOfTie", numOfTie);
+    console.log("numOfLoss", numOfLoss);
+    // add this to an array of Promises
+    promises.push(
+      knex("Team").where("id", id).update({
+        numOfWin,
+        numOfTie,
+        numOfLoss,
+      })
+    );
   }
-  const [season, week, visTeam, homeTeam] = id.split("_");
-  try {
-    // update Game score
-    const numItem = await knex("Game").where("id", id).update({
-      visPts,
-      homePts,
-      visStatus: visStatus,
-      homeStatus: homeStatus,
-    });
 
-    if (numItem == 0) throw new Error("Game does not exist.");
-
-    // update Team score
-    await updateTeamScore(homeTeam, homeStatus);
-    await updateTeamScore(visTeam, visStatus);
-
-    // update User score
-    await updateUserScore(homeTeam, homeStatus, week);
-
-    // done
-    res.json({ message: `Game ${id} updated. User scores updated.` });
-  } catch (err) {
-    res.json({
-      message: `There was an error updating ${id} Game: ${err}`,
-    });
-  }
+  // keep track of these to return in final message
+  const numTotalTeams = teams.length;
+  const numOfUpdatedTeams = (await Promise.all(promises)).length;
+  res.json({
+    message: `Team: ${numOfUpdatedTeams} / ${numTotalTeams} items updated.`,
+  });
 };

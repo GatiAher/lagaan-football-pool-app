@@ -6,9 +6,9 @@ const cors = require("cors");
 const helmet = require("helmet");
 // Import routes
 const scoreRouter = require("./routes/score-route");
-const gameRouter = require("./routes/generic-route")("GAME");
-const teamRouter = require("./routes/generic-route")("TEAM");
-const userRouter = require("./routes/generic-route")("USER");
+const gameRouter = require("./routes/generic-route")("Game");
+const teamRouter = require("./routes/generic-route")("Team");
+const userRouter = require("./routes/generic-route")("User");
 // Set default port for express app
 const PORT = process.env.PORT || 3001;
 // Create express app

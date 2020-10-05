@@ -4,12 +4,17 @@ module.exports = function (TABLE) {
   const module = {};
 
   const getIdsFromQuery = (reqQuery) => {
-    let ids = [];
     if (reqQuery.filter) {
       const parsed = JSON.parse(reqQuery.filter);
-      if (parsed && parsed.id && parsed.id.length > 0) ids = parsed.id;
+      if (parsed && parsed.id) {
+        if (typeof parsed.id == "string") {
+          return [];
+        } else if (parsed.id.length > 0) {
+          return parsed.id;
+        }
+      }
     }
-    return ids;
+    return [];
   };
 
   const getIdFromParams = (reqParams) => {
@@ -67,14 +72,16 @@ module.exports = function (TABLE) {
         let responseData = data;
         if (req.query.range) {
           const parsed = JSON.parse(req.query.range);
-          const [startRange, endRange] = parsed;
-          if (startRange != undefined && endRange != undefined) {
-            responseData = data.slice(startRange, endRange);
-            res.set(
-              "Content-Range",
-              `item ${startRange}-${endRange}/${data.length}`
-            );
-            res.status(206);
+          if (parsed) {
+            const [startRange, endRange] = parsed;
+            if (startRange != undefined && endRange != undefined) {
+              responseData = data.slice(startRange, endRange);
+              res.set(
+                "Content-Range",
+                `item ${startRange}-${endRange}/${data.length}`
+              );
+              res.status(206);
+            }
           }
         }
         res.json(responseData);
