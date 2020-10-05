@@ -58,7 +58,7 @@ const ScoreOption = ({ resource, handleClick }) => (
   <ListItem>
     <ListItemText
       primary={`Score ${resource}`}
-      secondary={`Calculate the score for all items in ${resource} table.`}
+      secondary={`Re-calculate ${resource} scores.`}
     />
     <ListItemSecondaryAction>
       <NormalButton
@@ -75,7 +75,7 @@ const ClearOption = ({ resource, handleClick }) => (
   <ListItem>
     <ListItemText
       primary={`Clear ${resource}`}
-      secondary={`This will remove all items in the ${resource} table.`}
+      secondary={`Remove all ${resource}s.`}
     />
     <ListItemSecondaryAction>
       <DangerButton
@@ -92,7 +92,7 @@ const ResetOption = ({ resource, handleClick }) => (
   <ListItem>
     <ListItemText
       primary={`Reset ${resource}`}
-      secondary={`This will remove all season data from ${resource} table, replacing items if appropriate.`}
+      secondary={`Remove ${resource} season info.`}
     />
     <ListItemSecondaryAction>
       <DangerButton
@@ -132,6 +132,7 @@ export default () => {
         You can create, read, update, and delete table data from here!
         <Box py={2}>
           <Typography variant="h6">Score Calculation</Typography>
+          <Divider />
           <List>
             <ScoreOption resource="user" handleClick={handleClick} />
             <ScoreOption resource="team" handleClick={handleClick} />
