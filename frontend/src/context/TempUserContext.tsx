@@ -7,7 +7,7 @@ type ValueType = {
 
 const defaultValue = {
   username: "default",
-  user_id: "0",
+  user_id: "default",
 };
 
 type UserContextType = {

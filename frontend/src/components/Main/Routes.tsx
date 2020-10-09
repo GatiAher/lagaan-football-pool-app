@@ -2,7 +2,7 @@ import React from "react";
 import PageHeader from "../General/PageHeader";
 import Leaderboard from "../Leaderboard/Leaderboard";
 import PickTeam from "../PickTeam/PickTeam";
-import SeasonGame from "../SeasonGame/SeasonGame";
+import GameDisplay from "../GameDisplay/GameDisplay";
 import Admin from "../Admin/Admin";
 import Profile from "../Profile/Profile";
 
@@ -32,7 +32,7 @@ const NFLGamesPage: React.FC = () => {
   return (
     <div>
       <PageHeader>NFL Games</PageHeader>
-      <SeasonGame />
+      <GameDisplay />
     </div>
   );
 };
@@ -73,19 +73,19 @@ const Routes: IRoute[] = [
     path: "/rankings",
     sidebarName: "Rankings",
     component: RankingsPage,
-    private: true,
+    private: false,
   },
   {
     path: "/pick_sheet",
     sidebarName: "Pick Sheet",
     component: PickSheetPage,
-    private: true,
+    private: false,
   },
   {
     path: "/nfl_games",
     sidebarName: "NFL Games",
     component: NFLGamesPage,
-    private: true,
+    private: false,
   },
   {
     path: "/admin",

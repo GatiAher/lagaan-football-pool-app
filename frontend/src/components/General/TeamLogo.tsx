@@ -1,6 +1,4 @@
 import React from "react";
-import Box from "@material-ui/core/Box";
-import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import ARI from "../../assets/nfl-logos/ARI.png";
 import ATL from "../../assets/nfl-logos/ATL.png";
 import BAL from "../../assets/nfl-logos/BAL.png";
@@ -33,6 +31,7 @@ import SF from "../../assets/nfl-logos/SF.png";
 import TB from "../../assets/nfl-logos/TB.png";
 import TEN from "../../assets/nfl-logos/TEN.png";
 import WAS from "../../assets/nfl-logos/WAS.png";
+import BYE from "../../assets/football.jpg";
 
 const teamToLogoMap = new Map([
   ["ARI", ARI],
@@ -69,23 +68,22 @@ const teamToLogoMap = new Map([
   ["WAS", WAS],
 ]);
 
-const TeamLogo = ({ team }) => {
+const TeamLogo = ({ team }: { team: string | undefined }) => {
+  let alt = "BYE";
+  let src = BYE;
   if (team && team != "BYE1" && team != "BYE2") {
-    return (
-      <img
-        style={{
-          height: "40px",
-          width: "40px",
-        }}
-        src={teamToLogoMap.get(team)}
-        alt={team}
-      />
-    );
+    alt = team;
+    src = teamToLogoMap.get(team);
   }
   return (
-    <Box width="40px" height="40px" padding="auto">
-      <HighlightOffIcon color="disabled" />
-    </Box>
+    <img
+      style={{
+        height: "40px",
+        width: "40px",
+      }}
+      src={src}
+      alt={alt}
+    />
   );
 };
 

@@ -1,76 +1,41 @@
 import React from "react";
-import withWidth from "@material-ui/core/withWidth";
-import Box from "@material-ui/core/Box";
-import ListItem from "@material-ui/core/ListItem";
+
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
-import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
 
 import TeamLogo from "./TeamLogo";
-import { TEAM_ABBR_TO_MEDIUM } from "../../utils/constants/teams";
-import { TeamToWinLossMap } from "../../utils/types/TeamType";
+import TeamType from "../../utils/types/TeamType";
 
-interface TeamDisplayProps {
-  team: string;
-  teamWinLossMap: TeamToWinLossMap;
-}
-
-const TeamDisplayWide = (props: TeamDisplayProps) => {
+export default (props: {
+  team: TeamType | undefined;
+  width: "xs" | "sm" | "md" | "lg" | "xl";
+}) => {
+  let team = undefined;
+  let primaryText = "";
+  let secondaryText = "";
+  if (props.team != undefined) {
+    // set team
+    team = props.team.id;
+    // set primaryText
+    if (props.width === "xs") {
+      primaryText = props.team.id;
+    } else if (props.width === "sm" || props.width === "md") {
+      primaryText = `${props.team.id} ${props.team.mascotName}`;
+    } else {
+      primaryText = props.team.fullName;
+    }
+    // set secondaryText
+    if (props.team.id !== "BYE1" && props.team.id !== "BYE2") {
+      secondaryText = `${props.team.numOfWin}-${props.team.numOfLoss}-${props.team.numOfTie}`;
+    }
+  }
   return (
-    <ListItem color="inherit" button={false} style={{ padding: 0 }}>
+    <Box border={1} p={1} m={1} width="100%" display="flex" flexDirection="row">
       <ListItemAvatar>
-        <TeamLogo team={props.team} />
+        <TeamLogo team={team} />
       </ListItemAvatar>
-      <ListItemText
-        primary={TEAM_ABBR_TO_MEDIUM.get(props.team)}
-        secondary={
-          props.teamWinLossMap[props.team]
-            ? `${props.teamWinLossMap[props.team].numOfWin}-${
-                props.teamWinLossMap[props.team].numOfLoss
-              }`
-            : null
-        }
-      />
-    </ListItem>
-  );
-};
-
-const TeamDisplayTall = (props: TeamDisplayProps) => {
-  return (
-    <Box display="flex" flexDirection="column">
-      <Box m="auto">
-        <TeamLogo team={props.team} />
-      </Box>
-      <Box m="auto">{props.team}</Box>
-      {props.teamWinLossMap[props.team] && (
-        <Box m="auto">
-          <Typography color="inherit">
-            {`${props.teamWinLossMap[props.team].numOfWin}-${
-              props.teamWinLossMap[props.team].numOfLoss
-            }`}
-          </Typography>
-        </Box>
-      )}
+      <ListItemText primary={primaryText} secondary={secondaryText} />
     </Box>
   );
 };
-
-const TeamDisplay = (props: {
-  team: string;
-  teamWinLossMap: TeamToWinLossMap;
-  width: "xs" | "sm" | "md" | "lg" | "xl";
-}) => {
-  if (props.width === "xs" || props.width === "sm") {
-    return (
-      <TeamDisplayTall
-        team={props.team}
-        teamWinLossMap={props.teamWinLossMap}
-      />
-    );
-  }
-  return (
-    <TeamDisplayWide team={props.team} teamWinLossMap={props.teamWinLossMap} />
-  );
-};
-
-export default withWidth()(TeamDisplay);

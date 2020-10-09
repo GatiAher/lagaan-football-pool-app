@@ -2,9 +2,9 @@ import axios from "axios";
 
 import React, { useEffect, useState, useCallback } from "react";
 
-import LeaderboardList from "./LeaderboardList";
+// import LeaderboardList from "./LeaderboardList";
 
-import fetchTeamWinLossMap from "../../utils/api-handlers/fetchTeamWinLossMap";
+import fetchTeamWinLossMap from "../../utils/api-handlers/fetchTeamMap";
 
 const fetchUsers = async (callback: (arg0: any) => void) => {
   const query = {
@@ -26,7 +26,7 @@ const Leaderboard = () => {
   const [loadingUsers, setLoadingUsers] = useState(true);
   const [users, setUsers] = useState([]);
 
-  const [loadingTeamWinLossMap, setLoadingTeamWinLossMap] = useState(true);
+  const [loadingTeamMap, setLoadingTeamWinLossMap] = useState(true);
   const [teamWinLossMap, setTeamWinLossMap] = useState({});
 
   // Fetch on initial render
@@ -41,13 +41,12 @@ const Leaderboard = () => {
     });
   }, []);
 
-  return (
-    <LeaderboardList
-      users={users}
-      teamWinLossMap={teamWinLossMap}
-      loading={loadingUsers || loadingTeamWinLossMap}
-    />
-  );
+  return null;
+  // <LeaderboardList
+  //   users={users}
+  //   teamWinLossMap={teamWinLossMap}
+  //   loading={loadingUsers || loadingTeamWinLossMap}
+  // />
 };
 
 export default Leaderboard;

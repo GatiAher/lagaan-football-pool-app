@@ -1,6 +1,7 @@
 import axios from "axios";
+import GameType from "../types/GameType";
 
-const fetchGames = async (week: number, callback: (arg0: any) => void) => {
+export default (week: number, callback: (arg0: GameType[]) => void) => {
   const query = {
     sort: JSON.stringify(["startTime", "asc"]),
     filter: JSON.stringify({ week: week }),
@@ -16,5 +17,3 @@ const fetchGames = async (week: number, callback: (arg0: any) => void) => {
       );
     });
 };
-
-export default fetchGames;

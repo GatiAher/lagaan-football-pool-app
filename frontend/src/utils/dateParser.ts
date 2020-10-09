@@ -1,12 +1,12 @@
 import { DAYS } from "./constants/date-format";
 
 interface IDate {
-  day?: string;
-  date?: string;
-  time?: string;
+  dateString: string;
+  isOver: boolean;
 }
 
-const dateParser = (miliseconds: number): IDate => {
+export default (miliseconds: number): IDate => {
+  const isOver = Date.now() > miliseconds;
   const dateObj = new Date(miliseconds);
   const day = DAYS.get(dateObj.getDay());
   const yearRegex = /(\/[^/]+$)/;
@@ -14,10 +14,7 @@ const dateParser = (miliseconds: number): IDate => {
   const secondsRegex = /(:[\d]+ )/;
   const time = dateObj.toLocaleTimeString().replace(secondsRegex, " ");
   return {
-    day,
-    date,
-    time,
+    dateString: `${day} ${date}, ${time}`,
+    isOver,
   };
 };
-
-export default dateParser;

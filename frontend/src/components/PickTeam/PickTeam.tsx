@@ -2,123 +2,146 @@ import axios from "axios";
 import { pickBy, omit, startsWith } from "lodash";
 
 import React, { useEffect, useState, useCallback } from "react";
-import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import withWidth from "@material-ui/core/withWidth";
 
+import LinearProgress from "@material-ui/core/LinearProgress";
+import Snackbar from "@material-ui/core/Snackbar";
+
+import Box from "@material-ui/core/Box";
+import GridList from "@material-ui/core/GridList";
+import GridListTile from "@material-ui/core/GridListTile";
+import Button from "@material-ui/core/Button";
+
+import getCurrentWeek from "../../utils/getCurrentWeek";
 import WeekPicker from "../General/WeekPicker";
 
-import PickTeamSection from "./PickTeamSection";
-import PickByeSection from "./PickByeSection";
-
 import fetchGames from "../../utils/api-handlers/fetchGames";
-import fetchTeamWinLossMap from "../../utils/api-handlers/fetchTeamWinLossMap";
-import getCurrentWeek from "../../utils/getCurrentWeek";
+import GameType from "../../utils/types/GameType";
 
+import fetchTeamMap from "../../utils/api-handlers/fetchTeamMap";
+import TeamType from "../../utils/types/TeamType";
+
+import UserType from "../../utils/types/UserType";
 import { useUser } from "../../context/TempUserContext";
 
-const fetchUserData = async (
-  id: string,
-  week: number,
-  setSelectionA: (arg0: string) => void,
-  setSelectionB: (arg0: string) => void,
-  setSavedSelections: (arg0: any) => void,
-  setLoading: (arg0: boolean) => void
-) => {
+import SelectionButton from "./SelectionButton";
+import TeamDisplay from "../General/TeamDisplay";
+import DateTag from "../General/DateTag";
+import dateParser from "../../utils/dateParser";
+
+const fetchUserData = (id: string, callback: (arg0: UserType[]) => void) => {
   axios
     .get(`/user/${id}`)
     .then((response) => {
-      const userData = response.data[0];
-      const nameA = `wk${week}A`;
-      const nameB = `wk${week}B`;
-      if (userData[nameA] !== null) {
-        setSelectionA(userData[nameA]);
-      }
-      if (userData[nameB] !== null) {
-        setSelectionB(userData[nameB]);
-      }
-      let teamSelections = pickBy(userData, (value, key) =>
-        startsWith(key, "wk")
-      );
-      teamSelections = omit(teamSelections, [nameA, nameB]);
-      const teamSelectionsList = Object.values(teamSelections);
-      setSavedSelections(teamSelectionsList);
-      setLoading(false);
+      callback(response.data);
     })
     .catch((error) => {
       console.error(
-        `Encountered an error while getting the user data: ${error}`
+        `Encountered an error while retrieving the user data: ${error}`
       );
     });
 };
 
-const putUserSelections = async (
+const putUserSelections = (
   id: string,
-  week: number,
-  selectionA: string,
-  selectionB: string,
-  setSubmissionMessage: (arg0: string) => void
+  body: any,
+  callback: (arg0: any, arg1: boolean) => void
 ) => {
   axios
-    .put(`/user/${id}`, {
-      [`wk${week}A`]: selectionA,
-      [`wk${week}B`]: selectionB,
-    })
+    .put(`/user/${id}`, body)
     .then((response) => {
-      setSubmissionMessage(response.data.message);
+      callback(response.data.message, false);
     })
     .catch((error) => {
-      console.error(
-        `Encountered an error while submitting the user selections: ${error}`
-      );
+      callback(JSON.stringify(error), true);
     });
 };
 
-const PickTeam = () => {
-  const { user } = useUser();
+const PickTeam = (props: { width: "xs" | "sm" | "md" | "lg" | "xl" }) => {
   const [week, setWeek] = useState(getCurrentWeek());
 
-  const [loadingGames, setLoadingGames] = useState(true);
-  const [games, setGames] = useState([]);
+  const [games, setGames] = useState<GameType[]>([]);
+  const [isLoadedGame, setIsLoadedGames] = useState(false);
 
-  const [loadingTeamWinLossMap, setLoadingTeamWinLossMap] = useState(true);
-  const [teamWinLossMap, setTeamWinLossMap] = useState({});
+  const [teamMap, setTeamMap] = useState(new Map<string, TeamType>());
+  const [isLoadedTeamMap, setIsLoadedTeamMap] = useState(false);
 
-  const [loadingUserData, setLoadingUserData] = useState(true);
-  const [savedSelections, setSavedSelections] = useState([]);
+  const { user } = useUser();
+  console.log("User", user);
+  const [savedSelections, setSavedSelections] = useState<
+    (string | number | undefined)[]
+  >([]);
   const [selectionA, setSelectionA] = useState("");
   const [selectionB, setSelectionB] = useState("");
-  const [submissionMessage, setSubmissionMessage] = useState("");
+  const [isLoadedUser, setIsLoadedUser] = useState(true);
+
+  // Snackbar
+
+  const errorSnackbarErrorColor = "#e57373";
+  const [open, setOpen] = React.useState(false);
+  const [isFail, setFail] = React.useState(false);
+  const [snackBarMessage, setSnackBarMessage] = React.useState("");
+
+  const handleClick = (message: string, failValue: boolean) => {
+    setSnackBarMessage(message);
+    setFail(failValue);
+    setOpen(true);
+  };
+
+  const handleClose = (event: any, reason: string) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+    setFail(false);
+    setSnackBarMessage("");
+  };
+
+  const width = props.width;
 
   const putUserSelectionsCallback = useCallback(() => {
-    putUserSelections(
-      user.user_id,
-      week,
-      selectionA,
-      selectionB,
-      setSubmissionMessage
-    );
+    const body = {
+      [`wk${week}A`]: selectionA,
+      [`wk${week}B`]: selectionB,
+    };
+    putUserSelections(user.user_id, body, handleClick);
   }, [user.user_id, week, selectionA, selectionB]);
 
   // Fetch on initial render
   useEffect(() => {
     setSelectionA("");
     setSelectionB("");
-    fetchUserData(
-      user.user_id,
-      week,
-      setSelectionA,
-      setSelectionB,
-      setSavedSelections,
-      setLoadingUserData
-    );
+    fetchUserData(user.user_id, (data) => {
+      const getKeyValue = <T, K extends keyof T>(obj: T, key: K): T[K] =>
+        obj[key];
+      const userData = data[0];
+      // @ts-ignore
+      const teamA = getKeyValue(userData, `wk${week}A`);
+      // @ts-ignore
+      const teamB = getKeyValue(userData, `wk${week}B`);
+      let teamSelections = pickBy(userData, (value, key) =>
+        startsWith(key, "wk")
+      );
+      // set already picked teams
+      teamSelections = omit(teamSelections, [`wk${week}A`, `wk${week}B`]);
+      const teamSelectionsList = Object.values(teamSelections);
+      setSavedSelections(teamSelectionsList);
+      // set changable picks
+      if (typeof teamA === "string") {
+        setSelectionA(teamA);
+      }
+      if (typeof teamB === "string") {
+        setSelectionB(teamB);
+      }
+      setIsLoadedUser(true);
+    });
     fetchGames(week, (data) => {
       setGames(data);
-      setLoadingGames(false);
+      setIsLoadedGames(true);
     });
-    fetchTeamWinLossMap((data) => {
-      setTeamWinLossMap(data);
-      setLoadingTeamWinLossMap(false);
+    fetchTeamMap((data) => {
+      setTeamMap(data);
+      setIsLoadedTeamMap(true);
     });
   }, [user.user_id, week]);
 
@@ -138,32 +161,84 @@ const PickTeam = () => {
     return team === selectionA || team === selectionB;
   };
 
-  const isTwoTeamSelected = (): boolean => {
+  const AreTwoTeamsSelected = (): boolean => {
     return selectionA !== "" && selectionB !== "";
   };
 
   return (
     <Box>
       <WeekPicker week={week} setWeek={setWeek} />
-      <PickTeamSection
-        loading={loadingUserData || loadingTeamWinLossMap || loadingGames}
-        games={games}
-        teamWinLossMap={teamWinLossMap}
-        savedSelections={savedSelections}
-        handleTeamSelect={handleTeamSelect}
-        isTeamSelected={isTeamSelected}
-        isTwoTeamSelected={isTwoTeamSelected}
-      />
-      <PickByeSection
-        loading={loadingUserData || loadingTeamWinLossMap}
-        week={week}
-        savedSelections={savedSelections}
-        setSelectionA={setSelectionA}
-        setSelectionB={setSelectionB}
-        handleTeamSelect={handleTeamSelect}
-        isTeamSelected={isTeamSelected}
-        isTwoTeamSelected={isTwoTeamSelected}
-      />
+      <Box pb={2}>
+        {isLoadedGame && isLoadedTeamMap && isLoadedUser ? (
+          <GridList cellHeight={"auto"} cols={1}>
+            {games.map((game) => {
+              const { dateString, isOver } = dateParser(game.startTime);
+              const statusString = isOver ? "CLOSED" : "OPEN";
+              return (
+                <GridListTile key={game.id}>
+                  <DateTag
+                    firstString={dateString}
+                    secondString={statusString}
+                  />
+                  <Box display="flex" flexDirection="row">
+                    <SelectionButton
+                      team={game.homeTeam}
+                      disabled={isOver}
+                      savedSelections={savedSelections}
+                      handleTeamSelect={handleTeamSelect}
+                      isTeamSelected={isTeamSelected}
+                      AreTwoTeamsSelected={AreTwoTeamsSelected}
+                    >
+                      <TeamDisplay
+                        width={width}
+                        team={teamMap.get(game.homeTeam)}
+                      />
+                    </SelectionButton>
+                    <SelectionButton
+                      team={game.visTeam}
+                      disabled={isOver}
+                      savedSelections={savedSelections}
+                      handleTeamSelect={handleTeamSelect}
+                      isTeamSelected={isTeamSelected}
+                      AreTwoTeamsSelected={AreTwoTeamsSelected}
+                    >
+                      <TeamDisplay
+                        width={width}
+                        team={teamMap.get(game.visTeam)}
+                      />
+                    </SelectionButton>
+                  </Box>
+                </GridListTile>
+              );
+            })}
+            <DateTag firstString={"bye"} secondString={"bye"} />
+            <Box display="flex" flexDirection="row">
+              <SelectionButton
+                team="BYE1"
+                disabled={week < 4 || week > 12}
+                savedSelections={savedSelections}
+                handleTeamSelect={handleTeamSelect}
+                isTeamSelected={isTeamSelected}
+                AreTwoTeamsSelected={AreTwoTeamsSelected}
+              >
+                <TeamDisplay width={width} team={teamMap.get("BYE1")} />
+              </SelectionButton>
+              <SelectionButton
+                team={"BYE2"}
+                disabled={week < 4 || week > 12}
+                savedSelections={savedSelections}
+                handleTeamSelect={handleTeamSelect}
+                isTeamSelected={isTeamSelected}
+                AreTwoTeamsSelected={AreTwoTeamsSelected}
+              >
+                <TeamDisplay width={width} team={teamMap.get("BYE2")} />
+              </SelectionButton>
+            </Box>
+          </GridList>
+        ) : (
+          <LinearProgress />
+        )}
+      </Box>
       <Button
         fullWidth
         variant="contained"
@@ -173,9 +248,26 @@ const PickTeam = () => {
       >
         {`Pick: ${selectionA} ${selectionB}`}
       </Button>
-      <h1>{submissionMessage}</h1>
+      <Snackbar
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+        open={open}
+        autoHideDuration={3000}
+        onClose={handleClose}
+        message={snackBarMessage}
+        // @ts-ignore
+        ContentProps={
+          isFail && {
+            style: {
+              background: errorSnackbarErrorColor,
+            },
+          }
+        }
+      />
     </Box>
   );
 };
 
-export default PickTeam;
+export default withWidth()(PickTeam);

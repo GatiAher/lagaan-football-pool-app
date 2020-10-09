@@ -1,6 +1,5 @@
 import React from "react";
 import Button, { ButtonProps } from "@material-ui/core/Button";
-import { Box } from "@material-ui/core";
 
 type SelectionButtonProps = {
   team: string;
@@ -8,7 +7,7 @@ type SelectionButtonProps = {
   savedSelections: any;
   handleTeamSelect: (team: string) => void;
   isTeamSelected: (team: string) => boolean;
-  isTwoTeamSelected: () => boolean;
+  AreTwoTeamsSelected: () => boolean;
 };
 
 const SelectionButton: React.FC<SelectionButtonProps> = ({
@@ -18,22 +17,23 @@ const SelectionButton: React.FC<SelectionButtonProps> = ({
   savedSelections,
   handleTeamSelect,
   isTeamSelected,
-  isTwoTeamSelected,
+  AreTwoTeamsSelected,
 }) => {
   let disabledVal = disabled;
-  let variant: ButtonProps["variant"] = "outlined";
+  let variant: ButtonProps["variant"] = "text";
   if (isTeamSelected(team)) {
     variant = "contained";
   } else if (savedSelections.includes(team)) {
     disabledVal = true;
-  } else if (isTwoTeamSelected()) {
+  } else if (AreTwoTeamsSelected()) {
     disabledVal = true;
   }
   return (
     <Button
       style={{
-        maxWidth: "40%",
-        minWidth: "40%",
+        maxWidth: "50%",
+        minWidth: "50%",
+        padding: 0,
       }}
       color="secondary"
       variant={variant}
