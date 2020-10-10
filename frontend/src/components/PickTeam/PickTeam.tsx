@@ -28,6 +28,7 @@ import SelectionButton from "./SelectionButton";
 import TeamDisplay from "../General/TeamDisplay";
 import DateTag from "../General/DateTag";
 import dateParser from "../../utils/dateParser";
+import { BYE_WEEK_START, BYE_WEEK_END } from "../../utils/constants/bye-week";
 
 const fetchUserData = (id: string, callback: (arg0: UserType[]) => void) => {
   axios
@@ -211,29 +212,44 @@ const PickTeam = (props: { width: "xs" | "sm" | "md" | "lg" | "xl" }) => {
                 </GridListTile>
               );
             })}
-            <DateTag firstString={"bye"} secondString={"bye"} />
-            <Box display="flex" flexDirection="row">
-              <SelectionButton
-                team="BYE1"
-                disabled={week < 4 || week > 12}
-                savedSelections={savedSelections}
-                handleTeamSelect={handleTeamSelect}
-                isTeamSelected={isTeamSelected}
-                AreTwoTeamsSelected={AreTwoTeamsSelected}
-              >
-                <TeamDisplay width={width} team={teamMap.get("BYE1")} />
-              </SelectionButton>
-              <SelectionButton
-                team={"BYE2"}
-                disabled={week < 4 || week > 12}
-                savedSelections={savedSelections}
-                handleTeamSelect={handleTeamSelect}
-                isTeamSelected={isTeamSelected}
-                AreTwoTeamsSelected={AreTwoTeamsSelected}
-              >
-                <TeamDisplay width={width} team={teamMap.get("BYE2")} />
-              </SelectionButton>
-            </Box>
+            {(week < BYE_WEEK_END || week > BYE_WEEK_START) && (
+              <div>
+                <DateTag
+                  firstString={`Use By Week ${BYE_WEEK_END}`}
+                  secondString={"OPEN"}
+                />
+                <Box display="flex" flexDirection="row">
+                  <SelectionButton
+                    team="BYE1"
+                    disabled={false}
+                    savedSelections={savedSelections}
+                    handleTeamSelect={handleTeamSelect}
+                    isTeamSelected={isTeamSelected}
+                    AreTwoTeamsSelected={AreTwoTeamsSelected}
+                  >
+                    <TeamDisplay
+                      width={width}
+                      team={teamMap.get("BYE1")}
+                      showCounts={false}
+                    />
+                  </SelectionButton>
+                  <SelectionButton
+                    team={"BYE2"}
+                    disabled={false}
+                    savedSelections={savedSelections}
+                    handleTeamSelect={handleTeamSelect}
+                    isTeamSelected={isTeamSelected}
+                    AreTwoTeamsSelected={AreTwoTeamsSelected}
+                  >
+                    <TeamDisplay
+                      width={width}
+                      team={teamMap.get("BYE2")}
+                      showCounts={false}
+                    />
+                  </SelectionButton>
+                </Box>
+              </div>
+            )}
           </GridList>
         ) : (
           <LinearProgress />

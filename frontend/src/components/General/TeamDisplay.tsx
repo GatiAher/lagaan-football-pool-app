@@ -7,33 +7,38 @@ import Box from "@material-ui/core/Box";
 import TeamLogo from "./TeamLogo";
 import TeamType from "../../utils/types/TeamType";
 
-export default (props: {
+export default ({
+  team,
+  width,
+  showCounts = true,
+}: {
   team: TeamType | undefined;
   width: "xs" | "sm" | "md" | "lg" | "xl";
+  showCounts?: boolean;
 }) => {
-  let team = undefined;
+  let name = undefined;
   let primaryText = "";
   let secondaryText = "";
-  if (props.team != undefined) {
+  if (team != undefined) {
     // set team
-    team = props.team.id;
+    name = team.id;
     // set primaryText
-    if (props.width === "xs") {
-      primaryText = props.team.id;
-    } else if (props.width === "sm" || props.width === "md") {
-      primaryText = `${props.team.id} ${props.team.mascotName}`;
+    if (width === "xs") {
+      primaryText = team.id;
+    } else if (width === "sm") {
+      primaryText = `${team.id} ${team.mascotName}`;
     } else {
-      primaryText = props.team.fullName;
+      primaryText = team.fullName;
     }
     // set secondaryText
-    if (props.team.id !== "BYE1" && props.team.id !== "BYE2") {
-      secondaryText = `${props.team.numOfWin}-${props.team.numOfLoss}-${props.team.numOfTie}`;
+    if (showCounts) {
+      secondaryText = `${team.numOfWin}-${team.numOfLoss}-${team.numOfTie}`;
     }
   }
   return (
     <Box border={1} p={1} m={1} width="100%" display="flex" flexDirection="row">
       <ListItemAvatar>
-        <TeamLogo team={team} />
+        <TeamLogo team={name} />
       </ListItemAvatar>
       <ListItemText primary={primaryText} secondary={secondaryText} />
     </Box>

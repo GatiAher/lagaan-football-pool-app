@@ -11,7 +11,10 @@ const UserCreate = (props) => (
       <TextInput source="firstName" />
       <TextInput source="lastName" />
       {weeks.map((weekId) => (
-        <SelectInput source={weekId} choices={teamChoices} />
+        <div>
+          <SelectInput source={`${weekId}A`} choices={teamChoices} />
+          <SelectInput source={`${weekId}B`} choices={teamChoices} />
+        </div>
       ))}
     </SimpleForm>
   </Create>

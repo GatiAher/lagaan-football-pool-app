@@ -131,4 +131,12 @@ export default [
     id: "WAS",
     name: "Washington Football Team",
   },
+  {
+    id: "BYE1",
+    name: "Bye 1",
+  },
+  {
+    id: "BYE2",
+    name: "Bye 2",
+  },
 ];

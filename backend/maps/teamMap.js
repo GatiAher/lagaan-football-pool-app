@@ -159,4 +159,14 @@ exports.TEAMS = [
     mascotName: "Washington",
     fullName: "Washington Football Team",
   },
+  {
+    id: "BYE1",
+    mascotName: "Bye 1",
+    fullName: "Bye 1",
+  },
+  {
+    id: "BYE2",
+    mascotName: "Bye 2",
+    fullName: "Bye 2",
+  },
 ];

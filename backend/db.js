@@ -98,6 +98,9 @@ knex.schema
           table.string("firstName").notNullable();
           table.string("lastName").notNullable();
           table.integer("rank");
+          table.integer("numOfWin").defaultTo(0);
+          table.integer("numOfLoss").defaultTo(0);
+          table.integer("numOfTie").defaultTo(0);
           table.integer("score").defaultTo(0);
           table.string("wk1A");
           table.string("wk1B");

@@ -66,7 +66,7 @@ const ScoreOption = ({ resource, handleClick }) => (
         onClick={() => {
           callTable("get", "score", resource, handleClick);
         }}
-      >{`Reset ${resource}`}</NormalButton>
+      >{`Score ${resource}`}</NormalButton>
     </ListItemSecondaryAction>
   </ListItem>
 );
