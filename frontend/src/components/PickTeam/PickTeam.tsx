@@ -74,7 +74,7 @@ const PickTeam = (props: { width: "xs" | "sm" | "md" | "lg" | "xl" }) => {
   >([]);
   const [selectionA, setSelectionA] = useState("");
   const [selectionB, setSelectionB] = useState("");
-  const [isLoadedUser, setIsLoadedUser] = useState(true);
+  const [isLoadedUser, setIsLoadedUser] = useState(false);
 
   // Snackbar
 

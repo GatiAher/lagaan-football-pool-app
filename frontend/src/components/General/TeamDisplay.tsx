@@ -11,10 +11,12 @@ export default ({
   team,
   width,
   showCounts = true,
+  border = 1,
 }: {
   team: TeamType | undefined;
   width: "xs" | "sm" | "md" | "lg" | "xl";
   showCounts?: boolean;
+  border?: number;
 }) => {
   let name = undefined;
   let primaryText = "";
@@ -36,7 +38,14 @@ export default ({
     }
   }
   return (
-    <Box border={1} p={1} m={1} width="100%" display="flex" flexDirection="row">
+    <Box
+      border={border}
+      p={1}
+      m={1}
+      width="100%"
+      display="flex"
+      flexDirection="row"
+    >
       <ListItemAvatar>
         <TeamLogo team={name} />
       </ListItemAvatar>
