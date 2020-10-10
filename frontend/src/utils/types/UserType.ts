@@ -4,6 +4,9 @@ export default interface UserType {
   firstName: string;
   lastName: string;
   rank: number;
+  numOfWin: number
+  numOfLoss: number
+  numOfTie: number
   score: number;
   wk1A: string;
   wk1B: string;
