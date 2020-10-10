@@ -20,9 +20,7 @@ import UserType from "../../utils/types/UserType";
 import fetchTeamMap from "../../utils/api-handlers/fetchTeamMap";
 import TeamType from "../../utils/types/TeamType";
 import { TEAMS } from "../../utils/constants/teams";
-
 import TeamDisplay from "../General/TeamDisplay";
-import { colors } from "@material-ui/core";
 
 const fetchUsers = async (callback: (arg0: any) => void) => {
   const query = {
@@ -75,14 +73,12 @@ const RemainingTeams = ({
   );
 };
 
-const Leaderboard = (props: { width: "xs" | "sm" | "md" | "lg" | "xl" }) => {
+const Leaderboard = () => {
   const [users, setUsers] = useState<UserType[]>([]);
   const [isLoadedUsers, setIsLoadedUsers] = useState(false);
 
   const [teamMap, setTeamMap] = useState(new Map<string, TeamType>());
   const [isLoadedTeamMap, setIsLoadedTeamMap] = useState(false);
-
-  const width = props.width;
 
   // Fetch on initial render
   useEffect(() => {
@@ -99,10 +95,8 @@ const Leaderboard = (props: { width: "xs" | "sm" | "md" | "lg" | "xl" }) => {
   const currentWeek = getCurrentWeek();
   const columnLabels = [
     { title: "rank", field: "rank" },
-    { title: "name", field: "name" },
-    { title: "win", field: "numOfWin" },
-    { title: "loss", field: "numOfLoss" },
-    { title: "tie", field: "numOfTie" },
+    { title: "name" },
+    { title: "W-L-T" },
     { title: `week ${currentWeek - 1}`, field: `wk${currentWeek - 1}A` },
     { title: `week ${currentWeek - 1}`, field: `wk${currentWeek - 1}B` },
     { title: "score", field: "score" },
@@ -113,6 +107,13 @@ const Leaderboard = (props: { width: "xs" | "sm" | "md" | "lg" | "xl" }) => {
       {isLoadedUsers && isLoadedTeamMap ? (
         <MaterialTable
           title="Users"
+          options={{
+            exportButton: true,
+            headerStyle: {
+              backgroundColor: "#01579b",
+              color: "#FFF",
+            },
+          }}
           // @ts-ignore
           columns={columnLabels.map((col) => {
             if (
@@ -126,29 +127,37 @@ const Leaderboard = (props: { width: "xs" | "sm" | "md" | "lg" | "xl" }) => {
                   let selection = rowData[col.field]
                     ? rowData[col.field]
                     : "empty";
-                  return <Box>{selection}</Box>;
-                },
-              };
-            } else if (col.field == "name") {
-              return {
-                title: col.title,
-                field: col.field,
-                render: (rowData) => {
                   return (
-                    <Box>{`${rowData.firstName} ${rowData.lastName}`}</Box>
+                    <TeamDisplay
+                      width="xs"
+                      team={teamMap.get(selection)}
+                      border={1}
+                    />
                   );
                 },
               };
+            } else if (col.title == "name") {
+              return {
+                title: col.title,
+                field: "firstName",
+                render: (rowData) => {
+                  return `${rowData.firstName} ${rowData.lastName}`;
+                },
+              };
+            } else if (col.title == "W-L-T") {
+              return {
+                title: col.title,
+                render: (rowData) => {
+                  return `${rowData.numOfWin}-${rowData.numOfLoss}-${rowData.numOfTie}`;
+                },
+              };
             }
-            return {
-              title: col.title,
-              field: col.field,
-            };
+            return col;
           })}
           data={users}
           detailPanel={(rowData) => {
             return (
-              <Box bgcolor="white" p={2}>
+              <Box p={2}>
                 <RemainingTeams rowData={rowData} teamMap={teamMap} />
               </Box>
             );
