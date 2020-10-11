@@ -13,6 +13,7 @@ import {
   MenuList,
   MenuItem,
   ListItemText,
+  Box,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 
@@ -29,20 +30,11 @@ const AuthNav = () => {
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      flexGrow: 1,
-    },
     menuButton: {
       marginRight: theme.spacing(2),
     },
-    title: {
-      flexGrow: 1,
-    },
     drawer: {
       width: 300,
-    },
-    fullList: {
-      width: "auto",
     },
   })
 );
@@ -74,7 +66,7 @@ const NavigationBar: React.FC<RouteComponentProps> = ({
 
   return (
     <div>
-      <div className={classes.root}>
+      <Box flexGrow={1}>
         <AppBar position="static">
           <Toolbar>
             <IconButton
@@ -86,20 +78,20 @@ const NavigationBar: React.FC<RouteComponentProps> = ({
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" className={classes.title}>
-              Football Almanac
-            </Typography>
+            <Box flexGrow={1}>
+              <Typography variant="h6">Football Almanac</Typography>
+            </Box>
             <AuthNav />
           </Toolbar>
         </AppBar>
-      </div>
+      </Box>
       <Drawer
         classes={{ paper: classes.drawer }}
         open={isOpen}
         onClose={toggleDrawer(false)}
       >
-        <div
-          className={classes.fullList}
+        <Box
+          width="auto"
           role="presentation"
           onClick={toggleDrawer(false)}
           onKeyDown={toggleDrawer(false)}
@@ -119,7 +111,7 @@ const NavigationBar: React.FC<RouteComponentProps> = ({
               );
             })}
           </MenuList>
-        </div>
+        </Box>
       </Drawer>
     </div>
   );
