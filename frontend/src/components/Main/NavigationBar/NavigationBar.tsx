@@ -89,6 +89,7 @@ const NavigationBar: React.FC<RouteComponentProps> = ({
             <Typography variant="h6" className={classes.title}>
               Football Almanac
             </Typography>
+            <AuthNav />
           </Toolbar>
         </AppBar>
       </div>
@@ -117,7 +118,6 @@ const NavigationBar: React.FC<RouteComponentProps> = ({
                 </NavLink>
               );
             })}
-            <AuthNav />
           </MenuList>
         </div>
       </Drawer>
