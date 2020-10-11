@@ -1,8 +1,8 @@
 import React from "react";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+
+import LinearProgress from "@material-ui/core/LinearProgress";
+
 import Container from "@material-ui/core/Container";
-import Box from "@material-ui/core/Box";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 import { Switch, Route } from "react-router-dom";
 import Routes, { IRoute } from "./Routes";
@@ -13,28 +13,16 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 // import TempUserDisplay from "./TempUserDisplay";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    mainContainer: {
-      margin: theme.spacing(3),
-    },
-  })
-);
-
 const Main: React.FC = () => {
-  const classes = useStyles();
   const { isLoading } = useAuth0();
-
-  if (isLoading) {
-    return <CircularProgress />;
-  }
 
   return (
     <div>
       <NavigationBar />
-      {/* <TempUserDisplay /> */}
-      <Container maxWidth="md">
-        <Box className={classes.mainContainer}>
+      {isLoading ? (
+        <LinearProgress />
+      ) : (
+        <Container maxWidth="md">
           <Switch>
             {Routes.map((route: IRoute) => {
               if (route.private) {
@@ -55,8 +43,8 @@ const Main: React.FC = () => {
               }
             })}
           </Switch>
-        </Box>
-      </Container>
+        </Container>
+      )}
     </div>
   );
 };

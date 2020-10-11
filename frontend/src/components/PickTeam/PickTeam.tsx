@@ -227,11 +227,7 @@ const PickTeam = (props: { width: "xs" | "sm" | "md" | "lg" | "xl" }) => {
                     isTeamSelected={isTeamSelected}
                     AreTwoTeamsSelected={AreTwoTeamsSelected}
                   >
-                    <TeamDisplay
-                      width={width}
-                      team={teamMap.get("BYE1")}
-                      showCounts={false}
-                    />
+                    <TeamDisplay width={width} team={teamMap.get("BYE1")} />
                   </SelectionButton>
                   <SelectionButton
                     team={"BYE2"}
@@ -241,11 +237,7 @@ const PickTeam = (props: { width: "xs" | "sm" | "md" | "lg" | "xl" }) => {
                     isTeamSelected={isTeamSelected}
                     AreTwoTeamsSelected={AreTwoTeamsSelected}
                   >
-                    <TeamDisplay
-                      width={width}
-                      team={teamMap.get("BYE2")}
-                      showCounts={false}
-                    />
+                    <TeamDisplay width={width} team={teamMap.get("BYE2")} />
                   </SelectionButton>
                 </Box>
               </div>

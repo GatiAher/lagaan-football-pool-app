@@ -33,7 +33,7 @@ export default ({
       primaryText = team.fullName;
     }
     // set secondaryText
-    if (showCounts) {
+    if (showCounts && name != "BYE1" && name != "BYE2") {
       secondaryText = `${team.numOfWin}-${team.numOfLoss}-${team.numOfTie}`;
     }
   }
