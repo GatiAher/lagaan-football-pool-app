@@ -1,18 +1,42 @@
-import React, { useState } from "react";
+import React from "react";
+import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
+
 import { BrowserRouter } from "react-router-dom";
+
 import Main from "./components/Main/MainPanel";
 import Auth0ProviderWithHistory from "./utils/auth0-provider-with-history";
 import { UserProvider } from "./context/TempUserContext";
 
+const theme = createMuiTheme({
+  typography: {
+    useNextVariants: true,
+  },
+  palette: {
+    primary: {
+      main: "#f44355",
+    },
+    secondary: {
+      main: "#f44336",
+    },
+    background: {
+      default: "#eeeeee",
+    },
+  },
+});
+
 const App = () => {
   return (
-    <UserProvider>
-      <BrowserRouter>
-        <Auth0ProviderWithHistory>
-          <Main />
-        </Auth0ProviderWithHistory>
-      </BrowserRouter>
-    </UserProvider>
+    <MuiThemeProvider theme={theme}>
+      <CssBaseline />
+      <UserProvider>
+        <BrowserRouter>
+          <Auth0ProviderWithHistory>
+            <Main />
+          </Auth0ProviderWithHistory>
+        </BrowserRouter>
+      </UserProvider>
+    </MuiThemeProvider>
   );
 };
 

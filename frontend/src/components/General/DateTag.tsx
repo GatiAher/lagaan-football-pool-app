@@ -1,7 +1,6 @@
 import React from "react";
 import Box from "@material-ui/core/Box";
-
-// TODO: implement this
+import { useTheme } from "@material-ui/core";
 
 export default ({
   firstString,
@@ -10,9 +9,10 @@ export default ({
   firstString: string;
   secondString: string;
 }) => {
+  const theme = useTheme();
   return (
     <Box px={1} pt={1} display="flex" flexDirection="row">
-      <Box px={1} borderRadius={4} bgcolor="gray">
+      <Box px={1} borderRadius={4} bgcolor={theme.palette.divider}>
         {firstString}
       </Box>
       <Box px={1}>|</Box>
@@ -20,17 +20,3 @@ export default ({
     </Box>
   );
 };
-
-// takes 2 strings, first, second
-// takes 2 styles? first, second
-
-// `Thurs, Oct 5, 8:00 PM EST` | **OPEN**
-// `Thurs, Oct 5, 8:00 PM EST` | **CLOSED**
-
-// `Weeks 4-12` | **OPEN**
-// `Weeks 4-12` | **CLOSED**
-
-// `Week 1` | **CLOSED**
-// `Week 3` | **OPEN**
-
-// NOTE: we only show picks on the leaderboard when matches are closed
