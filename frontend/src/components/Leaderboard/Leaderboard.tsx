@@ -1,8 +1,9 @@
 import axios from "axios";
 import { pickBy, startsWith } from "lodash";
 
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import withWidth from "@material-ui/core/withWidth";
+import { useTheme } from "@material-ui/core";
 
 import MaterialTable from "material-table";
 
@@ -24,7 +25,7 @@ import TeamDisplay from "../General/TeamDisplay";
 
 const fetchUsers = async (callback: (arg0: any) => void) => {
   const query = {
-    sort: JSON.stringify(["score", "asc"]),
+    sort: JSON.stringify(["score", "desc"]),
   };
   axios
     .get("/user", { params: query })
@@ -74,6 +75,8 @@ const RemainingTeams = ({
 };
 
 const Leaderboard = () => {
+  const theme = useTheme();
+
   const [users, setUsers] = useState<UserType[]>([]);
   const [isLoadedUsers, setIsLoadedUsers] = useState(false);
 
@@ -110,9 +113,13 @@ const Leaderboard = () => {
           options={{
             exportButton: true,
             headerStyle: {
-              backgroundColor: "#01579b",
-              color: "#FFF",
+              backgroundColor: theme.palette.primary.main,
+              color: theme.palette.grey[100],
             },
+            rowStyle: {
+              backgroundColor: theme.palette.background.paper,
+            },
+            paging: false,
           }}
           // @ts-ignore
           columns={columnLabels.map((col) => {
@@ -131,6 +138,7 @@ const Leaderboard = () => {
                     <TeamDisplay
                       width="xs"
                       team={teamMap.get(selection)}
+                      week={currentWeek - 1}
                       border={1}
                     />
                   );
@@ -141,7 +149,9 @@ const Leaderboard = () => {
                 title: col.title,
                 field: "firstName",
                 render: (rowData) => {
-                  return `${rowData.firstName} ${rowData.lastName}`;
+                  return (
+                    <Box fontWeight="fontWeightBold">{`${rowData.firstName} ${rowData.lastName}`}</Box>
+                  );
                 },
               };
             } else if (col.title == "W-L-T") {
@@ -152,12 +162,18 @@ const Leaderboard = () => {
                 },
               };
             }
-            return col;
+            return {
+              title: col.title,
+              field: col.field,
+              render: (rowData) => (
+                <Box fontWeight="fontWeightBold">{rowData[col.field]}</Box>
+              ),
+            };
           })}
           data={users}
           detailPanel={(rowData) => {
             return (
-              <Box p={2}>
+              <Box p={2} bgcolor={theme.palette.background.default}>
                 <RemainingTeams rowData={rowData} teamMap={teamMap} />
               </Box>
             );

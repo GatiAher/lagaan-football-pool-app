@@ -62,10 +62,12 @@ const SeasonGame = (props: { width: "xs" | "sm" | "md" | "lg" | "xl" }) => {
                     <TeamDisplay
                       width={width}
                       team={teamMap.get(game.homeTeam)}
+                      week={week}
                     />
                     <TeamDisplay
                       width={width}
                       team={teamMap.get(game.visTeam)}
+                      week={week}
                     />
                   </Box>
                 </GridListTile>
