@@ -54,7 +54,7 @@ const putUserSelections = (
       callback(response.data.message, false);
     })
     .catch((error) => {
-      callback(JSON.stringify(error), true);
+      callback(error.message, true);
     });
 };
 
@@ -212,7 +212,7 @@ const PickTeam = (props: { width: "xs" | "sm" | "md" | "lg" | "xl" }) => {
                 </GridListTile>
               );
             })}
-            {(week < BYE_WEEK_END || week > BYE_WEEK_START) && (
+            {week < BYE_WEEK_END && week > BYE_WEEK_START && (
               <div>
                 <DateTag
                   firstString={`Use By Week ${BYE_WEEK_END}`}
