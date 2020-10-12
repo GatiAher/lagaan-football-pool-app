@@ -15,15 +15,15 @@ const StatusDisplay = ({ team, week }: { team: TeamType; week: number }) => {
   let text = "";
   let textColor = "";
   let bgcolor = "";
-  if (status == "win") {
+  if (status === "win") {
     text = "W";
     textColor = theme.palette.grey[100];
     bgcolor = theme.palette.success.dark;
-  } else if (status == "loss") {
+  } else if (status === "loss") {
     text = "L";
     textColor = theme.palette.error.dark;
     bgcolor = theme.palette.error.light;
-  } else if (status == "tie") {
+  } else if (status === "tie") {
     text = "T";
     textColor = theme.palette.grey.A700;
     bgcolor = theme.palette.divider;
@@ -55,7 +55,7 @@ export default ({
   let name = undefined;
   let primaryText = "";
   let secondaryText = "";
-  if (team == undefined) {
+  if (team === undefined) {
     return <Box> </Box>;
   }
 
@@ -70,7 +70,7 @@ export default ({
     primaryText = team.fullName;
   }
   // set secondaryText
-  if (showCounts && name != "BYE1" && name != "BYE2") {
+  if (showCounts && name !== "BYE1" && name !== "BYE2") {
     secondaryText = `${team.numOfWin}-${team.numOfLoss}-${team.numOfTie}`;
   }
 
@@ -89,7 +89,7 @@ export default ({
         </ListItemAvatar>
         <ListItemText primary={primaryText} secondary={secondaryText} />
       </Box>
-      {week != 0 && <StatusDisplay team={team} week={week} />}
+      {week !== 0 && <StatusDisplay team={team} week={week} />}
     </Box>
   );
 };

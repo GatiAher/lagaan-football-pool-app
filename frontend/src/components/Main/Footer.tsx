@@ -1,7 +1,7 @@
 import React from "react";
+import { useTheme } from "@material-ui/core";
 
-import { AppBar, Typography, Box, useTheme } from "@material-ui/core";
-import { BorderTop } from "@material-ui/icons";
+import Box from "@material-ui/core/Box";
 
 export default () => {
   const theme = useTheme();

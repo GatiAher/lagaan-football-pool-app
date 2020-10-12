@@ -124,8 +124,8 @@ const Leaderboard = () => {
           // @ts-ignore
           columns={columnLabels.map((col) => {
             if (
-              col.field == `wk${currentWeek - 1}A` ||
-              col.field == `wk${currentWeek - 1}B`
+              col.field === `wk${currentWeek - 1}A` ||
+              col.field === `wk${currentWeek - 1}B`
             ) {
               return {
                 title: col.title,
@@ -144,7 +144,7 @@ const Leaderboard = () => {
                   );
                 },
               };
-            } else if (col.title == "name") {
+            } else if (col.title === "name") {
               return {
                 title: col.title,
                 field: "firstName",
@@ -154,7 +154,7 @@ const Leaderboard = () => {
                   );
                 },
               };
-            } else if (col.title == "W-L-T") {
+            } else if (col.title === "W-L-T") {
               return {
                 title: col.title,
                 render: (rowData) => {
