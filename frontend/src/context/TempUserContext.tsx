@@ -2,12 +2,12 @@ import React, { createContext } from "react";
 
 type ValueType = {
   username: string;
-  user_id: number;
+  user_id: string;
 };
 
 const defaultValue = {
-  username: "",
-  user_id: 0,
+  username: "default",
+  user_id: "default",
 };
 
 type UserContextType = {

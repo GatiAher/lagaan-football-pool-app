@@ -5,22 +5,25 @@ const compression = require("compression");
 const cors = require("cors");
 const helmet = require("helmet");
 // Import routes
-const gamesRouter = require("./routes/games-route");
-const userRouter = require("./routes/users-route");
+const scoreRouter = require("./routes/score-route");
+const gameRouter = require("./routes/generic-route")("Game");
+const teamRouter = require("./routes/generic-route")("Team");
+const userRouter = require("./routes/generic-route")("User");
 // Set default port for express app
 const PORT = process.env.PORT || 3001;
 // Create express app
 const app = express();
 // Apply middleware
 // Note: Keep this at the top, above routes
-app.use(cors());
+app.use(cors({ exposedHeaders: ["Content-Range"] }));
 app.use(helmet());
 app.use(compression());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-// Implement game route
-app.use("/game", gamesRouter);
-// Implement user route
+// Implement routes
+app.use("/score", scoreRouter);
+app.use("/game", gameRouter);
+app.use("/team", teamRouter);
 app.use("/user", userRouter);
 // Implement 500 error route
 app.use(function (err, req, res, next) {

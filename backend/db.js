@@ -17,33 +17,74 @@ knex.schema
     if (!exists) {
       return knex.schema
         .createTable("Game", (table) => {
-          table.string("game_id").primary(); // `${season}_${week}_${visTeam}_${homeTeam}`
-          table.integer("startTime");
-          table.integer("week");
-          table.integer("season");
-          table.string("visTeam");
-          table.integer("visPts").defaultTo(0);
-          table.integer("visStatus").defaultTo(-1);
-          table.string("homeTeam");
-          table.integer("homePts").defaultTo(0);
-          table.integer("homeStatus").defaultTo(-1);
+          table.string("id").primary().notNullable(); // `${week}_${visTeam}_${homeTeam}`
+          table.integer("startTime").notNullable();
+          table.integer("week").notNullable();
+          table.string("visTeam").notNullable();
+          table.string("homeTeam").notNullable();
           table.timestamps(true, true);
         })
         .then(() => {
           // Log success message
-          console.log("Table 'Game' created");
+          console.log("Game: table created");
         })
         .catch((error) => {
-          console.error(`There was an error creating table: ${error}`);
+          console.error(`Game: there was an error creating table: ${error}`);
         });
     }
   })
   .then(() => {
     // Log success message
-    console.log("done");
+    console.log("Game: exists");
   })
   .catch((error) => {
-    console.error(`There was an error setting up the database: ${error}`);
+    console.error(`Game: there was an error setting up the database: ${error}`);
+  });
+
+knex.schema
+  .hasTable("Team")
+  .then((exists) => {
+    if (!exists) {
+      return knex.schema
+        .createTable("Team", (table) => {
+          table.string("id").primary().notNullable();
+          table.string("mascotName").notNullable();
+          table.string("fullName").notNullable();
+          table.integer("numOfWin").defaultTo(0);
+          table.integer("numOfLoss").defaultTo(0);
+          table.integer("numOfTie").defaultTo(0);
+          table.string("wk1").defaultTo("default");
+          table.string("wk2").defaultTo("default");
+          table.string("wk3").defaultTo("default");
+          table.string("wk4").defaultTo("default");
+          table.string("wk5").defaultTo("default");
+          table.string("wk6").defaultTo("default");
+          table.string("wk7").defaultTo("default");
+          table.string("wk8").defaultTo("default");
+          table.string("wk9").defaultTo("default");
+          table.string("wk10").defaultTo("default");
+          table.string("wk11").defaultTo("default");
+          table.string("wk12").defaultTo("default");
+          table.string("wk13").defaultTo("default");
+          table.string("wk14").defaultTo("default");
+          table.string("wk15").defaultTo("default");
+          table.string("wk16").defaultTo("default");
+          table.string("wk17").defaultTo("default");
+          table.timestamps(true, true);
+        })
+        .then(() => {
+          console.log("Team: table created");
+        })
+        .catch((error) => {
+          console.error(`Team: there was an error creating table: ${error}`);
+        });
+    }
+  })
+  .then(() => {
+    console.log("Team: exists");
+  })
+  .catch((error) => {
+    console.error(`Team: there was an error setting up the database: ${error}`);
   });
 
 knex.schema
@@ -53,8 +94,13 @@ knex.schema
       return knex.schema
         .createTable("User", (table) => {
           table.string("username").notNullable();
-          table.integer("user_id").primary();
+          table.string("id").primary().notNullable();
+          table.string("firstName").notNullable();
+          table.string("lastName").notNullable();
           table.integer("rank");
+          table.integer("numOfWin").defaultTo(0);
+          table.integer("numOfLoss").defaultTo(0);
+          table.integer("numOfTie").defaultTo(0);
           table.integer("score").defaultTo(0);
           table.string("wk1A");
           table.string("wk1B");
@@ -94,27 +140,28 @@ knex.schema
         })
         .then(() => {
           // Log success message
-          console.log("Table 'User' created");
+          console.log("User: table created");
         })
         .catch((error) => {
-          console.error(`There was an error creating table: ${error}`);
+          console.error(`User: there was an error creating table: ${error}`);
         });
     }
   })
   .then(() => {
     // Log success message
-    console.log("done");
+    console.log("User: exists");
   })
   .catch((error) => {
-    console.error(`There was an error setting up the database: ${error}`);
+    console.error(`User: there was an error setting up the database: ${error}`);
   });
 
-// Just for debugging purposes:
-// Log all data in table
-knex
-  .select("*")
-  .from("Game")
-  // .then((data) => console.log("data:", data))
-  .catch((err) => console.log(err));
+// // Just for debugging purposes:
+// // Log all data in table
+// knex
+//   .select("*")
+//   .from("Game")
+//   .then((data) => console.log("data:", data))
+//   .catch((err) => console.log(err));
+
 // Export the database
 module.exports = knex;

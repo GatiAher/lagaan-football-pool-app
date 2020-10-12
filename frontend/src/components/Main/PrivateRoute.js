@@ -1,12 +1,13 @@
 import React from "react";
+import CircularProgress from "@material-ui/core/CircularProgress";
+
 import { Route } from "react-router-dom";
 import { withAuthenticationRequired } from "@auth0/auth0-react";
-import Loading from "../Loading";
 
 const PrivateRoute = ({ component, ...args }) => (
   <Route
     component={withAuthenticationRequired(component, {
-      onRedirecting: () => <Loading />,
+      onRedirecting: () => <CircularProgress />,
     })}
     {...args}
   />

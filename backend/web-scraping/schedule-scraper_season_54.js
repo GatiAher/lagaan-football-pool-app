@@ -1,8 +1,14 @@
+/*
+Season: 54 (year 2020-2021)
+Source: "https://www.pro-football-reference.com/years/2020/games.htm
+Warning: format of site changes when season starts
+*/
+
 const request = require("request-promise");
 const cheerio = require("cheerio");
 const cheerioTableparser = require("cheerio-tableparser");
 
-const { TEAM_LONG_TO_ABBR } = require("../constants/teams");
+const { TEAM_LONG_TO_ABBR } = require("./team-name-map");
 
 const MONTHS = new Map([
   ["January", 0],
@@ -21,10 +27,10 @@ const MONTHS = new Map([
 
 /* 
 returns number of milliseconds since Jan 1, 1979 00:00:00 UTC
-date: LongName Int
-time: HH:MM XX
+date: string: LongMonthName Day
+time: string: HH:MM XX
 
-NOTE: assume year 2020 or 2021 for January
+NOTE: assume year 2020, or 2021 for January
 NOTE: assume server timezone eastern (GMT-400) for Date
 */
 const getDateValue = (date, time) => {
@@ -37,7 +43,7 @@ const getDateValue = (date, time) => {
   // set time
   let hours = Number(time.match(/^(\d+)/)[1]);
   const minutes = Number(time.match(/:(\d+)/)[1]);
-  const AMPM = time.match(/\s(.*)$/)[1];
+  const AMPM = time.substring(time.length - 2);
   if (AMPM == "PM" && hours < 12) hours = hours + 12;
   if (AMPM == "AM" && hours == 12) hours = hours - 12;
 
@@ -49,20 +55,18 @@ const getGamesListFromTable = (table) => {
   const games = [];
   table[0].forEach((weekNum, idx) => {
     if (weekNum !== "Week") {
-      const date = table[2][idx].match(/>(.*)</).pop();
-      const time = table[8][idx];
+      const date = table[2][idx];
+      const time = table[3][idx];
       const startTime = getDateValue(date, time);
       const week = weekNum;
-      // NOTE: season 54, (year 2020)
-      const season = 54;
       const visTeam = TEAM_LONG_TO_ABBR.get(
-        table[3][idx].match(/>(.*)</).pop()
+        table[4][idx].match(/">(.*)<\/a/).pop()
       );
       const homeTeam = TEAM_LONG_TO_ABBR.get(
         table[6][idx].match(/>(.*)</).pop()
       );
-      const game_id = `${season}_${week}_${visTeam}_${homeTeam}`;
-      games.push({ startTime, week, season, visTeam, homeTeam, game_id });
+      const id = `${week}_${visTeam}_${homeTeam}`;
+      games.push({ startTime, week, visTeam, homeTeam, id });
     }
   });
   return games;
