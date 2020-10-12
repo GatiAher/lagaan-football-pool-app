@@ -31,7 +31,7 @@ import SF from "../../assets/nfl-logos/SF.png";
 import TB from "../../assets/nfl-logos/TB.png";
 import TEN from "../../assets/nfl-logos/TEN.png";
 import WAS from "../../assets/nfl-logos/WAS.png";
-import BYE from "../../assets/football.jpg";
+import BYE from "../../assets/nfl-logos/BYE.png";
 
 const teamToLogoMap = new Map([
   ["ARI", ARI],
@@ -73,6 +73,7 @@ const TeamLogo = ({ team }: { team: string | undefined }) => {
   let src = BYE;
   if (team && team != "BYE1" && team != "BYE2") {
     alt = team;
+    // @ts-ignore
     src = teamToLogoMap.get(team);
   }
   return (
