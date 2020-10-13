@@ -25,6 +25,8 @@ import TeamType from "../../utils/types/TeamType";
 import { TEAMS } from "../../utils/constants/teams";
 import TeamDisplay from "../General/TeamDisplay";
 
+const highlightColor = "#ffed46";
+
 const fetchUsers = async (callback: (arg0: any) => void) => {
   const query = {
     sort: JSON.stringify(["score", "desc"]),
@@ -66,7 +68,9 @@ const RemainingTeams = ({
       </Typography>
       <GridList cellHeight="auto" cols={numCols}>
         {TEAMS.map((team) => {
-          const bgcolor = selectedTeams.includes(team) ? "yellow" : "white";
+          const bgcolor = selectedTeams.includes(team)
+            ? highlightColor
+            : "white";
           return (
             <GridListTile key={team}>
               <Box bgcolor={bgcolor}>
@@ -131,7 +135,7 @@ const Leaderboard = ({
             rowStyle: (rowData) => ({
               backgroundColor:
                 user.sub === rowData.id
-                  ? "yellow"
+                  ? highlightColor
                   : theme.palette.background.paper,
             }),
             paging: false,
