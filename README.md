@@ -71,9 +71,9 @@ const dataProvider = simpleRestProvider("http://localhost:3001");
 
 ---
 
-### Features:
+## Features:
 
-#### Frontend Site
+### Frontend Site
 
 - Login, Logout, Sign-Up, User Authentication
 - Dynamic Design -- looks good on all screens
@@ -92,7 +92,7 @@ const dataProvider = simpleRestProvider("http://localhost:3001");
     - ROW: Rank, Name, Picked Wins-Losses-Ties, Last Week's Choices, Score
     - EXPANDABLE DETAIL PANEL: user's selected and remaining teams
 
-#### Backend Site
+### Backend Site
 
 Routes to edit `game`, `team`, and `user` data
 
@@ -113,7 +113,7 @@ Routes to recalculate scores & ranks for `team`, and `user` data
 | `score users` | `GET http://my.api.url/score/user` |
 | `score teams` | `GET http://my.api.url/score/team` |
 
-#### Admin Site
+### Admin Site
 
 - User Interface to perform create, read, update, and delete operations on Game, Team, and User data
 - Button to rescore teams and users
@@ -122,9 +122,9 @@ Routes to recalculate scores & ranks for `team`, and `user` data
 
 ---
 
-### Future Features and Improvements:
+## Future Features and Improvements:
 
-#### Frontend
+### Frontend
 
 - Pretty Home Page with short getting started guide
 - Profile Edit Page
@@ -138,14 +138,14 @@ Routes to recalculate scores & ranks for `team`, and `user` data
     3. Admin will go to Auth0 Dashboard and copy new user's `sub` key
     4. Admin will go to Admin Dashboard and create a new User with `user.id` = `sub` key
 
-#### Backend
+### Backend
 
 - Implement Accurate Webscrapper
   - site being scrapped currently: https://www.pro-football-reference.com/years/2020/games.htm
   - WARNING: webscrapped game info is inaccurate because format of site changed when season started
 - Maintain a table to store editable constants like kickoff date, or start and end of BYE selection period
 
-#### Admin
+### Admin
 
 - Set timer to re-rank users and re-score teams on a weekly basis
 - Add a pretty show panel for each item so admin can see all data without going into edit-mode
