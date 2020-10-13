@@ -7,7 +7,7 @@ import PersonIcon from "@material-ui/icons/Person";
 import Typography from "@material-ui/core/Typography";
 
 const LogoutButton = () => {
-  const { logout } = useAuth0();
+  const { logout, user } = useAuth0();
   return (
     <Button
       variant="outlined"
@@ -20,7 +20,7 @@ const LogoutButton = () => {
         })
       }
     >
-      <Typography variant="subtitle2">LOG OUT</Typography>
+      <Typography variant="subtitle2">{`Hi ${user.nickname}!`}</Typography>
     </Button>
   );
 };

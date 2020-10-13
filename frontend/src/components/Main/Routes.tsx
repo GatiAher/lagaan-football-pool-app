@@ -3,7 +3,6 @@ import PageHeader from "../General/PageHeader";
 import Leaderboard from "../Leaderboard/Leaderboard";
 import PickTeam from "../PickTeam/PickTeam";
 import GameDisplay from "../GameDisplay/GameDisplay";
-import Admin from "../Admin/Admin";
 import Profile from "../Profile/Profile";
 
 const HomePage: React.FC = () => {
@@ -37,15 +36,6 @@ const NFLGamesPage: React.FC = () => {
   );
 };
 
-const AdminPage: React.FC = () => {
-  return (
-    <div>
-      <PageHeader>Admin</PageHeader>
-      <Admin />
-    </div>
-  );
-};
-
 const ProfilePage: React.FC = () => {
   return (
     <div>
@@ -73,24 +63,18 @@ const Routes: IRoute[] = [
     path: "/rankings",
     sidebarName: "Rankings",
     component: RankingsPage,
-    private: false,
+    private: true,
   },
   {
     path: "/pick_sheet",
     sidebarName: "Pick Sheet",
     component: PickSheetPage,
-    private: false,
+    private: true,
   },
   {
     path: "/nfl_games",
     sidebarName: "NFL Games",
     component: NFLGamesPage,
-    private: false,
-  },
-  {
-    path: "/admin",
-    sidebarName: "Admin",
-    component: AdminPage,
     private: false,
   },
   {

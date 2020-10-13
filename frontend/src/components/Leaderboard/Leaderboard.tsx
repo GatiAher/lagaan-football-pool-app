@@ -1,6 +1,8 @@
 import axios from "axios";
 import { pickBy, startsWith } from "lodash";
 
+import { useAuth0 } from "@auth0/auth0-react";
+
 import React, { useEffect, useState } from "react";
 import withWidth from "@material-ui/core/withWidth";
 import { useTheme } from "@material-ui/core";
@@ -77,6 +79,8 @@ const RemainingTeams = ({
 const Leaderboard = () => {
   const theme = useTheme();
 
+  const { user } = useAuth0();
+
   const [users, setUsers] = useState<UserType[]>([]);
   const [isLoadedUsers, setIsLoadedUsers] = useState(false);
 
@@ -116,9 +120,12 @@ const Leaderboard = () => {
               backgroundColor: theme.palette.primary.main,
               color: theme.palette.grey[100],
             },
-            rowStyle: {
-              backgroundColor: theme.palette.background.paper,
-            },
+            rowStyle: (rowData) => ({
+              backgroundColor:
+                user.sub === rowData.id
+                  ? "yellow"
+                  : theme.palette.background.paper,
+            }),
             paging: false,
           }}
           // @ts-ignore
