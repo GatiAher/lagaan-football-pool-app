@@ -51,7 +51,7 @@ const putUserSelections = (
   axios
     .put(`/user/${id}`, body)
     .then((response) => {
-      callback(response.data.message, false);
+      callback("Successfully updated team selections!", false);
     })
     .catch((error) => {
       callback(error.message, true);
