@@ -23,12 +23,10 @@
     "helmet": "^3.22.0",
     "knex": "^0.20.13",
     "request": "^2.88.2",
-    "request-promise": "^4.2.6"
+    "request-promise": "^4.2.6",
+    "sqlite3": "^5.0.0"
   },
   "devDependencies": {
-    "@types/express": "^4.17.6",
-    "nodemon": "^2.0.3",
-    "sqlite3": "^4.1.1",
-    "typescript": "^3.8.3"
+    "nodemon": "^2.0.3"
   }
 }

@@ -1,6 +1,8 @@
 import axios from "axios";
 import { pickBy, startsWith } from "lodash";
 
+import { useAuth0 } from "@auth0/auth0-react";
+
 import React, { useEffect, useState } from "react";
 import withWidth from "@material-ui/core/withWidth";
 import { useTheme } from "@material-ui/core";
@@ -22,6 +24,8 @@ import fetchTeamMap from "../../utils/api-handlers/fetchTeamMap";
 import TeamType from "../../utils/types/TeamType";
 import { TEAMS } from "../../utils/constants/teams";
 import TeamDisplay from "../General/TeamDisplay";
+
+const highlightColor = "#ffed46";
 
 const fetchUsers = async (callback: (arg0: any) => void) => {
   const query = {
@@ -48,19 +52,25 @@ const getSelectedTeams = (rowData: UserType) => {
 const RemainingTeams = ({
   rowData,
   teamMap,
+  width,
 }: {
   rowData: UserType;
   teamMap: Map<string, TeamType>;
+  width: "xs" | "sm" | "md" | "lg" | "xl";
 }) => {
   const selectedTeams = getSelectedTeams(rowData);
+  const numCols = width === "xs" || width === "sm" ? 4 : 6;
+  console.log("WIDTH", width, numCols);
   return (
     <Box py={1}>
       <Typography variant="h6" color="primary">
         Selections
       </Typography>
-      <GridList cellHeight="auto" cols={6}>
+      <GridList cellHeight="auto" cols={numCols}>
         {TEAMS.map((team) => {
-          const bgcolor = selectedTeams.includes(team) ? "yellow" : "white";
+          const bgcolor = selectedTeams.includes(team)
+            ? highlightColor
+            : "white";
           return (
             <GridListTile key={team}>
               <Box bgcolor={bgcolor}>
@@ -74,8 +84,14 @@ const RemainingTeams = ({
   );
 };
 
-const Leaderboard = () => {
+const Leaderboard = ({
+  width,
+}: {
+  width: "xs" | "sm" | "md" | "lg" | "xl";
+}) => {
   const theme = useTheme();
+
+  const { user } = useAuth0();
 
   const [users, setUsers] = useState<UserType[]>([]);
   const [isLoadedUsers, setIsLoadedUsers] = useState(false);
@@ -116,9 +132,12 @@ const Leaderboard = () => {
               backgroundColor: theme.palette.primary.main,
               color: theme.palette.grey[100],
             },
-            rowStyle: {
-              backgroundColor: theme.palette.background.paper,
-            },
+            rowStyle: (rowData) => ({
+              backgroundColor:
+                user.sub === rowData.id
+                  ? highlightColor
+                  : theme.palette.background.paper,
+            }),
             paging: false,
           }}
           // @ts-ignore
@@ -174,7 +193,11 @@ const Leaderboard = () => {
           detailPanel={(rowData) => {
             return (
               <Box p={2} bgcolor={theme.palette.background.default}>
-                <RemainingTeams rowData={rowData} teamMap={teamMap} />
+                <RemainingTeams
+                  rowData={rowData}
+                  teamMap={teamMap}
+                  width={width}
+                />
               </Box>
             );
           }}

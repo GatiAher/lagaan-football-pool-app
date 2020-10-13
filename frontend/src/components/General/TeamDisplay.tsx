@@ -64,7 +64,7 @@ export default ({
   // set primaryText
   if (width === "xs") {
     primaryText = team.id;
-  } else if (width === "sm") {
+  } else if (width === "sm" && name !== "BYE1" && name !== "BYE2") {
     primaryText = `${team.id} ${team.mascotName}`;
   } else {
     primaryText = team.fullName;

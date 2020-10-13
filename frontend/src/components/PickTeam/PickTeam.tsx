@@ -22,7 +22,7 @@ import fetchTeamMap from "../../utils/api-handlers/fetchTeamMap";
 import TeamType from "../../utils/types/TeamType";
 
 import UserType from "../../utils/types/UserType";
-import { useUser } from "../../context/TempUserContext";
+import { useAuth0 } from "@auth0/auth0-react";
 
 import SelectionButton from "./SelectionButton";
 import TeamDisplay from "../General/TeamDisplay";
@@ -51,7 +51,7 @@ const putUserSelections = (
   axios
     .put(`/user/${id}`, body)
     .then((response) => {
-      callback(response.data.message, false);
+      callback("Successfully updated team selections!", false);
     })
     .catch((error) => {
       callback(error.message, true);
@@ -67,8 +67,8 @@ const PickTeam = (props: { width: "xs" | "sm" | "md" | "lg" | "xl" }) => {
   const [teamMap, setTeamMap] = useState(new Map<string, TeamType>());
   const [isLoadedTeamMap, setIsLoadedTeamMap] = useState(false);
 
-  const { user } = useUser();
-  console.log("User", user);
+  const { user } = useAuth0();
+
   const [savedSelections, setSavedSelections] = useState<
     (string | number | undefined)[]
   >([]);
@@ -105,14 +105,14 @@ const PickTeam = (props: { width: "xs" | "sm" | "md" | "lg" | "xl" }) => {
       [`wk${week}A`]: selectionA,
       [`wk${week}B`]: selectionB,
     };
-    putUserSelections(user.user_id, body, handleClick);
-  }, [user.user_id, week, selectionA, selectionB]);
+    putUserSelections(user.sub, body, handleClick);
+  }, [user.sub, week, selectionA, selectionB]);
 
   // Fetch on initial render
   useEffect(() => {
     setSelectionA("");
     setSelectionB("");
-    fetchUserData(user.user_id, (data) => {
+    fetchUserData(user.sub, (data) => {
       const getKeyValue = <T, K extends keyof T>(obj: T, key: K): T[K] =>
         obj[key];
       const userData = data[0];
@@ -144,7 +144,7 @@ const PickTeam = (props: { width: "xs" | "sm" | "md" | "lg" | "xl" }) => {
       setTeamMap(data);
       setIsLoadedTeamMap(true);
     });
-  }, [user.user_id, week]);
+  }, [user.sub, week]);
 
   const handleTeamSelect = (team: string): void => {
     if (selectionA === team) {

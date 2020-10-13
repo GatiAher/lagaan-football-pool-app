@@ -64,10 +64,16 @@ exports.recalculateUserScore = async (req, res) => {
   // for each user, calculate its score
   const rankPromises = [];
   let rank = 1;
+  let position = 1;
+  let compareScore = null;
   for (let user of rankedUsers) {
     let id = user.id;
+    if (user.score !== compareScore) {
+      compareScore = user.score;
+      rank = position;
+    }
     rankPromises.push(knex("User").where("id", id).update("rank", rank));
-    rank++;
+    position++;
   }
 
   // keep track of these to return in final message
