@@ -50,17 +50,21 @@ const getSelectedTeams = (rowData: UserType) => {
 const RemainingTeams = ({
   rowData,
   teamMap,
+  width,
 }: {
   rowData: UserType;
   teamMap: Map<string, TeamType>;
+  width: "xs" | "sm" | "md" | "lg" | "xl";
 }) => {
   const selectedTeams = getSelectedTeams(rowData);
+  const numCols = width === "xs" || width === "sm" ? 4 : 6;
+  console.log("WIDTH", width, numCols);
   return (
     <Box py={1}>
       <Typography variant="h6" color="primary">
         Selections
       </Typography>
-      <GridList cellHeight="auto" cols={6}>
+      <GridList cellHeight="auto" cols={numCols}>
         {TEAMS.map((team) => {
           const bgcolor = selectedTeams.includes(team) ? "yellow" : "white";
           return (
@@ -76,7 +80,11 @@ const RemainingTeams = ({
   );
 };
 
-const Leaderboard = () => {
+const Leaderboard = ({
+  width,
+}: {
+  width: "xs" | "sm" | "md" | "lg" | "xl";
+}) => {
   const theme = useTheme();
 
   const { user } = useAuth0();
@@ -181,7 +189,11 @@ const Leaderboard = () => {
           detailPanel={(rowData) => {
             return (
               <Box p={2} bgcolor={theme.palette.background.default}>
-                <RemainingTeams rowData={rowData} teamMap={teamMap} />
+                <RemainingTeams
+                  rowData={rowData}
+                  teamMap={teamMap}
+                  width={width}
+                />
               </Box>
             );
           }}
