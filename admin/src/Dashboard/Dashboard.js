@@ -22,7 +22,7 @@ const errorSnackbarErrorColor = "#e57373";
 const callTable = (method, resource, endpoint, handleClick) => {
   axios({
     method,
-    url: `http://localhost:3001/${resource}/${endpoint}`,
+    url: `/${resource}/${endpoint}`,
   })
     .then((response) => {
       handleClick(response.data.message, false);
