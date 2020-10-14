@@ -1,5 +1,11 @@
 import React from "react";
+// import { Admin, Resource } from "react-admin";
 import { Admin, Resource } from "react-admin";
+
+import polyglotI18nProvider from "ra-i18n-polyglot";
+import englishMessages from "ra-language-english";
+// copied from ra-import-csv to get english labels from import csv
+import * as domainMessages from "./import-csv/build-watch/i18n";
 
 import simpleRestProvider from "ra-data-simple-rest";
 
@@ -26,34 +32,43 @@ import TeamCreate from "./Team/TeamCreate";
 
 const dataProvider = simpleRestProvider("http://localhost:3001");
 
-const App = () => (
-  <Admin
-    dashboard={Dashboard}
-    authProvider={authProvider}
-    dataProvider={dataProvider}
-  >
-    <Resource
-      name="user"
-      icon={UserIcon}
-      list={UserList}
-      edit={UserEdit}
-      create={UserCreate}
-    />
-    <Resource
-      name="game"
-      icon={GameIcon}
-      list={GameList}
-      edit={GameEdit}
-      create={GameCreate}
-    />
-    <Resource
-      name="team"
-      icon={TeamIcon}
-      list={TeamList}
-      edit={TeamEdit}
-      create={TeamCreate}
-    />
-  </Admin>
-);
+const App = () => {
+  // Setup i18n
+  const i18nProvider = polyglotI18nProvider(
+    (local) => ({ ...englishMessages, ...domainMessages.en }),
+    "en"
+  );
+
+  return (
+    <Admin
+      dashboard={Dashboard}
+      authProvider={authProvider}
+      dataProvider={dataProvider}
+      i18nProvider={i18nProvider}
+    >
+      <Resource
+        name="user"
+        icon={UserIcon}
+        list={UserList}
+        edit={UserEdit}
+        create={UserCreate}
+      />
+      <Resource
+        name="game"
+        icon={GameIcon}
+        list={GameList}
+        edit={GameEdit}
+        create={GameCreate}
+      />
+      <Resource
+        name="team"
+        icon={TeamIcon}
+        list={TeamList}
+        edit={TeamEdit}
+        create={TeamCreate}
+      />
+    </Admin>
+  );
+};
 
 export default App;

@@ -10,16 +10,16 @@ import {
   TextInput,
 } from "react-admin";
 
+import { ListActions } from "../import-csv/ListActions";
+
 const GameFilter = (props) => (
   <Filter {...props}>
     <TextInput label="Search Week" source="week" alwaysOn />
-    <TextInput label="Search Visiting Team" source="visTeam" />
-    <TextInput label="Search Home Team" source="homeTeam" />
   </Filter>
 );
 
 const GameList = (props) => (
-  <List filters={<GameFilter />} {...props}>
+  <List {...props} filters={<GameFilter />} actions={<ListActions />}>
     <Datagrid>
       <NumberField source="week" />
       <DateField source="startTime" />

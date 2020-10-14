@@ -8,22 +8,18 @@ import {
   EditButton,
   Filter,
   TextInput,
-  NumberInput
 } from "react-admin";
+
+import { ListActions } from "../import-csv/ListActions";
 
 const UserFilter = (props) => (
   <Filter {...props}>
     <TextInput label="Search First Name" source="firstName" alwaysOn />
-    <TextInput label="Search Last Name" source="lastName" />
-    <TextInput label="Search Username" source="username" />
-    <NumberInput label="Search By Wins" source="numOfWin" />
-    <NumberInput label="Search By Losses" source="numOfLoss" />
-    <NumberInput label="Search By Ties" source="numOfTie" />
   </Filter>
 );
 
 const UserList = (props) => (
-  <List filters={<UserFilter />} {...props}>
+  <List {...props} filters={<UserFilter />} actions={<ListActions />}>
     <Datagrid>
       <NumberField source="rank" />
       <TextField source="username" />

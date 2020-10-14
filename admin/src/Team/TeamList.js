@@ -10,6 +10,8 @@ import {
   TextInput,
 } from "react-admin";
 
+import { ListActions } from "../import-csv/ListActions";
+
 const TeamFilter = (props) => (
   <Filter {...props}>
     <TextInput label="Search Team Abbreviation" source="id" alwaysOn />
@@ -17,7 +19,7 @@ const TeamFilter = (props) => (
 );
 
 const TeamList = (props) => (
-  <List filters={<TeamFilter />} {...props}>
+  <List {...props} filters={<TeamFilter />} actions={<ListActions />}>
     <Datagrid>
       <TextField source="id" />
       <TextField source="fullName" />
