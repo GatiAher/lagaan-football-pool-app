@@ -30,16 +30,19 @@ import DateTag from "../General/DateTag";
 import dateParser from "../../utils/dateParser";
 import { BYE_WEEK_START, BYE_WEEK_END } from "../../utils/constants/bye-week";
 
-const fetchUserData = (id: string, callback: (arg0: UserType[]) => void) => {
+import UserNotRegistered from "../General/UserNotRegistered";
+
+const fetchUserData = (
+  id: string,
+  callback: (arg0: UserType[], arg1: boolean) => void
+) => {
   axios
     .get(`/user/${id}`)
     .then((response) => {
-      callback(response.data);
+      callback(response.data, true);
     })
-    .catch((error) => {
-      console.error(
-        `Encountered an error while retrieving the user data: ${error}`
-      );
+    .catch(() => {
+      callback([], false);
     });
 };
 
@@ -77,11 +80,12 @@ const PickTeam = (props: { width: "xs" | "sm" | "md" | "lg" | "xl" }) => {
   const [isLoadedUser, setIsLoadedUser] = useState(false);
 
   // Snackbar
-
   const errorSnackbarErrorColor = "#e57373";
   const [open, setOpen] = React.useState(false);
   const [isFail, setFail] = React.useState(false);
   const [snackBarMessage, setSnackBarMessage] = React.useState("");
+
+  const [isRegisteredUser, setIsRegisteredUser] = useState(true);
 
   const handleClick = (message: string, failValue: boolean) => {
     setSnackBarMessage(message);
@@ -112,39 +116,49 @@ const PickTeam = (props: { width: "xs" | "sm" | "md" | "lg" | "xl" }) => {
   useEffect(() => {
     setSelectionA("");
     setSelectionB("");
-    fetchUserData(user.sub, (data) => {
-      const getKeyValue = <T, K extends keyof T>(obj: T, key: K): T[K] =>
-        obj[key];
-      const userData = data[0];
-      // @ts-ignore
-      const teamA = getKeyValue(userData, `wk${week}A`);
-      // @ts-ignore
-      const teamB = getKeyValue(userData, `wk${week}B`);
-      let teamSelections = pickBy(userData, (value, key) =>
-        startsWith(key, "wk")
-      );
-      // set already picked teams
-      teamSelections = omit(teamSelections, [`wk${week}A`, `wk${week}B`]);
-      const teamSelectionsList = Object.values(teamSelections);
-      setSavedSelections(teamSelectionsList);
-      // set changable picks
-      if (typeof teamA === "string") {
-        setSelectionA(teamA);
+    fetchUserData(user.sub, (data, isRegisteredUser) => {
+      if (isRegisteredUser) {
+        const getKeyValue = <T, K extends keyof T>(obj: T, key: K): T[K] =>
+          obj[key];
+        const userData = data[0];
+        // @ts-ignore
+        const teamA = getKeyValue(userData, `wk${week}A`);
+        // @ts-ignore
+        const teamB = getKeyValue(userData, `wk${week}B`);
+        let teamSelections = pickBy(userData, (value, key) =>
+          startsWith(key, "wk")
+        );
+        // set already picked teams
+        teamSelections = omit(teamSelections, [`wk${week}A`, `wk${week}B`]);
+        const teamSelectionsList = Object.values(teamSelections);
+        setSavedSelections(teamSelectionsList);
+        // set changable picks
+        if (typeof teamA === "string") {
+          setSelectionA(teamA);
+        }
+        if (typeof teamB === "string") {
+          setSelectionB(teamB);
+        }
+        setIsLoadedUser(true);
+      } else {
+        setIsRegisteredUser(false);
       }
-      if (typeof teamB === "string") {
-        setSelectionB(teamB);
-      }
-      setIsLoadedUser(true);
     });
-    fetchGames(week, (data) => {
-      setGames(data);
-      setIsLoadedGames(true);
-    });
-    fetchTeamMap((data) => {
-      setTeamMap(data);
-      setIsLoadedTeamMap(true);
-    });
+    if (isRegisteredUser) {
+      fetchGames(week, (data) => {
+        setGames(data);
+        setIsLoadedGames(true);
+      });
+      fetchTeamMap((data) => {
+        setTeamMap(data);
+        setIsLoadedTeamMap(true);
+      });
+    }
   }, [user.sub, week]);
+
+  if (!isRegisteredUser) {
+    return <UserNotRegistered />;
+  }
 
   const handleTeamSelect = (team: string): void => {
     if (selectionA === team) {
