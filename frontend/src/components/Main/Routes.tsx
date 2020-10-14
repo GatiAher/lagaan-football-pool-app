@@ -3,7 +3,6 @@ import PageHeader from "../General/PageHeader";
 import Leaderboard from "../Leaderboard/Leaderboard";
 import PickTeam from "../PickTeam/PickTeam";
 import GameDisplay from "../GameDisplay/GameDisplay";
-import Profile from "../Profile/Profile";
 
 const HomePage: React.FC = () => {
   return <PageHeader>Home</PageHeader>;
@@ -32,15 +31,6 @@ const NFLGamesPage: React.FC = () => {
     <div>
       <PageHeader>NFL Games</PageHeader>
       <GameDisplay />
-    </div>
-  );
-};
-
-const ProfilePage: React.FC = () => {
-  return (
-    <div>
-      <PageHeader>Profile</PageHeader>
-      <Profile />
     </div>
   );
 };
@@ -76,12 +66,6 @@ const Routes: IRoute[] = [
     sidebarName: "NFL Games",
     component: NFLGamesPage,
     private: false,
-  },
-  {
-    path: "/profile",
-    sidebarName: "Profile",
-    component: ProfilePage,
-    private: true,
   },
 ];
 

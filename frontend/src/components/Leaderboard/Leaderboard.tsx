@@ -25,6 +25,8 @@ import TeamType from "../../utils/types/TeamType";
 import { TEAMS } from "../../utils/constants/teams";
 import TeamDisplay from "../General/TeamDisplay";
 
+import UserNotRegistered from "../General/UserNotRegistered";
+
 const highlightColor = "#ffed46";
 
 const fetchUsers = async (callback: (arg0: any) => void) => {
@@ -99,6 +101,8 @@ const Leaderboard = ({
   const [teamMap, setTeamMap] = useState(new Map<string, TeamType>());
   const [isLoadedTeamMap, setIsLoadedTeamMap] = useState(false);
 
+  const [isRegisteredUser, setIsRegisteredUser] = useState(true);
+
   // Fetch on initial render
   useEffect(() => {
     fetchTeamMap((data) => {
@@ -106,10 +110,22 @@ const Leaderboard = ({
       setIsLoadedTeamMap(true);
     });
     fetchUsers((data) => {
-      setUsers(data);
-      setIsLoadedUsers(true);
+      const listOfUserIds: string[] = [];
+      data.forEach((element: UserType) => {
+        listOfUserIds.push(element.id);
+      });
+      if (listOfUserIds.includes(user.sub)) {
+        setUsers(data);
+        setIsLoadedUsers(true);
+      } else {
+        setIsRegisteredUser(false);
+      }
     });
   }, []);
+
+  if (!isRegisteredUser) {
+    return <UserNotRegistered />;
+  }
 
   const currentWeek = getCurrentWeek();
   const columnLabels = [
