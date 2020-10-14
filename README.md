@@ -116,6 +116,7 @@ Routes to recalculate scores & ranks for `team`, and `user` data
 ### Admin Site
 
 - User Interface to perform create, read, update, and delete operations on Game, Team, and User data
+- Ability to import/export table data from/to .csv files (experimental feature)
 - Button to rescore teams and users
 - Button to clear all items from tables
 - Button to remove season data from tables
