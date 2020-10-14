@@ -105,10 +105,6 @@ const Leaderboard = ({
 
   // Fetch on initial render
   useEffect(() => {
-    fetchTeamMap((data) => {
-      setTeamMap(data);
-      setIsLoadedTeamMap(true);
-    });
     fetchUsers((data) => {
       const listOfUserIds: string[] = [];
       data.forEach((element: UserType) => {
@@ -121,6 +117,12 @@ const Leaderboard = ({
         setIsRegisteredUser(false);
       }
     });
+    if (isRegisteredUser) {
+      fetchTeamMap((data) => {
+        setTeamMap(data);
+        setIsLoadedTeamMap(true);
+      });
+    }
   }, []);
 
   if (!isRegisteredUser) {
