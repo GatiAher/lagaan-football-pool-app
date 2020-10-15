@@ -3,9 +3,15 @@ import PageHeader from "../General/PageHeader";
 import Leaderboard from "../Leaderboard/Leaderboard";
 import PickTeam from "../PickTeam/PickTeam";
 import GameDisplay from "../GameDisplay/GameDisplay";
+import Rules from "../Home/Rules";
 
 const HomePage: React.FC = () => {
-  return <PageHeader>Home</PageHeader>;
+  return (
+    <div>
+      <PageHeader>Home</PageHeader>
+      <Rules />{" "}
+    </div>
+  );
 };
 
 const RankingsPage: React.FC = () => {
