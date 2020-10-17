@@ -14,9 +14,6 @@ module.exports = {
     },
     {
       name: "pool-app-frontend",
-      // script: "serve frontend/build 4000 --spa",
-      // autorestart: true,
-      // watch: true,
       script: "serve",
       env: {
         NODE_ENV: "development",
