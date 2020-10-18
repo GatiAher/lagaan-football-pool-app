@@ -79,7 +79,7 @@ exports.recalculateUserScore = async (req, res) => {
   // keep track of these to return in final message
   const numOfRankedUsers = (await Promise.all(rankPromises)).length;
 
-  res.json({
+  res.type("json").json({
     message: `User: ${numOfRankedUsers} / ${numTotalUsers} users scored.`,
   });
 };
@@ -116,7 +116,7 @@ exports.recalculateTeamScore = async (req, res) => {
   // keep track of these to return in final message
   const numTotalTeams = teams.length;
   const numOfUpdatedTeams = (await Promise.all(promises)).length;
-  res.json({
+  res.type("json").json({
     message: `Team: ${numOfUpdatedTeams} / ${numTotalTeams} items updated.`,
   });
 };
