@@ -4,7 +4,6 @@ module.exports = {
       name: "pool-app-api",
       script: "./backend/server.js",
       autorestart: true,
-      watch: true,
       env: {
         NODE_ENV: "production",
         PORT: 3001,
