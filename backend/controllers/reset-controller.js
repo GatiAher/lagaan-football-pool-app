@@ -13,13 +13,10 @@ module.exports = function (TABLE) {
       await knex("Game").truncate();
       await knex.batchInsert("Game", games, 30);
       // done
-      res
-        .type("json")
-        .json({ message: "Game: table cleared and repopulated." });
+      res.json({ message: "Game: table cleared and repopulated." });
     } catch (err) {
       res
         .status(500)
-        .type("json")
         .json({ message: `Game: there was an error resetting items: ${err}.` });
     }
   };
@@ -30,13 +27,10 @@ module.exports = function (TABLE) {
       await knex("Team").truncate();
       await knex.batchInsert("Team", TEAMS, 35);
       // done
-      res
-        .type("json")
-        .json({ message: "Team: table cleared and repopulated." });
+      res.json({ message: "Team: table cleared and repopulated." });
     } catch (err) {
       res
         .status(500)
-        .type("json")
         .json({ message: `Team: there was an error resetting items: ${err}.` });
     }
   };
@@ -55,17 +49,14 @@ module.exports = function (TABLE) {
     knex("User")
       .update(updateRecord)
       .then((numItems) => {
-        res.type("json").json({
+        res.json({
           message: `User: ${numItems} users reset.`,
         });
       })
       .catch((err) => {
-        res
-          .status(500)
-          .type("json")
-          .json({
-            message: `User: there was an error updating users: ${err}`,
-          });
+        res.status(500).json({
+          message: `User: there was an error updating users: ${err}`,
+        });
       });
   };
 
