@@ -1,13 +1,17 @@
+# node_modules
 node_modules
+backend/node_modules
+frontend/node_modules
+admin/node_modules
+
+# .env
+.env
+admin/.env.*
+frontend/.env.*
+
+# build
+admin/build
+frontend/build
 
 # backend
-backend/node_modules
 backend/db/database.sqlite
-
-# frontend
-frontend/node_modules
-frontend/.env
-
-# production
-# admin/build
-# frontend/build
