@@ -30,7 +30,7 @@ Backend uses SQLite database, so you need to provide the database storage file.
 $ touch backend/db/database.sqlite
 ```
 
-## To Run
+## To Run Development Mode
 
 ### Yarn Scripts
 
@@ -48,6 +48,46 @@ $ touch backend/db/database.sqlite
 ### Populate Database
 
 - Go to Admin Dashboard and click on RESET buttons
+
+---
+
+### To Run Production Mode
+
+#### Create minified production builds for react apps (admin and frontend).
+
+```bash
+cd admin && yarn build && cd ..
+cd frontend && yarn build && cd ..
+```
+
+#### Set up the production environment (ec2).
+
+Ssh into ec2.
+
+Install necessary packages. Use `serve` for serving static files (in admin and frontend build folders), `pm2` to restart web server after crashes, and `nginx` as a reverse proxy.
+
+```bash
+yarn global add serve
+yarn global add pm2
+sudo yum install nginx
+```
+
+set up nginx. Remove the default webserver code in `/etc/nginx/nginx.conf`, create your domain specific configuration file at `/etc/nginx/conf.d/www.domainname.com.conf`.
+
+run production build with
+
+```bash
+cd /path/to/your/directory
+pm2 start --env production
+sudo service nginx start
+```
+
+stop with
+
+```bash
+pm2 delete all
+sudo service nginx stop
+```
 
 ## When Changing Domains
 
