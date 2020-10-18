@@ -1,9 +1,11 @@
 import axios from "axios";
+import apiurl from "./apiurl"
+
 import TeamType from "../types/TeamType";
 
 export default (callback: (arg0: any) => void) => {
   axios
-    .get("/team")
+    .get(`${apiurl}/team`)
     .then((response) => {
       const teamMap = new Map<string, TeamType>();
       if (Array.isArray(response.data)) {

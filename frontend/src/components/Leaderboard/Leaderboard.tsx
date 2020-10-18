@@ -18,6 +18,7 @@ import GridListTile from "@material-ui/core/GridListTile";
 
 import getCurrentWeek from "../../utils/getCurrentWeek";
 
+import fetchUsers from "../../utils/api-handlers/fetchUsers";
 import UserType from "../../utils/types/UserType";
 
 import fetchTeamMap from "../../utils/api-handlers/fetchTeamMap";
@@ -28,22 +29,6 @@ import TeamDisplay from "../General/TeamDisplay";
 import UserNotRegistered from "../General/UserNotRegistered";
 
 const highlightColor = "#ffed46";
-
-const fetchUsers = async (callback: (arg0: any) => void) => {
-  const query = {
-    sort: JSON.stringify(["score", "desc"]),
-  };
-  axios
-    .get("/user", { params: query })
-    .then((response) => {
-      callback(response.data);
-    })
-    .catch((error) => {
-      console.error(
-        `Encountered an error while retrieving the game list: ${error}`
-      );
-    });
-};
 
 const getSelectedTeams = (rowData: UserType) => {
   const selectedTeams = pickBy(rowData, (value, key) => startsWith(key, "wk"));

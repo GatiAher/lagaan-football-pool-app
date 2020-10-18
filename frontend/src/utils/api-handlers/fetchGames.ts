@@ -1,4 +1,6 @@
 import axios from "axios";
+import apiurl from "./apiurl"
+
 import GameType from "../types/GameType";
 
 export default (week: number, callback: (arg0: GameType[]) => void) => {
@@ -7,7 +9,7 @@ export default (week: number, callback: (arg0: GameType[]) => void) => {
     filter: JSON.stringify({ week: week }),
   };
   axios
-    .get("/game", { params: query })
+    .get(`${apiurl}/game`, { params: query })
     .then((response) => {
       callback(response.data);
     })
