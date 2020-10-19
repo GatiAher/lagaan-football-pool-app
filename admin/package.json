@@ -8,6 +8,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "homepage": "/admin/build",
   "eslintConfig": {
     "extends": "react-app"
   },
