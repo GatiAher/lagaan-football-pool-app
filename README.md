@@ -1,10 +1,16 @@
 # Lagaan Pool Application
 
-## Set-Up
+---
 
-### General Set-Up
+## Run locally, development mode, pre-build
 
-Download all necessary packages. This project uses yarn and package.json files to manage dependencies.
+0. Clone this project.
+
+```bash
+git clone https://github.com/GatiAher/lagaan-football-pool-app.git
+```
+
+1. Download all necessary packages. This project uses yarn and package.json files to manage dependencies. Make sure you have yarn and node installed.
 
 ```bash
 $ yarn
@@ -13,101 +19,157 @@ $ cd frontend/ && yarn && cd ..
 $ cd admin/ && yarn && cd ..
 ```
 
-### Frontend Set-Up
-
-Frontend uses Auth0 so you need to provide the configuration variables to access the Auth0 service. Make file `frontend/.env` and add the following key-value pairs. Get the values from Auth0 Dashboard.
-
-```
-REACT_APP_AUTH0_DOMAIN=<xxx.us.auth0.com>
-REACT_APP_AUTH0_CLIENT_ID=<yyy>
-```
-
-### Backend Set-Up
-
-Backend uses SQLite database, so you need to provide the database storage file.
+2. Backend uses SQLite database, so you need to provide the database storage file.
 
 ```bash
 $ touch backend/db/database.sqlite
 ```
 
-## To Run Development Mode
+3. Frontend uses backend api and Auth0 so you need to provide the configuration variables to access these. Make file `frontend/.env.development` and add the following key-value pairs. Get the values `REACT_APP_AUTH0_DOMAIN` and `REACT_APP_AUTH0_CLIENT_ID` from Auth0 Dashboard.
 
-### Yarn Scripts
+```
+REACT_APP_API=http://localhost:3001
+REACT_APP_AUTH0_DOMAIN=<xxx.us.auth0.com>
+REACT_APP_AUTH0_CLIENT_ID=<yyy>
+```
 
-- Run all: `yarn start`
-- Run backend: `yarn start-server`
-- Run frontend: `yarn start-front`
-- Run admin; `yarn start-admin`
+4. Admin also needs to access backend's api. Make file `frontend/.env.development` and add the following key-value pairs.
 
-### Access From Browser:
+```
+REACT_APP_API=http://localhost:3001
+```
+
+5. In root directory, run the start script to start application in `NODE_ENV=development` mode.
+
+```bash
+yarn start
+```
+
+Or you could run each service independently
+
+```
+yarn start-server
+yarn start-front
+yarn start-admin
+```
+
+6. Access from browser
 
 - Backend: http://localhost:3001 (see 404 page)
 - Frontend: http://localhost:3000 (see Home page)
 - Admin: http://localhost:3002 (see Admin Dashboard)
 
-### Populate Database
-
-- Go to Admin Dashboard and click on RESET buttons
-
 ---
 
-### To Run Production Mode
+## Run on ec2 instance, production mode, serving static files
 
-#### Create minified production builds for react apps (admin and frontend).
+0. make sure you have yarn, node, pm2 and nginx installed. I used AWS EC2 + elastic load balancer (ELB), Route53, SSL Certificate.
 
-```bash
-cd admin && yarn build && cd ..
-cd frontend && yarn build && cd ..
-```
+AWS PROCESS: In Route53 configure A-Record as type alias with target as ELB. Configure ELB as fail-over to the EC2. (fail-over mode requires health-check for fail-over configuration).
 
-#### Set up the production environment (ec2).
-
-Ssh into ec2.
-
-Install necessary packages. Use `serve` for serving static files (in admin and frontend build folders), `pm2` to restart web server after crashes, and `nginx` as a reverse proxy.
+RATIONAL: Right now, only using one instance, hence the fail-over configuration. Using ELB in order to use AWS's SSL. SSL is needed for OAuth used by frontend.
 
 ```bash
-yarn global add serve
+# install yarn
+curl -o- -L https://yarnpkg.com/install.sh | bash
+# install node version manager (nvm)
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+. ~/.nvm/nvm.sh
+# use nvm to install node
+nvm install node
+# install PM2 (Daemon Process Manager that keeps application online. Use it to run the backend)
 yarn global add pm2
+# install CentOS 7 EPEL and Nginx
+sudo yum install epel-release
 sudo yum install nginx
 ```
 
-set up nginx. Remove the default webserver code in `/etc/nginx/nginx.conf`, create your domain specific configuration file at `/etc/nginx/conf.d/www.domainname.com.conf`.
+1. Git pull a version that works in development mode
 
-run production build with
+2. Set up backend and start api using PM2.
 
 ```bash
-cd /path/to/your/directory
-pm2 start --env production
-sudo service nginx start
+cd backend && yarn && cd ..
+pm2 start
 ```
 
-stop with
+This uses the `ecosystem.config.js` file.
+
+3. Create `frontend/.env.production` with these key-value pairs.
+
+```
+REACT_APP_API=/api
+REACT_APP_AUTH0_DOMAIN=<xxx.us.auth0.com>
+REACT_APP_AUTH0_CLIENT_ID=<yyy>
+GENERATE_SOURCEMAP=false
+```
+
+Make frontend static build files.
+
+```bash
+cd frontend && yarn && yarn build && cd ..
+```
+
+4. Create `admin/.env.production` with these key-value pairs.
+
+```
+REACT_APP_API=/api
+GENERATE_SOURCEMAP=false
+```
+
+Make admin static build files.
+
+```bash
+cd admin && yarn && yarn build && cd ..
+```
+
+5. Use nginx to serve the frontend and admin static build files and reverse-proxy the backend api
+
+```bash
+cp nginx.conf /etc/nginx/nginx.conf
+sudo service nginx restart
+```
+
+NOTE: provided `nginx.conf` assumes that the path to lagaan-football-pool-app is `/data/lagaan-football-pool-app`. Change if necessary.
+NOTE: you might need to use sudo
+
+6. Access files from browser
+
+- Frontend: https://www.mydomain.com
+- Admin: https://www.mydomain.com/admin
+- Backend: https://www.mydomain.com/api
+
+7. To Stop
 
 ```bash
 pm2 delete all
 sudo service nginx stop
 ```
 
-## When Changing Domains
+---
 
-### Configuration
+# First Time User Steps
 
-- in `frontend/package.json` and `admin/package.json`, change value of proxy to new backend domain
+### Admin Should Populate Database From Admin Dashboard
 
-```json
-"proxy": "http://localhost:3001",
-```
+1. click on RESET buttons to load default values and erase all season data from table
 
-- in `admin/src/App.js` change url given to dataProvider to new backend domain
+- good for loading teams with 0-0-0 as W-L-T
+- keeps all users but erases picks, score, and rank
+- NOTE: loads games in the right format but uses outdated webscrapper so values are incorrect
 
-```javascript
-const dataProvider = simpleRestProvider("http://localhost:3001");
-```
+2. Go into resource tab, export current values into csv, replace csv with actual values, delete all values in table, import csv
 
-### Auth0
+- NOTE: this step may require one item to be in the database. Create one item and delete it afterwards.
+- NOTE: if you do not delete the items in table, importing csv will try to update items
 
-- Go to Auth0 Dashboard and configure proper callback urls.
+### User Registration
+
+1. User goes to frontend and signs up. This adds the user to Auth0. A user registered with Auth0 but not registered with the Lagaan Admin will be able to access the rankings and pick pages but not see any data.
+
+2. User clicks on top right menu (with username) and selects "Copy Id". User can then send this to Lagaan Admin, who can create a new user with the given id using the Admin Dashboard.
+
+3. User registered with both Auth0 and Lagaan system can access leaderboard and rankings.
 
 ---
 
@@ -168,16 +230,6 @@ Routes to recalculate scores & ranks for `team`, and `user` data
 ### Frontend
 
 - Pretty Home Page with short getting started guide
-- Profile Edit Page
-  - Currently only Admin can alter user preference data
-  - User will be allowed to edit user's preference data
-- Ability to create new Lagaan Football users from frontend page
-  - Auth0 service cannot post to backend on localhost
-  - Current System of Registering new users:
-    1. Create new user, either from front end (new user sign up) or Auth0 Dashboard (create new user). This creates a user in Auth0
-    2. Notify Admin
-    3. Admin will go to Auth0 Dashboard and copy new user's `sub` key
-    4. Admin will go to Admin Dashboard and create a new User with `user.id` = `sub` key
 
 ### Backend
 
