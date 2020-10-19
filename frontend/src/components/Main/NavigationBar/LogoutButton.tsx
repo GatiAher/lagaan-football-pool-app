@@ -67,7 +67,7 @@ const LogoutButton = () => {
         startIcon={<PersonIcon />}
         onClick={handleClick}
       >
-        <Typography variant="subtitle2">{`Hi ${user.nickname}!`}</Typography>
+        <Typography variant="subtitle2">{`${user.nickname}`}</Typography>
       </Button>
       <StyledMenu
         id="customized-menu"
