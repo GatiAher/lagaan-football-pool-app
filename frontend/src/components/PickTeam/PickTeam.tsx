@@ -21,6 +21,7 @@ import GameType from "../../utils/types/GameType";
 import fetchTeamMap from "../../utils/api-handlers/fetchTeamMap";
 import TeamType from "../../utils/types/TeamType";
 
+import fetchUserData from "../../utils/api-handlers/fetchUserData";
 import UserType from "../../utils/types/UserType";
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -31,20 +32,6 @@ import dateParser from "../../utils/dateParser";
 import { BYE_WEEK_START, BYE_WEEK_END } from "../../utils/constants/bye-week";
 
 import UserNotRegistered from "../General/UserNotRegistered";
-
-const fetchUserData = (
-  id: string,
-  callback: (arg0: UserType[], arg1: boolean) => void
-) => {
-  axios
-    .get(`/user/${id}`)
-    .then((response) => {
-      callback(response.data, true);
-    })
-    .catch(() => {
-      callback([], false);
-    });
-};
 
 const putUserSelections = (
   id: string,
