@@ -59,11 +59,15 @@ export default ({
     return <Box> </Box>;
   }
 
+  // set padding
+  let xpadding = 2;
+
   // set team
   name = team.id;
   // set primaryText
   if (width === "xs") {
     primaryText = team.id;
+    xpadding = 1;
   } else if (width === "sm" && name !== "BYE1" && name !== "BYE2") {
     primaryText = `${team.id} ${team.mascotName}`;
   } else {
@@ -78,7 +82,7 @@ export default ({
     <Box border={border} m={1} width="100%" display="flex" flexDirection="row">
       <Box
         p={1}
-        px={2}
+        px={xpadding}
         display="flex"
         flexDirection="row"
         alignItems="center"
