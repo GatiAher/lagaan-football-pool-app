@@ -1,4 +1,3 @@
-import axios from "axios";
 import { pickBy, startsWith } from "lodash";
 
 import { useAuth0 } from "@auth0/auth0-react";

@@ -1,4 +1,3 @@
-import axios from "axios";
 import { pickBy, omit, startsWith } from "lodash";
 
 import React, { useEffect, useState, useCallback } from "react";
@@ -22,6 +21,7 @@ import fetchTeamMap from "../../utils/api-handlers/fetchTeamMap";
 import TeamType from "../../utils/types/TeamType";
 
 import fetchUserData from "../../utils/api-handlers/fetchUserData";
+import putUserSelections from "../../utils/api-handlers/putUserSelections";
 import UserType from "../../utils/types/UserType";
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -32,21 +32,6 @@ import dateParser from "../../utils/dateParser";
 import { BYE_WEEK_START, BYE_WEEK_END } from "../../utils/constants/bye-week";
 
 import UserNotRegistered from "../General/UserNotRegistered";
-
-const putUserSelections = (
-  id: string,
-  body: any,
-  callback: (arg0: any, arg1: boolean) => void
-) => {
-  axios
-    .put(`/user/${id}`, body)
-    .then((response) => {
-      callback("Successfully updated team selections!", false);
-    })
-    .catch((error) => {
-      callback(error.message, true);
-    });
-};
 
 const PickTeam = (props: { width: "xs" | "sm" | "md" | "lg" | "xl" }) => {
   const [week, setWeek] = useState(getCurrentWeek());

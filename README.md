@@ -230,6 +230,10 @@ Routes to recalculate scores & ranks for `team`, and `user` data
 ### Frontend
 
 - Pretty Home Page with short getting started guide
+- Log all changes made by user in logfile
+- Rename "Copy Id" to "Register Id"
+- NFL Grid of all users choices up to the current week
+- Ranking highlight names of users who have not picked for this week
 
 ### Backend
 
@@ -237,10 +241,20 @@ Routes to recalculate scores & ranks for `team`, and `user` data
   - site being scrapped currently: https://www.pro-football-reference.com/years/2020/games.htm
   - WARNING: webscrapped game info is inaccurate because format of site changed when season started
 - Maintain a table to store editable constants like kickoff date, or start and end of BYE selection period
+- Remove username column
+- If week over and not picked yet, experience loss penalty of loss
 
 ### Admin
 
-- Set timer to re-rank users and re-score teams on a weekly basis
 - Add a pretty show panel for each item so admin can see all data without going into edit-mode
-- Add admin password
-- Ability to delete Auth0 User Data when deleting Lagaan Football User Data
+- Add admin password + Auth0 Account for Admin (add second one as necessary)
+- Log all changes made from Admin Account in log file
+- Page to easily set Team win-loss-tie by toggle, by game, by week
+- Import and export csv files' dates in human readable format
+- Create user panel only has three fields
+- Hide username column
+
+### Data
+
+- Create Auth0 accounts with given emails and changeme passwords for all users
+- Get Game Data in .csv format from fixture download
