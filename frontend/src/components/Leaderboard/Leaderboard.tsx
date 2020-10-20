@@ -125,6 +125,9 @@ const Leaderboard = ({
 
   return (
     <div>
+      <Typography gutterBottom>
+        {`If name is red, you have not picked teams for week ${currentWeek}`}
+      </Typography>
       {isLoadedUsers && isLoadedTeamMap ? (
         <MaterialTable
           title="Users"
@@ -170,8 +173,15 @@ const Leaderboard = ({
                 title: col.title,
                 field: "firstName",
                 render: (rowData) => {
+                  let color =
+                    rowData[`wk${currentWeek}A`] && rowData[`wk${currentWeek}B`]
+                      ? "black"
+                      : "red";
                   return (
-                    <Box fontWeight="fontWeightBold">{`${rowData.firstName} ${rowData.lastName}`}</Box>
+                    <Box
+                      color={color}
+                      fontWeight="fontWeightBold"
+                    >{`${rowData.firstName} ${rowData.lastName}`}</Box>
                   );
                 },
               };

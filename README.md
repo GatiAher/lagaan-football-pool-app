@@ -232,8 +232,7 @@ Routes to recalculate scores & ranks for `team`, and `user` data
 Minor
 
 - Pretty Home Page with short getting started guide
-- Rename "Copy Id" to "Register Id"
-- Ranking highlight names of users who have not picked for this week
+- Make banner with message: If name is red, you have not picked teams for week 7
 
 Medium
 
@@ -265,7 +264,6 @@ Minor
 
 - Add a pretty show panel for each item so admin can see all data without going into edit-mode
 - Hide username column
-- Create user panel only has three fields
 
 Medium
 
