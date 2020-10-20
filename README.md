@@ -229,30 +229,53 @@ Routes to recalculate scores & ranks for `team`, and `user` data
 
 ### Frontend
 
+Minor
+
 - Pretty Home Page with short getting started guide
-- Log all changes made by user in logfile
 - Rename "Copy Id" to "Register Id"
-- NFL Grid of all users choices up to the current week
 - Ranking highlight names of users who have not picked for this week
 
+Medium
+
+- NFL Grid of all users choices up to the current week
+
+Major
+
+- Log all changes made by user in logfile
+
 ### Backend
+
+Minor
+
+Medium
+
+- Remove username column
+- If week over and not picked yet, experience loss penalty of loss
+
+Major
 
 - Implement Accurate Webscrapper
   - site being scrapped currently: https://www.pro-football-reference.com/years/2020/games.htm
   - WARNING: webscrapped game info is inaccurate because format of site changed when season started
 - Maintain a table to store editable constants like kickoff date, or start and end of BYE selection period
-- Remove username column
-- If week over and not picked yet, experience loss penalty of loss
 
 ### Admin
 
+Minor
+
 - Add a pretty show panel for each item so admin can see all data without going into edit-mode
-- Add admin password + Auth0 Account for Admin (add second one as necessary)
-- Log all changes made from Admin Account in log file
-- Page to easily set Team win-loss-tie by toggle, by game, by week
-- Import and export csv files' dates in human readable format
-- Create user panel only has three fields
 - Hide username column
+- Create user panel only has three fields
+
+Medium
+
+- Import and export csv files' dates in human readable format
+- Page to easily set Team win-loss-tie by toggle, by game, by week
+- Add admin password + Auth0 Account for Admin (add second one as necessary)
+
+Major
+
+- Log all changes made from Admin Account in log file
 
 ### Data
 

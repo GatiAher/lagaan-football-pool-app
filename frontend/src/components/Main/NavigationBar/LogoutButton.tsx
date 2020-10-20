@@ -88,7 +88,7 @@ const LogoutButton = () => {
               <ListItemIcon>
                 <FileCopyIcon fontSize="small" />
               </ListItemIcon>
-              <ListItemText primary="Copy Id" />
+              <ListItemText primary="Registration Id" />
             </Box>
           </CopyToClipboard>
         </MenuItem>
@@ -103,7 +103,7 @@ const LogoutButton = () => {
         onClose={() => {
           setOpenSnackbar(false);
         }}
-        message="Copied id to clipboard! Please send to admin for registration."
+        message="Copied Registration Id to clipboard!"
       />
     </div>
   );
