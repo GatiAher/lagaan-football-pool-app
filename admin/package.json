@@ -8,7 +8,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://localhost:3001",
+  "homepage": "/admin/build",
   "eslintConfig": {
     "extends": "react-app"
   },
@@ -29,6 +29,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.20.0",
+    "express": "^4.17.1",
     "prop-types": "^15.7.2",
     "ra-data-simple-rest": "^3.8.3",
     "react": "^16.13.1",

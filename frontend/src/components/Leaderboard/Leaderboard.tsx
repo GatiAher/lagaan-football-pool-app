@@ -1,4 +1,3 @@
-import axios from "axios";
 import { pickBy, startsWith } from "lodash";
 
 import { useAuth0 } from "@auth0/auth0-react";
@@ -18,6 +17,7 @@ import GridListTile from "@material-ui/core/GridListTile";
 
 import getCurrentWeek from "../../utils/getCurrentWeek";
 
+import fetchUsers from "../../utils/api-handlers/fetchUsers";
 import UserType from "../../utils/types/UserType";
 
 import fetchTeamMap from "../../utils/api-handlers/fetchTeamMap";
@@ -28,22 +28,6 @@ import TeamDisplay from "../General/TeamDisplay";
 import UserNotRegistered from "../General/UserNotRegistered";
 
 const highlightColor = "#ffed46";
-
-const fetchUsers = async (callback: (arg0: any) => void) => {
-  const query = {
-    sort: JSON.stringify(["score", "desc"]),
-  };
-  axios
-    .get("/user", { params: query })
-    .then((response) => {
-      callback(response.data);
-    })
-    .catch((error) => {
-      console.error(
-        `Encountered an error while retrieving the game list: ${error}`
-      );
-    });
-};
 
 const getSelectedTeams = (rowData: UserType) => {
   const selectedTeams = pickBy(rowData, (value, key) => startsWith(key, "wk"));
@@ -141,6 +125,9 @@ const Leaderboard = ({
 
   return (
     <div>
+      <Typography gutterBottom>
+        {`If name is red, you have not picked teams for week ${currentWeek}`}
+      </Typography>
       {isLoadedUsers && isLoadedTeamMap ? (
         <MaterialTable
           title="Users"
@@ -186,8 +173,15 @@ const Leaderboard = ({
                 title: col.title,
                 field: "firstName",
                 render: (rowData) => {
+                  let color =
+                    rowData[`wk${currentWeek}A`] && rowData[`wk${currentWeek}B`]
+                      ? "black"
+                      : "red";
                   return (
-                    <Box fontWeight="fontWeightBold">{`${rowData.firstName} ${rowData.lastName}`}</Box>
+                    <Box
+                      color={color}
+                      fontWeight="fontWeightBold"
+                    >{`${rowData.firstName} ${rowData.lastName}`}</Box>
                   );
                 },
               };

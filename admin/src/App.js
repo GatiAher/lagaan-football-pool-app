@@ -30,7 +30,10 @@ import TeamList from "./Team/TeamList";
 import TeamEdit from "./Team/TeamEdit";
 import TeamCreate from "./Team/TeamCreate";
 
-const dataProvider = simpleRestProvider("http://localhost:3001");
+const dataProvider = simpleRestProvider(process.env.REACT_APP_API);
+
+console.log("REACT_APP_API", process.env.REACT_APP_API);
+console.log("NODE_ENV", process.env.NODE_ENV);
 
 const App = () => {
   // Setup i18n

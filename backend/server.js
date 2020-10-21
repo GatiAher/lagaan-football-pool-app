@@ -11,6 +11,7 @@ const teamRouter = require("./routes/generic-route")("Team");
 const userRouter = require("./routes/generic-route")("User");
 // Set default port for express app
 const PORT = process.env.PORT || 3001;
+console.log("NODE_ENV BACKEND : ", process.env.NODE_ENV);
 // Create express app
 const app = express();
 // Apply middleware
