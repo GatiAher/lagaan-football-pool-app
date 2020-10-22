@@ -23,9 +23,12 @@ import UserType from "../../utils/types/UserType";
 import fetchTeamMap from "../../utils/api-handlers/fetchTeamMap";
 import TeamType from "../../utils/types/TeamType";
 import { TEAMS } from "../../utils/constants/teams";
-import TeamDisplay from "../General/TeamDisplay";
+// TODO: replace or remove
+import TeamDisplay from "../WeekDisplay/TeamDisplayWWOStatus";
 
 import UserNotRegistered from "../General/UserNotRegistered";
+
+// TODO: clean up
 
 const highlightColor = "#ffed46";
 

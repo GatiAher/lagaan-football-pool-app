@@ -39,19 +39,21 @@ const StatusDisplay = ({ team, week }: { team: TeamType; week: number }) => {
   );
 };
 
+export interface TeamDisplayProps {
+  team: TeamType | undefined;
+  width: "xs" | "sm" | "md" | "lg" | "xl";
+  showCounts?: boolean;
+  week?: number;
+  border?: number;
+}
+
 export default ({
   team,
   width,
   showCounts = true,
   week = 0,
   border = 1,
-}: {
-  team: TeamType | undefined;
-  width: "xs" | "sm" | "md" | "lg" | "xl";
-  showCounts?: boolean;
-  week?: number;
-  border?: number;
-}) => {
+}: TeamDisplayProps) => {
   let name = undefined;
   let primaryText = "";
   let secondaryText = "";

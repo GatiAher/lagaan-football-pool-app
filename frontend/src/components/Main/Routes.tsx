@@ -2,7 +2,7 @@ import React from "react";
 import PageHeader from "../General/PageHeader";
 import Leaderboard from "../Leaderboard/Leaderboard";
 import PickTeam from "../PickTeam/PickTeam";
-import GameDisplay from "../GameDisplay/GameDisplay";
+import GameDisplay from "../GameSchedule/GameSchedule";
 import Rules from "../Home/Rules";
 
 const HomePage: React.FC = () => {
