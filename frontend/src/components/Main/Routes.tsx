@@ -2,8 +2,12 @@ import React from "react";
 import PageHeader from "../General/PageHeader";
 import Leaderboard from "../Leaderboard/Leaderboard";
 import PickTeam from "../PickTeam/PickTeam";
-import GameDisplay from "../GameSchedule/GameSchedule";
+import GameSchedule from "../GameSchedule/GameSchedule";
+import PickOverview from "../UserPicksOverview/UserPicksOverview";
+
 import Rules from "../Home/Rules";
+
+// TODO: clean up, stop using page header
 
 const HomePage: React.FC = () => {
   return (
@@ -23,6 +27,15 @@ const RankingsPage: React.FC = () => {
   );
 };
 
+const PickOverviewPage: React.FC = () => {
+  return (
+    <div>
+      <PageHeader>Picks Overview</PageHeader>
+      <PickOverview />
+    </div>
+  );
+};
+
 const PickSheetPage: React.FC = () => {
   return (
     <div>
@@ -36,7 +49,7 @@ const NFLGamesPage: React.FC = () => {
   return (
     <div>
       <PageHeader>NFL Games</PageHeader>
-      <GameDisplay />
+      <GameSchedule />
     </div>
   );
 };
@@ -59,6 +72,12 @@ const Routes: IRoute[] = [
     path: "/rankings",
     sidebarName: "Rankings",
     component: RankingsPage,
+    private: true,
+  },
+  {
+    path: "/pick_grid",
+    sidebarName: "Pick Grid",
+    component: PickOverviewPage,
     private: true,
   },
   {

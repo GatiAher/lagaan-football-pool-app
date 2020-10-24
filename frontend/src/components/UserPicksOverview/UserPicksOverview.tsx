@@ -1,4 +1,4 @@
-import { pickBy, startsWith } from "lodash";
+import { startsWith } from "lodash";
 
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -12,8 +12,6 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
-import GridList from "@material-ui/core/GridList";
-import GridListTile from "@material-ui/core/GridListTile";
 
 import getCurrentWeek from "../../utils/getCurrentWeek";
 
@@ -21,69 +19,12 @@ import fetchUsers from "../../utils/api-handlers/fetchUsers";
 import UserType from "../../utils/types/UserType";
 import UserNotRegistered from "../General/UserNotRegistered";
 
-import { TEAMS } from "../../utils/constants/teams";
+import fetchTeamMap from "../../utils/api-handlers/fetchTeamMap";
+import TeamType from "../../utils/types/TeamType";
 
 const highlightColor = "#ffed46";
 
-const getPastSelectedTeams = (rowData: UserType, currentWeek: number) => {
-  const selectedTeams = pickBy(rowData, (value, key) => {
-    if (startsWith(key, "wk")) {
-      const regex = /(\d)+/g;
-      const found = key.match(regex);
-      if (found) {
-        const weekNum = parseInt(found[0], 10);
-        if (weekNum < currentWeek) {
-          return true;
-        }
-      }
-    }
-    return false;
-  });
-  const selectedTeamsStrings = Object.values(selectedTeams);
-  return selectedTeamsStrings;
-};
-
-const RemainingTeams = ({
-  rowData,
-  width,
-  currentWeek,
-}: {
-  rowData: UserType;
-  width: "xs" | "sm" | "md" | "lg" | "xl";
-  currentWeek: number;
-}) => {
-  const selectedTeams = getPastSelectedTeams(rowData, currentWeek);
-  const numCols = width === "xs" || width === "sm" ? 4 : 8;
-  return (
-    <Box py={1}>
-      <Typography variant="h6" color="primary">
-        {`Picks Week 1 - Week ${currentWeek - 1}`}
-      </Typography>
-      <GridList cellHeight="auto" cols={numCols}>
-        {TEAMS.map((team) => {
-          const bgcolor = selectedTeams.includes(team)
-            ? highlightColor
-            : "white";
-          return (
-            <GridListTile key={team}>
-              <Box bgcolor={bgcolor}>
-                <Typography align="center" variant="body2">
-                  {team}
-                </Typography>
-              </Box>
-            </GridListTile>
-          );
-        })}
-      </GridList>
-    </Box>
-  );
-};
-
-const Leaderboard = ({
-  width,
-}: {
-  width: "xs" | "sm" | "md" | "lg" | "xl";
-}) => {
+const UserPickOverview = () => {
   const theme = useTheme();
 
   const { user } = useAuth0();
@@ -93,6 +34,9 @@ const Leaderboard = ({
 
   const currentWeek = getCurrentWeek();
   const bannerMessage = `If name is red, you have not picked teams for week ${currentWeek}`;
+
+  const [teamMap, setTeamMap] = useState(new Map<string, TeamType>());
+  const [isLoadedTeamMap, setIsLoadedTeamMap] = useState(false);
 
   // Fetch on initial render
   useEffect(() => {
@@ -104,6 +48,10 @@ const Leaderboard = ({
       if (listOfUserIds.includes(user.sub)) {
         setUsers(data);
         setIsLoadedUsers(true);
+        fetchTeamMap((teamMapData) => {
+          setTeamMap(teamMapData);
+          setIsLoadedTeamMap(true);
+        });
       } else {
         setIsRegisteredUser(false);
       }
@@ -114,7 +62,7 @@ const Leaderboard = ({
     return <UserNotRegistered />;
   }
 
-  if (!isLoadedUsers) {
+  if (!isLoadedUsers || !isLoadedTeamMap) {
     return (
       <Box>
         <Typography gutterBottom>{bannerMessage}</Typography>
@@ -123,12 +71,17 @@ const Leaderboard = ({
     );
   }
 
-  const columnLabels = [
-    { title: "rank", field: "rank" },
-    { title: "name" },
-    { title: "score", field: "score" },
-    { title: "W-L-T" },
-  ];
+  const columnLabels = [{ title: "rank", field: "rank" }, { title: "name" }];
+  for (let i = currentWeek - 1; i > 0; i--) {
+    columnLabels.push({
+      title: `${i}A`,
+      field: `wk${i}A`,
+    });
+    columnLabels.push({
+      title: `${i}B`,
+      field: `wk${i}B`,
+    });
+  }
 
   return (
     <div>
@@ -168,11 +121,43 @@ const Leaderboard = ({
                 );
               },
             };
-          } else if (col.title === "W-L-T") {
+          } else if (startsWith(col.field, "wk")) {
             return {
               title: col.title,
+              field: col.field,
               render: (rowData) => {
-                return `${rowData.numOfWin}-${rowData.numOfLoss}-${rowData.numOfTie}`;
+                let team = rowData[col.field];
+                // @ts-ignore
+                const weekTag = col.field.slice(0, -1);
+                let status = "default";
+                try {
+                  // @ts-ignore
+                  status = teamMap.get(team)[weekTag];
+                } catch {
+                  console.log("team", team);
+                }
+                let textColor = theme.palette.text.primary;
+                let bgcolor = theme.palette.background.paper;
+                if (status === "win") {
+                  textColor = theme.palette.grey[100];
+                  bgcolor = theme.palette.success.dark;
+                } else if (status === "loss") {
+                  textColor = theme.palette.error.dark;
+                  bgcolor = theme.palette.error.light;
+                } else if (status === "tie") {
+                  textColor = theme.palette.grey.A700;
+                  bgcolor = theme.palette.divider;
+                }
+                return (
+                  <Box
+                    fontWeight="fontWeightMedium"
+                    color={textColor}
+                    bgcolor={bgcolor}
+                    textAlign="center"
+                  >
+                    {rowData[col.field]}
+                  </Box>
+                );
               },
             };
           }
@@ -185,20 +170,9 @@ const Leaderboard = ({
           };
         })}
         data={users}
-        detailPanel={(rowData) => {
-          return (
-            <Box p={2} bgcolor={theme.palette.background.default}>
-              <RemainingTeams
-                rowData={rowData}
-                width={width}
-                currentWeek={currentWeek}
-              />
-            </Box>
-          );
-        }}
       />
     </div>
   );
 };
 
-export default withWidth()(Leaderboard);
+export default withWidth()(UserPickOverview);
