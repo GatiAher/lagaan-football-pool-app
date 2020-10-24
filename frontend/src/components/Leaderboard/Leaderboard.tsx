@@ -96,6 +96,8 @@ const Leaderboard = ({
 
   const [isRegisteredUser, setIsRegisteredUser] = useState(true);
 
+  const bannerMessage = `If name is red, you have not picked teams for week ${currentWeek}`;
+
   // Fetch on initial render
   useEffect(() => {
     fetchUsers((data) => {
@@ -119,9 +121,7 @@ const Leaderboard = ({
   if (!isLoadedUsers) {
     return (
       <Box>
-        <Typography gutterBottom>
-          {`If name is red, you have not picked teams for week ${currentWeek}`}
-        </Typography>
+        <Typography gutterBottom>{bannerMessage}</Typography>
         <LinearProgress />;
       </Box>
     );
@@ -136,9 +136,7 @@ const Leaderboard = ({
 
   return (
     <div>
-      <Typography gutterBottom>
-        {`If name is red, you have not picked teams for week ${currentWeek}`}
-      </Typography>
+      <Typography gutterBottom>{bannerMessage}</Typography>
       <MaterialTable
         title="Users"
         options={{
