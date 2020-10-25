@@ -79,7 +79,7 @@ const NavigationBar: React.FC<RouteComponentProps> = ({
               <MenuIcon />
             </IconButton>
             <Box flexGrow={1}>
-              <Typography variant="h6">Lagaan Football</Typography>
+              <Typography variant="h6">Lagaan NFL</Typography>
             </Box>
             <AuthNav />
           </Toolbar>
