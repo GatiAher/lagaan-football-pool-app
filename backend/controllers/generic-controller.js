@@ -21,6 +21,21 @@ module.exports = function (TABLE) {
     return reqParams.id;
   };
 
+  const getProperBody = (reqBody) => {
+    const { created_at, updated_at, ...properBody } = reqBody;
+    return properBody;
+  };
+
+  const getValidateStartTime = (reqBody) => {
+    const { startTime } = reqBody;
+    if (startTime) {
+      return /^[0-9]{4}-[0-1][0-9]-[0-3][0-9] [0-1][0-9]:[0-5][0-9] [A|P][M]$/.test(
+        startTime
+      );
+    }
+    return true;
+  };
+
   module.getOne = async (req, res) => {
     const id = getIdFromParams(req.params);
     knex(TABLE)
@@ -94,10 +109,17 @@ module.exports = function (TABLE) {
   };
 
   module.update = async (req, res) => {
+    const validateStartTime = getValidateStartTime(req.body);
     const id = getIdFromParams(req.params);
+    const properBody = getProperBody(req.body);
+    if (!validateStartTime) {
+      res.status(400).json({
+        message: `${TABLE}: there was an error during update: startTime ${req.body.startTime} not in format YYYY-MM-DD hh:mm _M`,
+      });
+    }
     knex(TABLE)
       .where("id", id)
-      .update(req.body)
+      .update(properBody)
       .then((numItems) => {
         if (numItems === 0) {
           throw new Error(`${id} cannot be updated because it does not exist.`);
@@ -113,21 +135,31 @@ module.exports = function (TABLE) {
       });
   };
 
-  module.updateMany = async (req, res) => {
-    const ids = getIdsFromQuery(req.query);
-    knex(TABLE)
-      .whereIn("id", ids)
-      .update(req.body)
-      .then((numItems) => {
-        res.json({
-          message: `${TABLE}: ${numItems} / ${ids.length} items updated.`,
-        });
-      })
-      .catch((err) => {
-        res.status(500).json({
-          message: `${TABLE}: there was an error updating ${ids}: ${err}`,
-        });
+  module.create = async (req, res) => {
+    const validateStartTime = getValidateStartTime(req.body);
+    const properBody = getProperBody(req.body);
+    if (!req.body.id) {
+      res.status(400).json({
+        message: `${TABLE}: there was an error during creation: id not present in request body`,
       });
+    } else if (!validateStartTime) {
+      res.status(400).json({
+        message: `${TABLE}: there was an error during creation: startTime ${req.body.startTime} not in format YYYY-MM-DD hh:mm _M`,
+      });
+    } else {
+      knex(TABLE)
+        .insert(properBody)
+        .then(() => {
+          res.json({
+            message: `${TABLE}: ${req.body.id} created.`,
+          });
+        })
+        .catch((err) => {
+          res.status(500).json({
+            message: `${TABLE}: there was an error creating ${req.body.id}: ${err}`,
+          });
+        });
+    }
   };
 
   module.delete = async (req, res) => {
@@ -146,44 +178,6 @@ module.exports = function (TABLE) {
           message: `${TABLE}: there was an error deleting ${id}: ${err}`,
         });
       });
-  };
-
-  module.deleteMany = async (req, res) => {
-    const ids = getIdsFromQuery(req.query);
-    knex(TABLE)
-      .whereIn("id", ids)
-      .del()
-      .then((numItems) => {
-        res.json({
-          message: `${TABLE}: ${numItems} / ${ids.length} items deleted.`,
-        });
-      })
-      .catch((err) => {
-        res.status(500).json({
-          message: `${TABLE}: there was an error deleting ${ids}: ${err}`,
-        });
-      });
-  };
-
-  module.create = async (req, res) => {
-    if (!req.body.id) {
-      res.status(400).json({
-        message: `${TABLE}: there was an error during creation: id not present in request body`,
-      });
-    } else {
-      knex(TABLE)
-        .insert(req.body)
-        .then(() => {
-          res.json({
-            message: `${TABLE}: ${req.body.id} created.`,
-          });
-        })
-        .catch((err) => {
-          res.status(500).json({
-            message: `${TABLE}: there was an error creating ${req.body.id}: ${err}`,
-          });
-        });
-    }
   };
 
   module.clearTable = async (req, res) => {

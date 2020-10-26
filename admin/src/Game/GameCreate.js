@@ -5,7 +5,6 @@ import {
   TextInput,
   NumberInput,
   SelectInput,
-  DateInput,
 } from "react-admin";
 import teamChoices from "../team-choices";
 
@@ -13,7 +12,10 @@ const GameCreate = (props) => (
   <Create {...props}>
     <SimpleForm redirect="list">
       <TextInput source="id" />
-      <DateInput source="startTime" />
+      <TextInput
+        source="startTime"
+        helperText="use format YYYY-MM-DD hh:mm _M, 12-hour time"
+      />
       <NumberInput source="week" />
       <SelectInput source="visTeam" choices={teamChoices} />
       <SelectInput source="homeTeam" choices={teamChoices} />

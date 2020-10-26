@@ -1,6 +1,7 @@
 import { KICKOFF } from "./constants/week";
 
 const getCurrentWeek = (): number => {
+  // week changes on Thursday, but currentWeek changes on Tuesday morning
   const currentDateObj = new Date();
   const diff = (currentDateObj.getTime() - KICKOFF) / 1000;
   const weeksDiff = diff / (60 * 60 * 24 * 7);
