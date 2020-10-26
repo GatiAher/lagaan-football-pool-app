@@ -30,7 +30,7 @@ const RankingsPage: React.FC = () => {
 const PickOverviewPage: React.FC = () => {
   return (
     <div>
-      <PageHeader>Picks Overview</PageHeader>
+      <PageHeader>Weekly Grid</PageHeader>
       <PickOverview />
     </div>
   );
@@ -76,7 +76,7 @@ const Routes: IRoute[] = [
   },
   {
     path: "/pick_grid",
-    sidebarName: "Pick Grid",
+    sidebarName: "Weekly Grid",
     component: PickOverviewPage,
     private: true,
   },
