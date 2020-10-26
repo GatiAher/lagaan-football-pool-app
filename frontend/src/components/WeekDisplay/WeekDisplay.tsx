@@ -10,7 +10,7 @@ import getCurrentWeek from "../../utils/getCurrentWeek";
 import WeekPicker from "./WeekPicker";
 
 import TileTag from "./TileTag";
-import dateParser from "../../utils/dateParser";
+import processGameStartTime from "./processGameStartTime";
 
 import fetchGames from "../../utils/api-handlers/fetchGames";
 import GameType from "../../utils/types/GameType";
@@ -27,6 +27,7 @@ const isFunction = <T extends {}>(value: T): value is IsFunction<T> =>
 
 export interface TeamDisplayWrapperProps {
   team: TeamType;
+  isPickWindowOpen: boolean;
 }
 
 export interface WeekDisplayProps {
@@ -83,9 +84,10 @@ const WeekDisplay = (props: WeekDisplayProps) => {
     );
   }
 
-  // TODO: getCurrentWeek should change on Sun @ 1 pm
-  const isPickWindowOpen = week >= getCurrentWeek();
-  const secondString = isPickWindowOpen ? "open until Sun, 1pm" : `CLOSED`;
+  const isByePickWindowOpen = week >= getCurrentWeek();
+  const byePickWindowString = isByePickWindowOpen
+    ? "open until Tue morning"
+    : `CLOSED`;
 
   return (
     <Box>
@@ -94,10 +96,14 @@ const WeekDisplay = (props: WeekDisplayProps) => {
       )}
       <GridList cellHeight={"auto"} cols={1}>
         {games.map((game) => {
-          // TODO: fix bugs in dateParser
-          const { dateString, isOver } = dateParser(game.startTime);
+          const {
+            gameStartTimeString,
+            gamePickWindowString,
+            gameIsPickWindowOpen,
+          } = processGameStartTime(game.startTime);
           const visTeam = teamMap.get(game.visTeam);
           const homeTeam = teamMap.get(game.homeTeam);
+          // Handle no teams error
           if (visTeam === undefined || homeTeam === undefined) {
             return (
               <GridListTile key={game.id}>
@@ -108,18 +114,28 @@ const WeekDisplay = (props: WeekDisplayProps) => {
               </GridListTile>
             );
           }
+          // Actual game display
           return (
             <GridListTile key={game.id}>
-              <TileTag firstString={dateString} secondString={secondString} />
+              <TileTag
+                firstString={gameStartTimeString}
+                secondString={gamePickWindowString}
+              />
               <Box display="flex" flexDirection="row">
                 <Box my={1} width="100%">
-                  {render({ team: visTeam })}
+                  {render({
+                    team: visTeam,
+                    isPickWindowOpen: gameIsPickWindowOpen,
+                  })}
                 </Box>
                 <Box m="auto" p={1}>
                   {"@"}
                 </Box>
                 <Box my={1} width="100%">
-                  {render({ team: homeTeam })}
+                  {render({
+                    team: homeTeam,
+                    isPickWindowOpen: gameIsPickWindowOpen,
+                  })}
                 </Box>
               </Box>
             </GridListTile>
@@ -131,14 +147,23 @@ const WeekDisplay = (props: WeekDisplayProps) => {
           week < BYE_WEEK_END &&
           week > BYE_WEEK_START && (
             <GridListTile key="BYE">
-              <TileTag firstString="Bye Choice" secondString={secondString} />
+              <TileTag
+                firstString="Bye Choice"
+                secondString={byePickWindowString}
+              />
               <Box display="flex" flexDirection="row">
                 <Box my={1} width="100%">
-                  {render({ team: teamBye1 })}
+                  {render({
+                    team: teamBye1,
+                    isPickWindowOpen: isByePickWindowOpen,
+                  })}
                 </Box>
                 <Box m="auto" p={1}></Box>
                 <Box my={1} width="100%">
-                  {render({ team: teamBye2 })}
+                  {render({
+                    team: teamBye2,
+                    isPickWindowOpen: isByePickWindowOpen,
+                  })}
                 </Box>
               </Box>
             </GridListTile>

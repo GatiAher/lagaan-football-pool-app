@@ -7,6 +7,8 @@ import Snackbar from "@material-ui/core/Snackbar";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 
+import LinearProgress from "@material-ui/core/LinearProgress";
+
 import fetchUserData from "../../utils/api-handlers/fetchUserData";
 import putUserSelections from "../../utils/api-handlers/putUserSelections";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -30,7 +32,7 @@ const PickTeam = () => {
   const [savedSelections, setSavedSelections] = useState<
     (string | number | undefined)[]
   >([]);
-  // TODO: store selections in array
+
   const [selectionA, setSelectionA] = useState("");
   const [selectionB, setSelectionB] = useState("");
   const [isLoadedUser, setIsLoadedUser] = useState(false);
@@ -97,10 +99,14 @@ const PickTeam = () => {
         setIsLoadedUser(true);
       }
     });
-  }, [user.sub]);
+  }, [user.sub, week]);
 
   if (!isRegisteredUser) {
     return <UserNotRegistered />;
+  }
+
+  if (!isLoadedUser) {
+    return <LinearProgress />;
   }
 
   const handleTeamSelect = (team: string): void => {
@@ -127,8 +133,7 @@ const PickTeam = () => {
     return (
       <SelectionButton
         team={props.team.id}
-        week={week}
-        currentWeek={currentWeek}
+        disabled={!props.isPickWindowOpen}
         savedSelections={savedSelections}
         handleTeamSelect={handleTeamSelect}
         isTeamSelected={isTeamSelected}

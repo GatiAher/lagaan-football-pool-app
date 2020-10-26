@@ -1,6 +1,6 @@
 export default interface GameType {
   id: string;
-  startTime: number;
+  startTime: string;
   week: number;
   visTeam: string;
   homeTeam: string;

@@ -4,8 +4,7 @@ import Box from "@material-ui/core/Box";
 
 type SelectionButtonProps = {
   team: string;
-  week: number;
-  currentWeek: number;
+  disabled: boolean;
   savedSelections: any;
   handleTeamSelect: (team: string) => void;
   isTeamSelected: (team: string) => boolean;
@@ -15,15 +14,13 @@ type SelectionButtonProps = {
 const SelectionButton: React.FC<SelectionButtonProps> = ({
   children,
   team,
-  week,
-  currentWeek,
+  disabled,
   savedSelections,
   handleTeamSelect,
   isTeamSelected,
   areTwoTeamsSelected,
 }) => {
-  // disable button if selected week is over
-  let disabledVal = week < currentWeek;
+  let disabledVal = disabled;
   let variant: ButtonProps["variant"] = "text";
   if (isTeamSelected(team)) {
     variant = "contained";

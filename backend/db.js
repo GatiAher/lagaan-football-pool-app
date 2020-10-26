@@ -18,7 +18,7 @@ knex.schema
       return knex.schema
         .createTable("Game", (table) => {
           table.string("id").primary().notNullable(); // `${week}_${visTeam}_${homeTeam}`
-          table.integer("startTime").notNullable();
+          table.string("startTime").notNullable();
           table.integer("week").notNullable();
           table.string("visTeam").notNullable();
           table.string("homeTeam").notNullable();

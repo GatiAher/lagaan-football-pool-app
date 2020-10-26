@@ -6,11 +6,12 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Box from "@material-ui/core/Box";
 
 import TeamLogo from "./TeamLogo";
-import { TeamDisplayWrapperProps } from "./WeekDisplay";
+import TeamType from "../../utils/types/TeamType";
 
 export type TeamDisplayProps = {
   width: "xs" | "sm" | "md" | "lg" | "xl";
-} & TeamDisplayWrapperProps;
+  team: TeamType;
+};
 
 const TeamDisplay = ({ team, width }: TeamDisplayProps) => {
   let isBye = team.id == "BYE1" || team.id == "BYE2";
