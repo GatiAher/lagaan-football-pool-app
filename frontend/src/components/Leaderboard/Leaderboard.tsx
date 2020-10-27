@@ -108,7 +108,7 @@ const Leaderboard = ({
         setIsRegisteredUser(false);
       }
     });
-  }, []);
+  }, [user.sub]);
 
   if (!isRegisteredUser) {
     return <UserNotRegistered />;

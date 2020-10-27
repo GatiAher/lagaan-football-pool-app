@@ -56,7 +56,7 @@ const UserPickOverview = () => {
         setIsRegisteredUser(false);
       }
     });
-  }, []);
+  }, [user.sub]);
 
   if (!isRegisteredUser) {
     return <UserNotRegistered />;

@@ -71,7 +71,7 @@ const WeekDisplay = (props: WeekDisplayProps) => {
         setTeamBye2(data.get("BYE2"));
       }
     });
-  }, [week]);
+  }, [week, props.hasBye]);
 
   if (!isLoadedGame || !isLoadedTeamMap) {
     return (
