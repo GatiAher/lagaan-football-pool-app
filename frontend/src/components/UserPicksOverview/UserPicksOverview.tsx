@@ -71,7 +71,11 @@ const UserPickOverview = () => {
     );
   }
 
-  const columnLabels = [{ title: "rank", field: "rank" }, { title: "name" }];
+  const columnLabels = [
+    { title: "rank", field: "rank" },
+    { title: "score", field: "score" },
+    { title: "name" },
+  ];
   for (let i = currentWeek - 1; i > 0; i--) {
     columnLabels.push({
       title: `${i}A`,
