@@ -179,6 +179,7 @@ sudo service nginx stop
 
 - Login, Logout, Sign-Up, User Authentication
 - Dynamic Design -- looks good on all screens
+- Keeps track of current week (changes on Sunday @ 1pm)
 - NFL Games Page
   - See game schedule by week
   - See outcomes of matches
@@ -237,8 +238,6 @@ Minor
 
 - Pretty Home Page with short getting started guide
 - Make banner with message: If name is red, you have not picked teams for week 7
-- change current week on Sunday @ 1pm
-- weekly grid rank and score
 
 Medium
 

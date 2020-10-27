@@ -86,7 +86,7 @@ const WeekDisplay = (props: WeekDisplayProps) => {
 
   const isByePickWindowOpen = week >= getCurrentWeek();
   const byePickWindowString = isByePickWindowOpen
-    ? "open until Tue morning"
+    ? "open until Mon, midnight"
     : `CLOSED`;
 
   return (
