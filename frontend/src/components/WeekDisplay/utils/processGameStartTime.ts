@@ -1,4 +1,4 @@
-import { DAYS } from "../../utils/constants/date-format";
+import { DAYS } from "./date-format";
 
 const parseDateTimeLocal = (dateTimeLocal: string): Date => {
   // datetimelocal is in format YYYY-MM-DD hh:mm _M

@@ -21,7 +21,7 @@ import fetchUsers from "../../utils/api-handlers/fetchUsers";
 import UserType from "../../utils/types/UserType";
 import UserNotRegistered from "../General/UserNotRegistered";
 
-import { TEAMS } from "../../utils/constants/teams";
+import { TEAMS } from "./teams";
 
 const highlightColor = "#ffed46";
 

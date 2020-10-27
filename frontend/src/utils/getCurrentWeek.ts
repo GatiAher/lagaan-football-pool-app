@@ -1,4 +1,4 @@
-import { KICKOFF } from "./constants/week";
+export const KICKOFF = new Date(2020, 8, 10).valueOf(); // 2020, Sept 10
 
 const getCurrentWeek = (): number => {
   // week changes on Thursday, but currentWeek changes on Sun  @ 1pm

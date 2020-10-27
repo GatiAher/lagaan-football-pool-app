@@ -10,7 +10,7 @@ import getCurrentWeek from "../../utils/getCurrentWeek";
 import WeekPicker from "./WeekPicker";
 
 import TileTag from "./TileTag";
-import processGameStartTime from "./processGameStartTime";
+import processGameStartTime from "./utils/processGameStartTime";
 
 import fetchGames from "../../utils/api-handlers/fetchGames";
 import GameType from "../../utils/types/GameType";
@@ -18,7 +18,7 @@ import GameType from "../../utils/types/GameType";
 import fetchTeamMap from "../../utils/api-handlers/fetchTeamMap";
 import TeamType from "../../utils/types/TeamType";
 
-import { BYE_WEEK_START, BYE_WEEK_END } from "../../utils/constants/bye-week";
+import { BYE_WEEK_START, BYE_WEEK_END } from "./utils/bye-week";
 
 type IsFunction<T> = T extends (...args: any[]) => any ? T : never;
 
