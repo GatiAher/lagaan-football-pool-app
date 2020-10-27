@@ -10,7 +10,7 @@ import {
   TextInput,
 } from "react-admin";
 
-import { ListActions } from "../import-csv/ListActions";
+import { ListActions } from "../../import-csv/ListActions";
 
 const GameFilter = (props) => (
   <Filter {...props}>

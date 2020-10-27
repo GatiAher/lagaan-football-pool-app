@@ -6,7 +6,7 @@ import {
   NumberInput,
   SelectInput,
 } from "react-admin";
-import teamChoices from "../team-choices";
+import teamChoices from "../../utils/team-choices";
 
 const GameEdit = (props) => (
   <Edit {...props}>

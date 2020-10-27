@@ -1,6 +1,6 @@
 import React from "react";
 import { Edit, SimpleForm, TextInput, SelectInput } from "react-admin";
-import weeks from "../weeks";
+import weeks from "../../utils/weeks";
 
 const TeamEdit = (props) => (
   <Edit {...props}>

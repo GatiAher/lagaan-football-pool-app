@@ -1,6 +1,6 @@
 import React from "react";
 import { Create, SimpleForm, TextInput, SelectInput } from "react-admin";
-import weeks from "../weeks";
+import weeks from "../../utils/weeks";
 
 const TeamCreate = (props) => (
   <Create {...props}>
