@@ -237,6 +237,8 @@ Minor
 
 - Pretty Home Page with short getting started guide
 - Make banner with message: If name is red, you have not picked teams for week 7
+- change current week on Sunday @ 1pm
+- weekly grid rank and score
 
 Medium
 
@@ -275,6 +277,7 @@ Medium
 Major
 
 - Log all changes made from Admin Account in log file
+- validation when picking for users
 
 ### Data
 
