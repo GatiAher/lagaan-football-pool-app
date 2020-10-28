@@ -197,6 +197,8 @@ sudo service nginx stop
     - EXPANDABLE DETAIL PANEL: user's selected teams, up to but not including current week
 - Weekly Grid
   - See all users's picks up to but not including current week
+- Auth0 for authentication
+  - users can register (must be approved by admin and added to database to be fully registered), change password
 
 ### Backend Site
 
@@ -239,10 +241,6 @@ Minor
 - Pretty Home Page with short getting started guide
 - Make banner with message: If name is red, you have not picked teams for week 7
 
-Medium
-
-- NFL Grid of all users choices up to the current week
-
 Major
 
 - Log all changes made by user in logfile
@@ -253,14 +251,14 @@ Minor
 
 Medium
 
-- If week over and not picked yet, experience loss penalty of loss
+- If week over and not picked yet, experience loss penalty?
 
 Major
 
+  - Maintain a table to store editable constants like kickoff date, or start and end of BYE selection period
 - Implement Accurate Webscrapper
   - site being scrapped currently: https://www.pro-football-reference.com/years/2020/games.htm
   - WARNING: webscrapped game info is inaccurate because format of site changed when season started
-- Maintain a table to store editable constants like kickoff date, or start and end of BYE selection period
 
 ### Admin
 
@@ -277,8 +275,3 @@ Major
 
 - Log all changes made from Admin Account in log file
 - validation when picking for users
-
-### Data
-
-- Create Auth0 accounts with given emails and changeme passwords for all users
-- Get Game Data in .csv format from fixture download
