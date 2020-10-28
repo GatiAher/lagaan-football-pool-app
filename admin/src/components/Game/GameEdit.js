@@ -1,16 +1,16 @@
 import React from "react";
 import {
-  Create,
+  Edit,
   SimpleForm,
   TextInput,
   NumberInput,
   SelectInput,
 } from "react-admin";
-import teamChoices from "../team-choices";
+import teamChoices from "../../utils/team-choices";
 
-const GameCreate = (props) => (
-  <Create {...props}>
-    <SimpleForm redirect="list">
+const GameEdit = (props) => (
+  <Edit {...props}>
+    <SimpleForm>
       <TextInput source="id" />
       <TextInput
         source="startTime"
@@ -20,7 +20,7 @@ const GameCreate = (props) => (
       <SelectInput source="visTeam" choices={teamChoices} />
       <SelectInput source="homeTeam" choices={teamChoices} />
     </SimpleForm>
-  </Create>
+  </Edit>
 );
 
-export default GameCreate;
+export default GameEdit;

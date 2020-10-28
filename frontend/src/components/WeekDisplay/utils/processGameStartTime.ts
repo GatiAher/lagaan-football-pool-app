@@ -1,4 +1,4 @@
-import { DAYS } from "../../utils/constants/date-format";
+import { DAYS } from "./date-format";
 
 const parseDateTimeLocal = (dateTimeLocal: string): Date => {
   // datetimelocal is in format YYYY-MM-DD hh:mm _M
@@ -13,7 +13,7 @@ const parseDateTimeLocal = (dateTimeLocal: string): Date => {
   // Process time
   const [hourString, minuteString] = timeString.split(":");
   let hour = parseInt(hourString, 10);
-  if (AMPM == "PM") {
+  if (AMPM === "PM") {
     hour = hour + 12;
   }
   const minute = parseInt(minuteString, 10);
@@ -59,7 +59,7 @@ function getPickWindowInfo(dateObj: Date): PickWindowInfoType {
   let dayOfWeek = 0; // Sunday
   let hours = 13; // 1pm
 
-  if (dateObj.getDay() == 4) {
+  if (dateObj.getDay() === 4) {
     // if Thursday, set next Thursday 6pm
     dayOfWeek = 4; // Thursday
     hours = 18; // 6pm

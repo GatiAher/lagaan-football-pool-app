@@ -10,25 +10,25 @@ import * as domainMessages from "./import-csv/build-watch/i18n";
 import simpleRestProvider from "ra-data-simple-rest";
 
 import authProvider from "./authProvider";
-import Dashboard from "./Dashboard/Dashboard";
+import Dashboard from "./components/Dashboard/Dashboard";
 
 // User
 import UserIcon from "@material-ui/icons/Group";
-import UserList from "./User/UserList";
-import UserEdit from "./User/UserEdit";
-import UserCreate from "./User/UserCreate";
+import UserList from "./components/User/UserList";
+import UserEdit from "./components/User/UserEdit";
+import UserCreate from "./components/User/UserCreate";
 
 // Game
 import GameIcon from "@material-ui/icons/SportsFootball";
-import GameList from "./Game/GameList";
-import GameEdit from "./Game/GameEdit";
-import GameCreate from "./Game/GameCreate";
+import GameList from "./components/Game/GameList";
+import GameEdit from "./components/Game/GameEdit";
+import GameCreate from "./components/Game/GameCreate";
 
 // Team
 import TeamIcon from "@material-ui/icons/GroupWork";
-import TeamList from "./Team/TeamList";
-import TeamEdit from "./Team/TeamEdit";
-import TeamCreate from "./Team/TeamCreate";
+import TeamList from "./components/Team/TeamList";
+import TeamEdit from "./components/Team/TeamEdit";
+import TeamCreate from "./components/Team/TeamCreate";
 
 const dataProvider = simpleRestProvider(process.env.REACT_APP_API);
 

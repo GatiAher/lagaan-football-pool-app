@@ -10,7 +10,7 @@ import getCurrentWeek from "../../utils/getCurrentWeek";
 import WeekPicker from "./WeekPicker";
 
 import TileTag from "./TileTag";
-import processGameStartTime from "./processGameStartTime";
+import processGameStartTime from "./utils/processGameStartTime";
 
 import fetchGames from "../../utils/api-handlers/fetchGames";
 import GameType from "../../utils/types/GameType";
@@ -18,7 +18,7 @@ import GameType from "../../utils/types/GameType";
 import fetchTeamMap from "../../utils/api-handlers/fetchTeamMap";
 import TeamType from "../../utils/types/TeamType";
 
-import { BYE_WEEK_START, BYE_WEEK_END } from "../../utils/constants/bye-week";
+import { BYE_WEEK_START, BYE_WEEK_END } from "./utils/bye-week";
 
 type IsFunction<T> = T extends (...args: any[]) => any ? T : never;
 
@@ -71,7 +71,7 @@ const WeekDisplay = (props: WeekDisplayProps) => {
         setTeamBye2(data.get("BYE2"));
       }
     });
-  }, [week]);
+  }, [week, props.hasBye]);
 
   if (!isLoadedGame || !isLoadedTeamMap) {
     return (
@@ -86,7 +86,7 @@ const WeekDisplay = (props: WeekDisplayProps) => {
 
   const isByePickWindowOpen = week >= getCurrentWeek();
   const byePickWindowString = isByePickWindowOpen
-    ? "open until Tue morning"
+    ? "open until Mon, midnight"
     : `CLOSED`;
 
   return (

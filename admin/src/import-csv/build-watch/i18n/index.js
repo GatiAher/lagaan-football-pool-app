@@ -1,4 +1,3 @@
-"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var es_1 = require("./es");
 Object.defineProperty(exports, "es", { enumerable: true, get: function () { return es_1.default; } });

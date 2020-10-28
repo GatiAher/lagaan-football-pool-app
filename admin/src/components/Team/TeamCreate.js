@@ -1,10 +1,10 @@
 import React from "react";
-import { Edit, SimpleForm, TextInput, SelectInput } from "react-admin";
-import weeks from "../weeks";
+import { Create, SimpleForm, TextInput, SelectInput } from "react-admin";
+import weeks from "../../utils/weeks";
 
-const TeamEdit = (props) => (
-  <Edit {...props}>
-    <SimpleForm>
+const TeamCreate = (props) => (
+  <Create {...props}>
+    <SimpleForm redirect="list">
       <TextInput source="id" />
       <TextInput source="mascotName" />
       <TextInput source="fullName" />
@@ -20,7 +20,7 @@ const TeamEdit = (props) => (
         />
       ))}
     </SimpleForm>
-  </Edit>
+  </Create>
 );
 
-export default TeamEdit;
+export default TeamCreate;

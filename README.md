@@ -179,6 +179,7 @@ sudo service nginx stop
 
 - Login, Logout, Sign-Up, User Authentication
 - Dynamic Design -- looks good on all screens
+- Keeps track of current week (changes on Sunday @ 1pm)
 - NFL Games Page
   - See game schedule by week
   - See outcomes of matches
@@ -186,13 +187,16 @@ sudo service nginx stop
   - Pick two teams each week
   - Automatically disables teams picked in previous weeks
   - BYE Week selection option only available on certain weeks (week in range 4-12)
+  - Pick windows close on Thu 6pm and Sun 1pm
 - Rankings Page (private)
   - See a sortable, filterable, exportable table of users
   - Table initially sorted by rank
   - Current user highlighted
   - For each user, see:
-    - ROW: Rank, Name, Picked Wins-Losses-Ties, Last Week's Choices, Score
-    - EXPANDABLE DETAIL PANEL: user's selected and remaining teams
+    - ROW: Rank, Name, Picked Wins-Losses-Ties, Score
+    - EXPANDABLE DETAIL PANEL: user's selected teams, up to but not including current week
+- Weekly Grid
+  - See all users's picks up to but not including current week
 
 ### Backend Site
 
@@ -219,6 +223,7 @@ Routes to recalculate scores & ranks for `team`, and `user` data
 
 - User Interface to perform create, read, update, and delete operations on Game, Team, and User data
 - Ability to import/export table data from/to .csv files (experimental feature)
+  - Import and export csv files', dates are in human readable format
 - Button to rescore teams and users
 - Button to clear all items from tables
 - Button to remove season data from tables
@@ -248,7 +253,6 @@ Minor
 
 Medium
 
-- Remove username column
 - If week over and not picked yet, experience loss penalty of loss
 
 Major
@@ -263,17 +267,16 @@ Major
 Minor
 
 - Add a pretty show panel for each item so admin can see all data without going into edit-mode
-- Hide username column
 
 Medium
 
-- Import and export csv files' dates in human readable format
 - Page to easily set Team win-loss-tie by toggle, by game, by week
 - Add admin password + Auth0 Account for Admin (add second one as necessary)
 
 Major
 
 - Log all changes made from Admin Account in log file
+- validation when picking for users
 
 ### Data
 
