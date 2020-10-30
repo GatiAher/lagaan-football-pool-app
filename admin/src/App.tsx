@@ -9,6 +9,8 @@ import * as domainMessages from "./import-csv/build-watch/i18n";
 
 import simpleRestProvider from "ra-data-simple-rest";
 import authProvider from "./authProvider";
+import { Layout } from "./layout";
+import customRoutes from "./routes";
 import { Dashboard } from "./dashboard";
 
 import user from "./pages/user";
@@ -26,9 +28,11 @@ const i18nProvider = polyglotI18nProvider(
 const App = () => {
   return (
     <Admin
-      dashboard={Dashboard}
-      authProvider={authProvider}
       dataProvider={dataProvider}
+      customRoutes={customRoutes}
+      authProvider={authProvider}
+      dashboard={Dashboard}
+      layout={Layout}
       i18nProvider={i18nProvider}
     >
       <Resource name="user" {...user} />
