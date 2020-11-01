@@ -6,9 +6,9 @@ import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 
-import TeamType from "./utils-front/types/TeamType";
+import TeamType from "../../types/TeamType";
 
-import putTeamScore from "./utils-front/api-handlers/putTeamScore"
+import api from "../../api";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -30,10 +30,11 @@ export default ({ team, week }: { team: TeamType; week: number }) => {
     setState(event.target.value);
     const body = {};
     // @ts-ignore
-      body[`wk${week}`] = event.target.value;
-      putTeamScore(event.target.value, body, (message: string, isFail: boolean) => {
-          
-      })
+    body[`wk${week}`] = event.target.value;
+    api.team
+      .putTeamScore(event.target.name, body)
+      .then(() => console.log("PUT SCORE"))
+      .catch((error) => console.error(`FAILED TO PUT SCORE: ${error}`));
   };
 
   return (

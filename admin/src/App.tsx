@@ -11,8 +11,8 @@ import simpleRestProvider from "ra-data-simple-rest";
 import authProvider from "./authProvider";
 import { Layout } from "./layout";
 import customRoutes from "./routes";
-import { Dashboard } from "./dashboard";
 
+import dashboard from "./pages/set-team-status-board";
 import user from "./pages/user";
 import game from "./pages/game";
 import team from "./pages/team";
@@ -31,7 +31,7 @@ const App = () => {
       dataProvider={dataProvider}
       customRoutes={customRoutes}
       authProvider={authProvider}
-      dashboard={Dashboard}
+      dashboard={dashboard}
       layout={Layout}
       i18nProvider={i18nProvider}
     >

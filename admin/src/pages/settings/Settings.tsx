@@ -1,20 +1,20 @@
 import { AxiosResponse } from "axios";
 import * as React from "react";
 
-import API from "../../api-handler";
+import api from "../../api";
 
 import SettingsView from "./SettingsView";
 
 import SnackBar from "../../components/snackbar";
 
-type snackBarMessageI = {
+type SnackBarMessageProps = {
   message: string;
   status: "success" | "fail";
 };
 
 const callAPI = (
   apipromise: () => Promise<AxiosResponse>,
-  callback: (arg0: snackBarMessageI) => void
+  callback: (arg0: SnackBarMessageProps) => void
 ) => {
   apipromise()
     .then((res) => {
@@ -29,29 +29,35 @@ const callAPI = (
 
 const Settings = () => {
   const [snackBarMessage, setSnackBarMessage] = React.useState<
-    (snackBarMessageI & { date: Date }) | null
+    (SnackBarMessageProps & { date: Date }) | null
   >(null);
 
-  const setSnackBarMessageUnique = (props: snackBarMessageI) =>
+  const setSnackBarMessageUnique = (props: SnackBarMessageProps) =>
     setSnackBarMessage({ ...props, date: new Date() });
 
   return (
     <div>
       <SettingsView
         scoreUser={() =>
-          callAPI(API.score.recalculateUserScore, setSnackBarMessageUnique)
+          callAPI(api.score.recalculateUserScore, setSnackBarMessageUnique)
         }
         scoreTeam={() =>
-          callAPI(API.score.recalculateTeamScore, setSnackBarMessageUnique)
+          callAPI(api.score.recalculateTeamScore, setSnackBarMessageUnique)
         }
-        clearUser={() => callAPI(API.user.clearTable, setSnackBarMessageUnique)}
-        clearTeam={() => callAPI(API.team.clearTable, setSnackBarMessageUnique)}
-        clearGame={() => callAPI(API.game.clearTable, setSnackBarMessageUnique)}
-        resetUser={() => callAPI(API.user.resetTable, setSnackBarMessageUnique)}
-        resetTeam={() => callAPI(API.team.resetTable, setSnackBarMessageUnique)}
-        resetGame={() => callAPI(API.game.resetTable, setSnackBarMessageUnique)}
+        clearUser={() => callAPI(api.user.clearTable, setSnackBarMessageUnique)}
+        clearTeam={() => callAPI(api.team.clearTable, setSnackBarMessageUnique)}
+        clearGame={() => callAPI(api.game.clearTable, setSnackBarMessageUnique)}
+        resetUser={() => callAPI(api.user.resetTable, setSnackBarMessageUnique)}
+        resetTeam={() => callAPI(api.team.resetTable, setSnackBarMessageUnique)}
+        resetGame={() => callAPI(api.game.resetTable, setSnackBarMessageUnique)}
       />
-      {snackBarMessage !== null && <SnackBar key={snackBarMessage.date.valueOf()} message={snackBarMessage.message} status={snackBarMessage.status} />}
+      {snackBarMessage !== null && (
+        <SnackBar
+          key={snackBarMessage.date.valueOf()}
+          message={snackBarMessage.message}
+          status={snackBarMessage.status}
+        />
+      )}
     </div>
   );
 };

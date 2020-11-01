@@ -4,15 +4,19 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 
-import DangerButton from "./DangerButton";
-import NormalButton from "./NormalButton";
+import DangerButton from "../../components/styled-buttons/DangerButton";
+import NormalButton from "../../components/styled-buttons/NormalButton";
 
-type ButtonTypeI = {
+type ButtonTypeProps = {
   type?: "danger" | "normal";
   onClick: () => void;
 };
 
-const DisplayButton: React.FC<ButtonTypeI> = ({ type, onClick, children }) => {
+const DisplayButton: React.FC<ButtonTypeProps> = ({
+  type,
+  onClick,
+  children,
+}) => {
   if (type === "danger") {
     return (
       <DangerButton variant="outlined" onClick={onClick}>
@@ -30,7 +34,7 @@ const DisplayButton: React.FC<ButtonTypeI> = ({ type, onClick, children }) => {
 type SettingsOptionViewI = {
   primaryText: string;
   secondaryText: string;
-} & ButtonTypeI;
+} & ButtonTypeProps;
 
 const SettingsOptionView = ({
   primaryText,

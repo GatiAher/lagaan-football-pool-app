@@ -1,5 +1,7 @@
 import React from "react";
+
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
@@ -13,13 +15,12 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const WeekPicker = ({
-  week,
-  setWeek,
-}: {
+type WeekPickerViewProps = {
   week: number;
   setWeek: (arg0: number) => void;
-}) => {
+};
+
+const WeekPickerView = ({ week, setWeek }: WeekPickerViewProps) => {
   const classes = useStyles();
   return (
     <FormControl variant="outlined" className={classes.formControl}>
@@ -58,4 +59,4 @@ const WeekPicker = ({
   );
 };
 
-export default WeekPicker;
+export default WeekPickerView;

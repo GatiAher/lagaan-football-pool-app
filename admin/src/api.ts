@@ -1,5 +1,9 @@
 import axios from "axios";
 
+import TeamType from "./types/TeamType";
+import GameType from "./types/GameType";
+import UserType from "./types/UserType";
+
 const apiClient = axios.create({
   baseURL: process.env.REACT_APP_API,
 });
@@ -19,13 +23,27 @@ export default {
       return apiClient.get(`/team`);
     },
     update: (id: string, body: object) => {
-      return apiClient.put(`/team/${id}`);
+      return apiClient.put(`/team/${id}`, body);
     },
     delete: (id: string) => {
       return apiClient.delete(`/team/${id}`);
     },
     create: (body: object) => {
-      return apiClient.post(`/team`);
+      return apiClient.post(`/team`, body);
+    },
+    fetchTeamMap: () => {
+      return apiClient.get(`/team`).then((response) => {
+        const teamMap = new Map<string, TeamType>();
+        if (Array.isArray(response.data)) {
+          response.data.forEach((teamObj) => {
+            teamMap.set(teamObj.id, teamObj);
+          });
+        }
+        return teamMap;
+      });
+    },
+    putTeamScore: (id: string, body: object) => {
+      return apiClient.put(`/team/${id}`, body);
     },
   },
   game: {
@@ -42,13 +60,22 @@ export default {
       return apiClient.get(`/game`);
     },
     update: (id: string, body: object) => {
-      return apiClient.put(`/game/${id}`);
+      return apiClient.put(`/game/${id}`, body);
     },
     delete: (id: string) => {
       return apiClient.delete(`/game/${id}`);
     },
     create: (body: object) => {
-      return apiClient.post(`/game`);
+      return apiClient.post(`/game`, body);
+    },
+    fetchGamesByWeek: (week: number) => {
+      const query = {
+        sort: JSON.stringify(["startTime", "asc"]),
+        filter: JSON.stringify({ week: week }),
+      };
+      return apiClient
+        .get<GameType[]>(`/game`, { params: query })
+        .then((response) => response.data);
     },
   },
   user: {
@@ -65,13 +92,13 @@ export default {
       return apiClient.get(`/user`);
     },
     update: (id: string, body: object) => {
-      return apiClient.put(`/user/${id}`);
+      return apiClient.put(`/user/${id}`, body);
     },
     delete: (id: string) => {
       return apiClient.delete(`/user/${id}`);
     },
     create: (body: object) => {
-      return apiClient.post(`/user`);
+      return apiClient.post(`/user`, body);
     },
   },
   score: {

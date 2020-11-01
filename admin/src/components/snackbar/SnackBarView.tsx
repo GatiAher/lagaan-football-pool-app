@@ -5,7 +5,7 @@ import SnackbarContent from "@material-ui/core/SnackbarContent";
 
 const errorSnackbarErrorColor = "#e57373";
 
-type SnackBarViewI = {
+type SnackBarViewProps = {
   open: boolean;
   status: "success" | "fail";
   handleClose: (event: any, reason: string) => void;
@@ -17,7 +17,7 @@ const SnackBarView = ({
   status,
   handleClose,
   message,
-}: SnackBarViewI) => {
+}: SnackBarViewProps) => {
   console.log("my message", message);
   return (
     <Snackbar

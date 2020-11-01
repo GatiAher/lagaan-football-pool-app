@@ -13,7 +13,7 @@ import Typography from "@material-ui/core/Typography";
 
 import SettingsOptionView from "./SettingOptionView";
 
-interface SettingsViewI {
+interface SettingsViewProps {
   scoreUser: () => void;
   scoreTeam: () => void;
   clearUser: () => void;
@@ -26,7 +26,16 @@ interface SettingsViewI {
 
 const dangerColor = "#cb2431";
 
-const SettingsView = (props: SettingsViewI) => {
+const SettingsView = ({
+  scoreUser,
+  scoreTeam,
+  clearUser,
+  clearTeam,
+  clearGame,
+  resetUser,
+  resetTeam,
+  resetGame,
+}: SettingsViewProps) => {
   return (
     <Card>
       <CardHeader title="Settings" />
@@ -37,12 +46,12 @@ const SettingsView = (props: SettingsViewI) => {
           <SettingsOptionView
             primaryText="Score Users"
             secondaryText="Re-calculate user scores"
-            onClick={props.scoreUser}
+            onClick={scoreUser}
           />
           <SettingsOptionView
             primaryText="Score Teams"
             secondaryText="Re-calculate team scores"
-            onClick={props.scoreTeam}
+            onClick={scoreTeam}
           />
         </List>
         <Typography variant="h6">Danger Zone</Typography>
@@ -52,38 +61,38 @@ const SettingsView = (props: SettingsViewI) => {
               primaryText="Clear Users"
               secondaryText="Remove all users"
               type="danger"
-              onClick={props.clearUser}
+              onClick={clearUser}
             />
             <SettingsOptionView
               primaryText="Clear Team"
               secondaryText="Remove all teams"
               type="danger"
-              onClick={props.clearTeam}
+              onClick={clearTeam}
             />
             <SettingsOptionView
               primaryText="Clear Games"
               secondaryText="Remove all games"
               type="danger"
-              onClick={props.clearGame}
+              onClick={clearGame}
             />
             <Divider />
             <SettingsOptionView
               primaryText="Reset Users"
               secondaryText="Clear user season info"
               type="danger"
-              onClick={props.resetUser}
+              onClick={resetUser}
             />
             <SettingsOptionView
               primaryText="Reset Teams"
               secondaryText="Clear team season info"
               type="danger"
-              onClick={props.resetTeam}
+              onClick={resetTeam}
             />
             <SettingsOptionView
               primaryText="Reset Games"
               secondaryText="! Replace with dumb data"
               type="danger"
-              onClick={props.resetGame}
+              onClick={resetGame}
             />
           </List>
         </Box>

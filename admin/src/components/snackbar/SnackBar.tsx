@@ -2,17 +2,17 @@ import * as React from "react";
 
 import SnackBarView from "./SnackBarView";
 
-export type SnackBarI = {
+export type SnackBarProps = {
   status: "success" | "fail";
   message: string;
-}
+};
 
-const Snackbar = ({ status, message }: SnackBarI) => {
+const Snackbar = ({ status, message }: SnackBarProps) => {
   const [open, setOpen] = React.useState(true);
 
   React.useEffect(() => {
     setOpen(true);
-    console.log(message)
+    console.log(message);
   }, [status, message]);
 
   const handleClose = (event: any, reason: string) => {
