@@ -5,16 +5,11 @@ import api from "../../api";
 
 import SettingsView from "./SettingsView";
 
-import SnackBar from "../../components/snackbar";
-
-type SnackBarMessageProps = {
-  message: string;
-  status: "success" | "fail";
-};
+import SnackBar, { SnackBarProps } from "../../components/snackbar";
 
 const callAPI = (
   apipromise: () => Promise<AxiosResponse>,
-  callback: (arg0: SnackBarMessageProps) => void
+  callback: (arg0: SnackBarProps) => void
 ) => {
   apipromise()
     .then((res) => {
@@ -29,10 +24,10 @@ const callAPI = (
 
 const Settings = () => {
   const [snackBarMessage, setSnackBarMessage] = React.useState<
-    (SnackBarMessageProps & { date: Date }) | null
+    (SnackBarProps & { date: Date }) | null
   >(null);
 
-  const setSnackBarMessageUnique = (props: SnackBarMessageProps) =>
+  const setSnackBarMessageUnique = (props: SnackBarProps) =>
     setSnackBarMessage({ ...props, date: new Date() });
 
   return (

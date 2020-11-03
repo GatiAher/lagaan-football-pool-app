@@ -2,7 +2,7 @@ import React from "react";
 
 import Container from "@material-ui/core/Container";
 
-import TeamDisplay from "./TeamDisplayWithDropdownStatus";
+import TeamDisplayWithDropdownStatus from "./TeamDisplayWithDropdownStatus";
 
 import GameByWeek, {
   TeamDisplayWrapperProps,
@@ -20,7 +20,13 @@ const SetTeamStatusBoardView = ({
   setWeek,
 }: SetTeamStatusBoardViewProps) => {
   const TeamDisplayWrapper = (props: TeamDisplayWrapperProps) => {
-    return <TeamDisplay team={props.team} week={week} />;
+    return (
+      <TeamDisplayWithDropdownStatus
+        game={props.game}
+        team={props.team}
+        week={week}
+      />
+    );
   };
   return (
     <Container maxWidth="md">

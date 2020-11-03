@@ -1,11 +1,7 @@
 import * as React from "react";
 
 import SnackBarView from "./SnackBarView";
-
-export type SnackBarProps = {
-  status: "success" | "fail";
-  message: string;
-};
+import type { SnackBarProps } from "./SnackBarProps";
 
 const Snackbar = ({ status, message }: SnackBarProps) => {
   const [open, setOpen] = React.useState(true);

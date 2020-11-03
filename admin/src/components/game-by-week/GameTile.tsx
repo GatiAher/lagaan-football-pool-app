@@ -21,8 +21,8 @@ type GameTileProps = {
   render: (props: TeamDisplayWrapperProps) => ReactNode;
 };
 
-const GameTile = ({ game, team1, team2, render, ...props }: GameTileProps) => {
-  if (!isFunction(render)) {
+const GameTile = ({ game, team1, team2, ...props }: GameTileProps) => {
+  if (!isFunction(props.render)) {
     throw new Error("render prop is mandatory and needs to be a function!");
   }
 
@@ -31,6 +31,7 @@ const GameTile = ({ game, team1, team2, render, ...props }: GameTileProps) => {
   let firstString: string;
   let secondString: string;
   let isBye: boolean;
+  let render: (props: TeamDisplayWrapperProps) => ReactNode;
 
   if (game) {
     id = game.id;
@@ -43,6 +44,8 @@ const GameTile = ({ game, team1, team2, render, ...props }: GameTileProps) => {
     firstString = gameStartTimeString;
     secondString = gamePickWindowString;
     isBye = false;
+    render = (arg0: TeamDisplayWrapperProps) =>
+      props.render({ game: game, ...arg0 });
   } else {
     id = "BYE";
     isPickWindowOpen = props.isPickWindowOpenDefault
@@ -51,6 +54,7 @@ const GameTile = ({ game, team1, team2, render, ...props }: GameTileProps) => {
     firstString = "Bye Choice";
     secondString = isPickWindowOpen ? "open until Mon, midnight" : "CLOSED";
     isBye = true;
+    render = props.render;
   }
 
   return (
