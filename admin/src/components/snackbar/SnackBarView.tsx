@@ -18,7 +18,6 @@ const SnackBarView = ({
   handleClose,
   message,
 }: SnackBarViewProps) => {
-  console.log("my message", message);
   return (
     <Snackbar
       anchorOrigin={{

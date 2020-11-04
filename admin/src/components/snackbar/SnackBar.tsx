@@ -8,7 +8,6 @@ const Snackbar = ({ status, message }: SnackBarProps) => {
 
   React.useEffect(() => {
     setOpen(true);
-    console.log(message);
   }, [status, message]);
 
   const handleClose = (event: any, reason: string) => {
