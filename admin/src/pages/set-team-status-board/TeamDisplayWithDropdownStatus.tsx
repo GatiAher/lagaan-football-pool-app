@@ -45,6 +45,8 @@ const TeamDisplayWithDropdownStatus = ({
       let opponentValue = "default";
       if (teamValue === "win") {
         opponentValue = "loss";
+      } else if (teamValue === "loss") {
+        opponentValue = "win";
       } else if (teamValue === "tie") {
         opponentValue = "tie";
       }
@@ -67,13 +69,13 @@ const TeamDisplayWithDropdownStatus = ({
       scoreUserPromise,
     ])
       .then(() => {
-        // TODO: remove
-        console.log("GOT HERE");
         setSnackBarMessageUnique({
           message: `Updated ${teamId} and ${opponentId} and scored users`,
           status: "success",
         });
-        window.location.reload();
+        setTimeout(() => {
+          window.location.reload();
+        }, 500);
       })
       .catch((err) => {
         setSnackBarMessageUnique({

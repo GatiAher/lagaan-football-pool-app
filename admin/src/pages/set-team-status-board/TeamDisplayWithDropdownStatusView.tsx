@@ -15,6 +15,16 @@ const useStyles = makeStyles((theme) => ({
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
+  win: {
+    backgroundColor: theme.palette.success.light,
+  },
+  loss: {
+    backgroundColor: theme.palette.error.light,
+  },
+  tie: {
+    backgroundColor: theme.palette.grey[500],
+  },
+  default: {},
 }));
 
 type TeamDisplayWithDropdownStatusViewProps = {
@@ -45,6 +55,8 @@ const TeamDisplayWithDropdownStatusView = ({
       justifyContent="space-between"
       border={1}
       borderRadius={4}
+      // @ts-ignore
+      className={classes[initialValue]}
     >
       <FormControl className={classes.formControl}>
         <InputLabel htmlFor="age-native-simple">{teamId}</InputLabel>
