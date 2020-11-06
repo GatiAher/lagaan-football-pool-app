@@ -157,7 +157,6 @@ const PickTeam = () => {
         variant="contained"
         color="primary"
         onClick={putUserSelectionsCallback}
-        disabled={selectionA === "" || selectionB === ""}
       >
         {`Pick: ${selectionA} ${selectionB}`}
       </Button>

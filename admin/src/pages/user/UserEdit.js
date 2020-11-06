@@ -1,7 +1,8 @@
 import React from "react";
 import { Edit, SimpleForm, TextInput, SelectInput } from "react-admin";
-import teamChoices from "../../utils/team-choices";
-import weeks from "../../utils/weeks";
+
+import teamChoices from "../../selection-options/team-choices";
+import weeks from "../../selection-options/weeks";
 
 const UserTitle = ({ record }) => {
   return <span>Editing User {record ? `"${record.username}"` : ""}</span>;

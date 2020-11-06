@@ -1,9 +1,14 @@
+const AdminUser = process.env.REACT_APP_ADMIN_USER;
+const AdminPassword = process.env.REACT_APP_ADMIN_PASS;
+
 export default {
   // called when the user attempts to log in
-  login: ({ username }) => {
-    localStorage.setItem("username", username);
-    // accept all username/password combinations
-    return Promise.resolve();
+  login: ({ username, password }: { username: string; password: string }) => {
+    if (username === AdminUser && password === AdminPassword) {
+      localStorage.setItem("username", username);
+      return Promise.resolve();
+    }
+    return Promise.reject();
   },
   // called when the user clicks on the logout button
   logout: () => {
@@ -11,7 +16,7 @@ export default {
     return Promise.resolve();
   },
   // called when the API returns an error
-  checkError: ({ status }) => {
+  checkError: ({ status }: { status: number }) => {
     if (status === 401 || status === 403) {
       localStorage.removeItem("username");
       return Promise.reject();
