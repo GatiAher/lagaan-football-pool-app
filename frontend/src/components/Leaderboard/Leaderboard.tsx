@@ -25,22 +25,28 @@ import { TEAMS } from "./teams";
 
 const highlightColor = "#ffed46";
 
-const getPastSelectedTeams = (rowData: UserType, currentWeek: number) => {
+const getPastSelectedTeams = (
+  rowData: UserType,
+  currentWeek: number,
+  mode?: "past" | "future"
+) => {
+  const thisMode = mode || "past";
   const selectedTeams = pickBy(rowData, (value, key) => {
     if (startsWith(key, "wk")) {
       const regex = /(\d)+/g;
       const found = key.match(regex);
       if (found) {
         const weekNum = parseInt(found[0], 10);
-        if (weekNum < currentWeek) {
+        if (thisMode === "past" && weekNum < currentWeek) {
+          return true;
+        } else if (thisMode === "future" && weekNum >= currentWeek) {
           return true;
         }
       }
     }
     return false;
   });
-  const selectedTeamsStrings = Object.values(selectedTeams);
-  return selectedTeamsStrings;
+  return Object.values(selectedTeams);
 };
 
 const RemainingTeams = ({
@@ -52,8 +58,14 @@ const RemainingTeams = ({
   width: "xs" | "sm" | "md" | "lg" | "xl";
   currentWeek: number;
 }) => {
-  const selectedTeams = getPastSelectedTeams(rowData, currentWeek);
   const numCols = width === "xs" || width === "sm" ? 4 : 8;
+  const { user } = useAuth0();
+  const isCurrentUser = user.sub === rowData.id;
+  const pastSelectedTeams = getPastSelectedTeams(rowData, currentWeek, "past");
+  const futureSelectedTeams: (string | number | undefined)[] = isCurrentUser
+    ? getPastSelectedTeams(rowData, currentWeek, "future")
+    : [];
+
   return (
     <Box py={1}>
       <Typography variant="h6" color="primary">
@@ -61,9 +73,40 @@ const RemainingTeams = ({
       </Typography>
       <GridList cellHeight="auto" cols={numCols}>
         {TEAMS.map((team) => {
-          const bgcolor = selectedTeams.includes(team)
-            ? highlightColor
-            : "white";
+          let bgcolor = "white";
+          let wk = "__";
+          if (pastSelectedTeams.includes(team)) {
+            bgcolor = highlightColor;
+            if (isCurrentUser) {
+              let wkNum = Math.floor(pastSelectedTeams.indexOf(team) / 2) + 1;
+              wk = wkNum.toString().padStart(2, "0");
+            }
+          }
+          if (isCurrentUser) {
+            if (futureSelectedTeams.includes(team)) {
+              bgcolor = "DeepSkyBlue";
+              let wkNum =
+                Math.floor(futureSelectedTeams.indexOf(team) / 2) + currentWeek;
+              wk = wkNum.toString().padStart(2, "0");
+            }
+            return (
+              <GridListTile key={team}>
+                <Box
+                  bgcolor={bgcolor}
+                  display="flex"
+                  flexDirection="row"
+                  justifyContent="space-around"
+                >
+                  <Typography align="center" variant="body2">
+                    {wk}
+                  </Typography>
+                  <Typography align="center" variant="body2">
+                    {team}
+                  </Typography>
+                </Box>
+              </GridListTile>
+            );
+          }
           return (
             <GridListTile key={team}>
               <Box bgcolor={bgcolor}>
