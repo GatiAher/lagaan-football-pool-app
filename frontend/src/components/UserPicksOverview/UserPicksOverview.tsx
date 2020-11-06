@@ -33,7 +33,7 @@ const UserPickOverview = () => {
   const [isRegisteredUser, setIsRegisteredUser] = useState(true);
 
   const currentWeek = getCurrentWeek();
-  const bannerMessage = `If name is red, you have not picked teams for week ${currentWeek}`;
+  const bannerMessage = `If name is blue, you have picked teams for week ${currentWeek}`;
 
   const [teamMap, setTeamMap] = useState(new Map<string, TeamType>());
   const [isLoadedTeamMap, setIsLoadedTeamMap] = useState(false);
@@ -115,8 +115,8 @@ const UserPickOverview = () => {
               render: (rowData) => {
                 let color =
                   rowData[`wk${currentWeek}A`] && rowData[`wk${currentWeek}B`]
-                    ? "black"
-                    : "red";
+                    ? "blue"
+                    : "black";
                 return (
                   <Box
                     color={color}
