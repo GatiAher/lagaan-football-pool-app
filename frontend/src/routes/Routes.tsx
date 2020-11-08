@@ -3,7 +3,7 @@ import PageHeader from "../frontend-components/PageHeader";
 import Leaderboard from "../pages/Leaderboard/Leaderboard";
 import PickTeam from "../pages/PickTeam/PickTeam";
 import GameSchedule from "../pages/GameSchedule/GameSchedule";
-import PickOverview from "../pages/UserPicksOverview/UserPicksOverview";
+import PickOverview from "../pages/UserPicksOverview";
 
 import Rules from "../pages/Home/Rules";
 
