@@ -17,7 +17,7 @@ import getCurrentWeek from "../../utils/getCurrentWeek";
 
 import fetchUsers from "../../utils/api-handlers/fetchUsers";
 import UserType from "../../utils/types/UserType";
-import UserNotRegistered from "../General/UserNotRegistered";
+import UserNotRegistered from "../../components/General/UserNotRegistered";
 
 import fetchTeamMap from "../../utils/api-handlers/fetchTeamMap";
 import TeamType from "../../utils/types/TeamType";

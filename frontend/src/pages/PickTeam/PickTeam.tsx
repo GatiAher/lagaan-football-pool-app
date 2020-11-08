@@ -12,14 +12,14 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import fetchUserData from "../../utils/api-handlers/fetchUserData";
 import putUserSelections from "../../utils/api-handlers/putUserSelections";
 import { useAuth0 } from "@auth0/auth0-react";
-import UserNotRegistered from "../General/UserNotRegistered";
+import UserNotRegistered from "../../components/General/UserNotRegistered";
 
 import SelectionButton from "./SelectionButton";
 
-import TeamDisplay from "../WeekDisplay/TeamDisplay";
+import TeamDisplay from "../../components/WeekDisplay/TeamDisplay";
 import WeekDisplay, {
   TeamDisplayWrapperProps,
-} from "../WeekDisplay/WeekDisplay";
+} from "../../components/WeekDisplay/WeekDisplay";
 
 import getCurrentWeek from "../../utils/getCurrentWeek";
 

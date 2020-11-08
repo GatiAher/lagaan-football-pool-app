@@ -1,11 +1,11 @@
 import React from "react";
-import PageHeader from "../General/PageHeader";
-import Leaderboard from "../Leaderboard/Leaderboard";
-import PickTeam from "../PickTeam/PickTeam";
-import GameSchedule from "../GameSchedule/GameSchedule";
-import PickOverview from "../UserPicksOverview/UserPicksOverview";
+import PageHeader from "../components/General/PageHeader";
+import Leaderboard from "../pages/Leaderboard/Leaderboard";
+import PickTeam from "../pages/PickTeam/PickTeam";
+import GameSchedule from "../pages/GameSchedule/GameSchedule";
+import PickOverview from "../pages/UserPicksOverview/UserPicksOverview";
 
-import Rules from "../Home/Rules";
+import Rules from "../pages/Home/Rules";
 
 // TODO: clean up, stop using page header
 

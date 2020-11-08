@@ -4,10 +4,10 @@ import Box from "@material-ui/core/Box";
 
 import TeamDisplayWithStatus from "./TeamDisplayWithStatus";
 
-import TeamDisplay from "../WeekDisplay/TeamDisplay";
+import TeamDisplay from "../../components/WeekDisplay/TeamDisplay";
 import WeekDisplay, {
   TeamDisplayWrapperProps,
-} from "../WeekDisplay/WeekDisplay";
+} from "../../components/WeekDisplay/WeekDisplay";
 
 import getCurrentWeek from "../../utils/getCurrentWeek";
 

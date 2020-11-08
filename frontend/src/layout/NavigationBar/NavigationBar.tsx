@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { NavLink, withRouter, RouteComponentProps } from "react-router-dom";
-import Routes from "../Routes";
+import Routes from "../../routes/Routes";
 
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import {
