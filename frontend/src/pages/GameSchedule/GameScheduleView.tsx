@@ -4,7 +4,7 @@ import Box from "@material-ui/core/Box";
 
 import TeamDisplayWithStatus from "./TeamDisplayWithStatus";
 
-import TeamDisplay from "../../front-end-specific-components/team-display";
+import TeamDisplay from "../../frontend-components/team-display";
 
 import GameByWeek, {
   TeamDisplayWrapperProps,

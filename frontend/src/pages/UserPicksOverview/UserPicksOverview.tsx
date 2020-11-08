@@ -18,7 +18,7 @@ import getCurrentWeek from "../../utils/getCurrentWeek";
 import api from "../../api";
 
 import UserType from "../../types/UserType";
-import UserNotRegistered from "../../front-end-specific-components/UserNotRegistered";
+import UserNotRegistered from "../../frontend-components/UserNotRegistered";
 
 import TeamType from "../../types/TeamType";
 

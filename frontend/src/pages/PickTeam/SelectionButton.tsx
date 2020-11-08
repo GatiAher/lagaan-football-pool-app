@@ -2,7 +2,7 @@ import React from "react";
 import Button, { ButtonProps } from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 
-import TeamDisplay from "../../front-end-specific-components/team-display/TeamDisplay";
+import TeamDisplay from "../../frontend-components/team-display/TeamDisplay";
 import TeamType from "../../types/TeamType";
 
 type SelectionButtonProps = {

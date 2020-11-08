@@ -11,7 +11,7 @@ import SelectionButton from "./SelectionButton";
 import LinearProgress from "@material-ui/core/LinearProgress";
 
 import { useAuth0 } from "@auth0/auth0-react";
-import UserNotRegistered from "../../front-end-specific-components/UserNotRegistered";
+import UserNotRegistered from "../../frontend-components/UserNotRegistered";
 
 import api from "../../api";
 import SnackBar, { SnackBarProps } from "../../components/snackbar";
