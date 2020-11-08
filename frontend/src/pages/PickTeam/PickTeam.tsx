@@ -1,17 +1,11 @@
 import { pickBy, omit, startsWith } from "lodash";
 
 import React, { useEffect, useState, useCallback } from "react";
-
 import Button from "@material-ui/core/Button";
 
 import PickTeamView from "./PickTeamView";
-import { TeamDisplayWrapperProps } from "../../components/game-by-week/TeamDisplayWrapperProps";
-import SelectionButton from "./SelectionButton";
-
-import LinearProgress from "@material-ui/core/LinearProgress";
 
 import { useAuth0 } from "@auth0/auth0-react";
-import UserNotRegistered from "../../frontend-components/UserNotRegistered";
 
 import api from "../../api";
 import SnackBar, { SnackBarProps } from "../../components/snackbar";
@@ -41,21 +35,6 @@ const PickTeam = () => {
   const setSnackBarMessageUnique = (props: SnackBarProps) =>
     setSnackBarMessage({ ...props, date: new Date() });
 
-  // TODO: clean up and use right api
-  const handleClick = (message: string, failValue: boolean) => {
-    if (failValue) {
-      setSnackBarMessageUnique({
-        message: message,
-        status: "fail",
-      });
-    } else {
-      setSnackBarMessageUnique({
-        message: message,
-        status: "success",
-      });
-    }
-  };
-
   const putUserSelectionsCallback = useCallback(() => {
     const body = {
       [`wk${week}A`]: selectionA,
@@ -66,16 +45,16 @@ const PickTeam = () => {
       .then(() =>
         setSnackBarMessageUnique({
           message: "Successfully updated picks!",
-          status: "fail",
+          status: "success",
         })
       )
       .catch((err) => {
         setSnackBarMessageUnique({
           message: `Failed to update picks: ${JSON.stringify(err)}`,
-          status: "success",
+          status: "fail",
         });
       });
-  }, [user.sub, week, selectionA, selectionB, handleClick]);
+  }, [user.sub, week, selectionA, selectionB]);
 
   // Fetch on initial render
   useEffect(() => {
@@ -114,14 +93,6 @@ const PickTeam = () => {
       });
   }, [user.sub, week]);
 
-  if (!isRegisteredUser) {
-    return <UserNotRegistered />;
-  }
-
-  if (!isLoadedUser) {
-    return <LinearProgress />;
-  }
-
   const handleTeamSelect = (team: string): void => {
     if (selectionA === team) {
       setSelectionA("");
@@ -142,22 +113,18 @@ const PickTeam = () => {
     return selectionA !== "" && selectionB !== "";
   };
 
-  const TeamDisplayWrapper = (props: TeamDisplayWrapperProps) => {
-    return (
-      <SelectionButton
-        team={props.team}
-        disabled={!props.isPickWindowOpen}
+  return (
+    <div>
+      <PickTeamView
+        week={week}
+        setWeek={setWeek}
         savedSelections={savedSelections}
         handleTeamSelect={handleTeamSelect}
         isTeamSelected={isTeamSelected}
         areTwoTeamsSelected={areTwoTeamsSelected}
+        isRegisteredUser={isRegisteredUser}
+        isLoadedUser={isLoadedUser}
       />
-    );
-  };
-
-  return (
-    <div>
-      <PickTeamView week={week} setWeek={setWeek} render={TeamDisplayWrapper} />
       <Button
         fullWidth
         variant="contained"
