@@ -2,24 +2,19 @@ import { pickBy, omit, startsWith } from "lodash";
 
 import React, { useEffect, useState, useCallback } from "react";
 
-import Snackbar from "@material-ui/core/Snackbar";
-
-import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
+
+import PickTeamView from "./PickTeamView";
+import { TeamDisplayWrapperProps } from "../../components/game-by-week/TeamDisplayWrapperProps";
+import SelectionButton from "./SelectionButton";
 
 import LinearProgress from "@material-ui/core/LinearProgress";
 
-import fetchUserData from "../../utils/api-handlers/fetchUserData";
-import putUserSelections from "../../utils/api-handlers/putUserSelections";
 import { useAuth0 } from "@auth0/auth0-react";
-import UserNotRegistered from "../../components/General/UserNotRegistered";
+import UserNotRegistered from "../../front-end-specific-components/UserNotRegistered";
 
-import SelectionButton from "./SelectionButton";
-
-import TeamDisplay from "../../components/WeekDisplay/TeamDisplay";
-import WeekDisplay, {
-  TeamDisplayWrapperProps,
-} from "../../components/WeekDisplay/WeekDisplay";
+import api from "../../api";
+import SnackBar, { SnackBarProps } from "../../components/snackbar";
 
 import getCurrentWeek from "../../utils/getCurrentWeek";
 
@@ -39,24 +34,26 @@ const PickTeam = () => {
   const [isRegisteredUser, setIsRegisteredUser] = useState(true);
 
   // snackbar
-  const errorSnackbarErrorColor = "#e57373";
-  const [open, setOpen] = React.useState(false);
-  const [isFail, setFail] = React.useState(false);
-  const [snackBarMessage, setSnackBarMessage] = React.useState("");
+  const [snackBarMessage, setSnackBarMessage] = React.useState<
+    (SnackBarProps & { date: Date }) | null
+  >(null);
 
+  const setSnackBarMessageUnique = (props: SnackBarProps) =>
+    setSnackBarMessage({ ...props, date: new Date() });
+
+  // TODO: clean up and use right api
   const handleClick = (message: string, failValue: boolean) => {
-    setSnackBarMessage(message);
-    setFail(failValue);
-    setOpen(true);
-  };
-
-  const handleClose = (event: any, reason: string) => {
-    if (reason === "clickaway") {
-      return;
+    if (failValue) {
+      setSnackBarMessageUnique({
+        message: message,
+        status: "fail",
+      });
+    } else {
+      setSnackBarMessageUnique({
+        message: message,
+        status: "success",
+      });
     }
-    setOpen(false);
-    setFail(false);
-    setSnackBarMessage("");
   };
 
   const putUserSelectionsCallback = useCallback(() => {
@@ -64,16 +61,30 @@ const PickTeam = () => {
       [`wk${week}A`]: selectionA,
       [`wk${week}B`]: selectionB,
     };
-    putUserSelections(user.sub, body, handleClick);
-  }, [user.sub, week, selectionA, selectionB]);
+    api.user
+      .putUserSelections(user.sub, body)
+      .then(() =>
+        setSnackBarMessageUnique({
+          message: "Successfully updated picks!",
+          status: "fail",
+        })
+      )
+      .catch((err) => {
+        setSnackBarMessageUnique({
+          message: `Failed to update picks: ${JSON.stringify(err)}`,
+          status: "success",
+        });
+      });
+  }, [user.sub, week, selectionA, selectionB, handleClick]);
 
   // Fetch on initial render
   useEffect(() => {
     setSelectionA("");
     setSelectionB("");
-    fetchUserData(user.sub, (data, isRegUser) => {
-      setIsRegisteredUser(isRegUser);
-      if (isRegUser) {
+    api.user
+      .getOne(user.sub)
+      .then((data) => {
+        setIsRegisteredUser(true);
         const getKeyValue = <T, K extends keyof T>(obj: T, key: K): T[K] =>
           obj[key];
         const userData = data[0];
@@ -97,8 +108,10 @@ const PickTeam = () => {
           setSelectionB(teamB);
         }
         setIsLoadedUser(true);
-      }
-    });
+      })
+      .catch(() => {
+        setIsRegisteredUser(false);
+      });
   }, [user.sub, week]);
 
   if (!isRegisteredUser) {
@@ -132,26 +145,19 @@ const PickTeam = () => {
   const TeamDisplayWrapper = (props: TeamDisplayWrapperProps) => {
     return (
       <SelectionButton
-        team={props.team.id}
+        team={props.team}
         disabled={!props.isPickWindowOpen}
         savedSelections={savedSelections}
         handleTeamSelect={handleTeamSelect}
         isTeamSelected={isTeamSelected}
         areTwoTeamsSelected={areTwoTeamsSelected}
-      >
-        <TeamDisplay team={props.team} />
-      </SelectionButton>
+      />
     );
   };
 
   return (
-    <Box>
-      <WeekDisplay
-        render={TeamDisplayWrapper}
-        week={week}
-        setWeek={setWeek}
-        hasBye
-      />
+    <div>
+      <PickTeamView week={week} setWeek={setWeek} render={TeamDisplayWrapper} />
       <Button
         fullWidth
         variant="contained"
@@ -160,25 +166,14 @@ const PickTeam = () => {
       >
         {`Pick: ${selectionA} ${selectionB}`}
       </Button>
-      <Snackbar
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "center",
-        }}
-        open={open}
-        autoHideDuration={3000}
-        onClose={handleClose}
-        message={snackBarMessage}
-        // @ts-ignore
-        ContentProps={
-          isFail && {
-            style: {
-              background: errorSnackbarErrorColor,
-            },
-          }
-        }
-      />
-    </Box>
+      {snackBarMessage !== null && (
+        <SnackBar
+          key={snackBarMessage.date.valueOf()}
+          message={snackBarMessage.message}
+          status={snackBarMessage.status}
+        />
+      )}
+    </div>
   );
 };
 

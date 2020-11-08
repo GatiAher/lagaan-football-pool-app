@@ -6,7 +6,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Box from "@material-ui/core/Box";
 
 import TeamLogo from "./TeamLogo";
-import TeamType from "../../utils/types/TeamType";
+import TeamType from "../../types/TeamType";
 
 export type TeamDisplayProps = {
   width: "xs" | "sm" | "md" | "lg" | "xl";

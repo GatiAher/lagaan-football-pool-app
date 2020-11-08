@@ -15,12 +15,12 @@ import Typography from "@material-ui/core/Typography";
 
 import getCurrentWeek from "../../utils/getCurrentWeek";
 
-import fetchUsers from "../../utils/api-handlers/fetchUsers";
-import UserType from "../../utils/types/UserType";
-import UserNotRegistered from "../../components/General/UserNotRegistered";
+import api from "../../api";
 
-import fetchTeamMap from "../../utils/api-handlers/fetchTeamMap";
-import TeamType from "../../utils/types/TeamType";
+import UserType from "../../types/UserType";
+import UserNotRegistered from "../../front-end-specific-components/UserNotRegistered";
+
+import TeamType from "../../types/TeamType";
 
 const highlightColor = "#ffed46";
 
@@ -40,7 +40,7 @@ const UserPickOverview = () => {
 
   // Fetch on initial render
   useEffect(() => {
-    fetchUsers((data) => {
+    api.user.getList().then((data) => {
       const listOfUserIds: string[] = [];
       data.forEach((element: UserType) => {
         listOfUserIds.push(element.id);
@@ -48,7 +48,7 @@ const UserPickOverview = () => {
       if (listOfUserIds.includes(user.sub)) {
         setUsers(data);
         setIsLoadedUsers(true);
-        fetchTeamMap((teamMapData) => {
+        api.team.fetchTeamMap().then((teamMapData) => {
           setTeamMap(teamMapData);
           setIsLoadedTeamMap(true);
         });

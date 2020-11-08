@@ -17,9 +17,9 @@ import GridListTile from "@material-ui/core/GridListTile";
 
 import getCurrentWeek from "../../utils/getCurrentWeek";
 
-import fetchUsers from "../../utils/api-handlers/fetchUsers";
-import UserType from "../../utils/types/UserType";
-import UserNotRegistered from "../../components/General/UserNotRegistered";
+import api from "../../api";
+import UserType from "../../types/UserType";
+import UserNotRegistered from "../../front-end-specific-components/UserNotRegistered";
 
 import { TEAMS } from "./teams";
 
@@ -139,7 +139,7 @@ const Leaderboard = ({
 
   // Fetch on initial render
   useEffect(() => {
-    fetchUsers((data) => {
+    api.user.getList().then((data) => {
       const listOfUserIds: string[] = [];
       data.forEach((element: UserType) => {
         listOfUserIds.push(element.id);

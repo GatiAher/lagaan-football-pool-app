@@ -4,7 +4,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 
 import { BrowserRouter } from "react-router-dom";
 
-import Auth0ProviderWithHistory from "./utils/auth0-provider-with-history";
+import Auth0ProviderWithHistory from "./routes/auth0-provider-with-history";
 
 import Layout from "./layout";
 

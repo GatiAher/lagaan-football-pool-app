@@ -1,32 +1,13 @@
 import React, { useState } from "react";
 
-import Box from "@material-ui/core/Box";
-
-import TeamDisplayWithStatus from "./TeamDisplayWithStatus";
-
-import TeamDisplay from "../../components/WeekDisplay/TeamDisplay";
-import WeekDisplay, {
-  TeamDisplayWrapperProps,
-} from "../../components/WeekDisplay/WeekDisplay";
+import GameScheduleView from "./GameScheduleView";
 
 import getCurrentWeek from "../../utils/getCurrentWeek";
 
-const SeasonGame = () => {
+const GameSchedule = () => {
   const [week, setWeek] = useState(getCurrentWeek());
 
-  const TeamDisplayWrapper = (props: TeamDisplayWrapperProps) => {
-    return (
-      <TeamDisplayWithStatus team={props.team} week={week}>
-        <TeamDisplay team={props.team} />
-      </TeamDisplayWithStatus>
-    );
-  };
-
-  return (
-    <Box>
-      <WeekDisplay render={TeamDisplayWrapper} week={week} setWeek={setWeek} />
-    </Box>
-  );
+  return <GameScheduleView week={week} setWeek={setWeek} />;
 };
 
-export default SeasonGame;
+export default GameSchedule;

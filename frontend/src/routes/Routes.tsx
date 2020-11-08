@@ -1,5 +1,5 @@
 import React from "react";
-import PageHeader from "../components/General/PageHeader";
+import PageHeader from "../front-end-specific-components/PageHeader";
 import Leaderboard from "../pages/Leaderboard/Leaderboard";
 import PickTeam from "../pages/PickTeam/PickTeam";
 import GameSchedule from "../pages/GameSchedule/GameSchedule";

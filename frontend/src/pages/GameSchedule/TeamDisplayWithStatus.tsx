@@ -1,7 +1,7 @@
 import React from "react";
 import Box from "@material-ui/core/Box";
 
-import TeamType from "../../utils/types/TeamType";
+import TeamType from "../../types/TeamType";
 
 import { Typography, useTheme } from "@material-ui/core";
 
