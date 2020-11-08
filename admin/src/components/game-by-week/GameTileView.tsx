@@ -12,9 +12,12 @@ type GameTileViewProps = {
   id: string;
   firstString: string;
   secondString: string;
-  isPickWindowOpen: boolean;
   team1: TeamType | undefined;
+  state1: string;
+  setState1: (arg0: string) => void;
   team2: TeamType | undefined;
+  state2: string;
+  setState2: (arg0: string) => void;
   isBye: boolean;
   render: (props: TeamDisplayWrapperProps) => ReactNode;
 };
@@ -23,9 +26,12 @@ const GameTileView = ({
   id,
   firstString,
   secondString,
-  isPickWindowOpen,
   team1,
+  state1,
+  setState1,
   team2,
+  state2,
+  setState2,
   isBye,
   render,
 }: GameTileViewProps) => {
@@ -48,7 +54,9 @@ const GameTileView = ({
           <Box my={1} width="100%">
             {render({
               team: team1,
-              isPickWindowOpen: isPickWindowOpen,
+              state: state1,
+              setState: setState1,
+              setStateOpp: setState2,
             })}
           </Box>
           <Box m="auto" p={1}>
@@ -57,7 +65,9 @@ const GameTileView = ({
           <Box my={1} width="100%">
             {render({
               team: team2,
-              isPickWindowOpen: isPickWindowOpen,
+              state: state2,
+              setState: setState2,
+              setStateOpp: setState1,
             })}
           </Box>
         </Box>

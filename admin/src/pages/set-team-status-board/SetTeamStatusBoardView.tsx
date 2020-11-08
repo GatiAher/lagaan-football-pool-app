@@ -1,7 +1,6 @@
 import React from "react";
 
 import Container from "@material-ui/core/Container";
-import ScrollHandler from "../../components/scroll-handler";
 
 import TeamDisplayWithDropdownStatus from "./TeamDisplayWithDropdownStatus";
 
@@ -26,16 +25,17 @@ const SetTeamStatusBoardView = ({
         game={props.game}
         team={props.team}
         week={week}
+        state={props.state}
+        setState={props.setState}
+        setStateOpp={props.setStateOpp}
       />
     );
   };
   return (
-    <ScrollHandler keepScrollOnRefresh>
-      <Container maxWidth="md">
-        <WeekPicker week={week} setWeek={setWeek} />
-        <GameByWeek render={TeamDisplayWrapper} week={week} />
-      </Container>
-    </ScrollHandler>
+    <Container maxWidth="md">
+      <WeekPicker week={week} setWeek={setWeek} />
+      <GameByWeek render={TeamDisplayWrapper} week={week} />
+    </Container>
   );
 };
 

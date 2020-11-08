@@ -69,7 +69,7 @@ const TeamDisplayWithDropdownStatusView = ({
             id: "age-native-simple",
           }}
         >
-          <option value="default">Default</option>
+          <option value="default">TBD</option>
           <option value="win">Win</option>
           <option value="loss">Loss</option>
           <option value="tie">Tie</option>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import TeamDisplayWithDropdownStatusView from "./TeamDisplayWithDropdownStatusView";
 
@@ -13,13 +13,21 @@ const TeamDisplayWithDropdownStatus = ({
   game,
   team,
   week,
+  state,
+  setState,
+  setStateOpp,
 }: {
   game?: GameType;
   team: TeamType;
   week: number;
+  state: string;
+  setState: (arg0: string) => void;
+  setStateOpp: (arg0: string) => void;
 }) => {
-  // @ts-ignore
-  const [state, setState] = React.useState(team[`wk${week}`]);
+  useEffect(() => {
+    // @ts-ignore
+    setState(team[`wk${week}`]);
+  }, [team, setState, week]);
 
   const [snackBarMessage, setSnackBarMessage] = React.useState<
     (SnackBarProps & { date: Date }) | null
@@ -29,15 +37,15 @@ const TeamDisplayWithDropdownStatus = ({
     setSnackBarMessage({ ...props, date: new Date() });
 
   const handleChange = (event: any) => {
-    // set state of dropdown
-    setState(event.target.value);
-    // set team status
+    // get team status
     const teamId = event.target.name;
     const teamValue = event.target.value;
     const teamBody = {
       [`wk${week}`]: teamValue,
     };
-    // set opponent team status
+    // set state of dropdown
+    setState(teamValue);
+    // get opponent team status
     let opponentId = "";
     let opponentBody = {};
     if (game) {
@@ -50,18 +58,18 @@ const TeamDisplayWithDropdownStatus = ({
       } else if (teamValue === "tie") {
         opponentValue = "tie";
       }
+      // set state of opponent dropdown
+      setStateOpp(opponentValue);
       opponentBody = {
         [`wk${week}`]: opponentValue,
       };
     }
-    // set team status
+    // update through API
     const teamPromise = api.team.putTeamScore(teamId, teamBody);
-    // set opponent team status
     const opponentPromise = api.team.putTeamScore(opponentId, opponentBody);
-    // score all
     const scoreTeamPromise = api.score.recalculateTeamScore();
     const scoreUserPromise = api.score.recalculateUserScore();
-    // set snackbar message: updated and scored team and opponent team
+    // set snackbar message
     Promise.all([
       teamPromise,
       opponentPromise,
@@ -73,9 +81,6 @@ const TeamDisplayWithDropdownStatus = ({
           message: `Updated ${teamId} and ${opponentId} and scored users`,
           status: "success",
         });
-        setTimeout(() => {
-          window.location.reload();
-        }, 500);
       })
       .catch((err) => {
         setSnackBarMessageUnique({

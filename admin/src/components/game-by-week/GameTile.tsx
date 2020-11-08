@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useState } from "react";
 
 import GameTileView from "./GameTileView";
 
@@ -26,6 +26,9 @@ const GameTile = ({ game, team1, team2, ...props }: GameTileProps) => {
     throw new Error("render prop is mandatory and needs to be a function!");
   }
 
+  const [state1, setState1] = useState("");
+  const [state2, setState2] = useState("");
+
   let id: string;
   let isPickWindowOpen: boolean;
   let firstString: string;
@@ -45,16 +48,15 @@ const GameTile = ({ game, team1, team2, ...props }: GameTileProps) => {
     secondString = gamePickWindowString;
     isBye = false;
     render = (arg0: TeamDisplayWrapperProps) =>
-      props.render({ game: game, ...arg0 });
+      props.render({ game, isPickWindowOpen, ...arg0 });
   } else {
     id = "BYE";
-    isPickWindowOpen = props.isPickWindowOpenDefault
-      ? props.isPickWindowOpenDefault
-      : false;
+    isPickWindowOpen = props.isPickWindowOpenDefault || false;
     firstString = "Bye Choice";
     secondString = isPickWindowOpen ? "open until Mon, midnight" : "CLOSED";
     isBye = true;
-    render = props.render;
+    render = (arg0: TeamDisplayWrapperProps) =>
+      props.render({ isPickWindowOpen, ...arg0 });
   }
 
   return (
@@ -62,9 +64,12 @@ const GameTile = ({ game, team1, team2, ...props }: GameTileProps) => {
       id={id}
       firstString={firstString}
       secondString={secondString}
-      isPickWindowOpen={isPickWindowOpen}
       team1={team1}
+      state1={state1}
+      setState1={setState1}
       team2={team2}
+      state2={state2}
+      setState2={setState2}
       isBye={isBye}
       render={render}
     />

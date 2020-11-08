@@ -4,5 +4,8 @@ import TeamType from "../../types/TeamType";
 export interface TeamDisplayWrapperProps {
   game?: GameType;
   team: TeamType;
-  isPickWindowOpen: boolean;
+  isPickWindowOpen?: boolean;
+  state: string;
+  setState: (arg0: string) => void;
+  setStateOpp: (arg0: string) => void;
 }
