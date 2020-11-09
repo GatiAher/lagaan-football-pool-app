@@ -17,7 +17,6 @@ const UserPickOverview = () => {
   const { user } = useAuth0();
   const [users, setUsers] = useState<UserType[]>([]);
   const [isLoadedUsers, setIsLoadedUsers] = useState(false);
-  const [isRegisteredUser, setIsRegisteredUser] = useState(true);
 
   const currentWeek = getCurrentWeek();
 
@@ -38,8 +37,6 @@ const UserPickOverview = () => {
           setTeamMap(teamMapData);
           setIsLoadedTeamMap(true);
         });
-      } else {
-        setIsRegisteredUser(false);
       }
     });
   }, [user.sub]);
@@ -50,7 +47,6 @@ const UserPickOverview = () => {
       currentUserSub={user.sub}
       users={users}
       isLoadedUsers={isLoadedUsers}
-      isRegisteredUser={isRegisteredUser}
       teamMap={teamMap}
       isLoadedTeamMap={isLoadedTeamMap}
     />

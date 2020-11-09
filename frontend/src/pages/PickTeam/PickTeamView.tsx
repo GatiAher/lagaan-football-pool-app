@@ -4,8 +4,6 @@ import Box from "@material-ui/core/Box";
 
 import LinearProgress from "@material-ui/core/LinearProgress";
 
-import UserNotRegistered from "../../frontend-components/UserNotRegistered";
-
 import SelectionButton from "./SelectionButton";
 
 import GameByWeek, {
@@ -21,7 +19,6 @@ type PickTeamViewProps = {
   handleTeamSelect: (team: string) => void;
   isTeamSelected: (team: string) => boolean;
   areTwoTeamsSelected: () => boolean;
-  isRegisteredUser: boolean;
   isLoadedUser: boolean;
 };
 
@@ -32,13 +29,8 @@ const PickTeamView = ({
   handleTeamSelect,
   isTeamSelected,
   areTwoTeamsSelected,
-  isRegisteredUser,
   isLoadedUser,
 }: PickTeamViewProps) => {
-  if (!isRegisteredUser) {
-    return <UserNotRegistered />;
-  }
-
   if (!isLoadedUser) {
     return <LinearProgress />;
   }

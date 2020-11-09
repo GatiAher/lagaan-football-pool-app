@@ -1,58 +1,9 @@
 import React from "react";
-import PageHeader from "../frontend-components/PageHeader";
+import Rules from "../pages/Home/Rules";
 import Leaderboard from "../pages/Leaderboard/Leaderboard";
 import PickTeam from "../pages/PickTeam/PickTeam";
 import GameSchedule from "../pages/GameSchedule/GameSchedule";
 import PickOverview from "../pages/UserPicksOverview";
-
-import Rules from "../pages/Home/Rules";
-
-// TODO: clean up, stop using page header
-
-const HomePage: React.FC = () => {
-  return (
-    <div>
-      <PageHeader>Home</PageHeader>
-      <Rules />{" "}
-    </div>
-  );
-};
-
-const RankingsPage: React.FC = () => {
-  return (
-    <div>
-      <PageHeader>Rankings</PageHeader>
-      <Leaderboard />
-    </div>
-  );
-};
-
-const PickOverviewPage: React.FC = () => {
-  return (
-    <div>
-      <PageHeader>Weekly Grid</PageHeader>
-      <PickOverview />
-    </div>
-  );
-};
-
-const PickSheetPage: React.FC = () => {
-  return (
-    <div>
-      <PageHeader>Pick Sheet</PageHeader>
-      <PickTeam />
-    </div>
-  );
-};
-
-const NFLGamesPage: React.FC = () => {
-  return (
-    <div>
-      <PageHeader>NFL Games</PageHeader>
-      <GameSchedule />
-    </div>
-  );
-};
 
 export interface IRoute {
   path: string;
@@ -65,31 +16,31 @@ const Routes: IRoute[] = [
   {
     path: "/",
     sidebarName: "Home",
-    component: HomePage,
+    component: Rules,
     private: false,
   },
   {
     path: "/rankings",
     sidebarName: "Rankings",
-    component: RankingsPage,
+    component: Leaderboard,
     private: true,
   },
   {
     path: "/pick_grid",
     sidebarName: "Weekly Grid",
-    component: PickOverviewPage,
+    component: PickOverview,
     private: true,
   },
   {
     path: "/pick_sheet",
     sidebarName: "Pick Sheet",
-    component: PickSheetPage,
+    component: PickTeam,
     private: true,
   },
   {
     path: "/nfl_games",
     sidebarName: "NFL Games",
-    component: NFLGamesPage,
+    component: GameSchedule,
     private: false,
   },
 ];

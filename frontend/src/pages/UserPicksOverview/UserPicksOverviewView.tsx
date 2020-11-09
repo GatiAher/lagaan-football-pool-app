@@ -10,7 +10,6 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 
 import UserType from "../../types/UserType";
-import UserNotRegistered from "../../frontend-components/UserNotRegistered";
 
 import TeamType from "../../types/TeamType";
 
@@ -23,7 +22,6 @@ type UserPickOverviewViewProps = {
   currentUserSub: string;
   users: UserType[];
   isLoadedUsers: boolean;
-  isRegisteredUser: boolean;
   teamMap: Map<string, TeamType>;
   isLoadedTeamMap: boolean;
 };
@@ -33,15 +31,10 @@ const UserPickOverviewView = ({
   currentUserSub,
   users,
   isLoadedUsers,
-  isRegisteredUser,
   teamMap,
   isLoadedTeamMap,
 }: UserPickOverviewViewProps) => {
   const theme = useTheme();
-
-  if (!isRegisteredUser) {
-    return <UserNotRegistered />;
-  }
 
   const bannerMessage = `If name is blue, you have picked teams for week ${currentWeek}`;
 

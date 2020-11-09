@@ -25,7 +25,6 @@ const PickTeam = () => {
   const [selectionA, setSelectionA] = useState("");
   const [selectionB, setSelectionB] = useState("");
   const [isLoadedUser, setIsLoadedUser] = useState(false);
-  const [isRegisteredUser, setIsRegisteredUser] = useState(true);
 
   // snackbar
   const [snackBarMessage, setSnackBarMessage] = React.useState<
@@ -60,37 +59,31 @@ const PickTeam = () => {
   useEffect(() => {
     setSelectionA("");
     setSelectionB("");
-    api.user
-      .getOne(user.sub)
-      .then((data) => {
-        setIsRegisteredUser(true);
-        const getKeyValue = <T, K extends keyof T>(obj: T, key: K): T[K] =>
-          obj[key];
-        const userData = data[0];
-        // @ts-ignore
-        const teamA = getKeyValue(userData, `wk${week}A`);
-        // @ts-ignore
-        const teamB = getKeyValue(userData, `wk${week}B`);
-        let teamSelections = pickBy(userData, (value, key) =>
-          startsWith(key, "wk")
-        );
-        // set already picked teams
-        teamSelections = omit(teamSelections, [`wk${week}A`, `wk${week}B`]);
-        // @ts-ignore
-        const teamSelectionsList = Object.values(teamSelections);
-        setSavedSelections(teamSelectionsList);
-        // set changable picks
-        if (typeof teamA === "string") {
-          setSelectionA(teamA);
-        }
-        if (typeof teamB === "string") {
-          setSelectionB(teamB);
-        }
-        setIsLoadedUser(true);
-      })
-      .catch(() => {
-        setIsRegisteredUser(false);
-      });
+    api.user.getOne(user.sub).then((data) => {
+      const getKeyValue = <T, K extends keyof T>(obj: T, key: K): T[K] =>
+        obj[key];
+      const userData = data[0];
+      // @ts-ignore
+      const teamA = getKeyValue(userData, `wk${week}A`);
+      // @ts-ignore
+      const teamB = getKeyValue(userData, `wk${week}B`);
+      let teamSelections = pickBy(userData, (value, key) =>
+        startsWith(key, "wk")
+      );
+      // set already picked teams
+      teamSelections = omit(teamSelections, [`wk${week}A`, `wk${week}B`]);
+      // @ts-ignore
+      const teamSelectionsList = Object.values(teamSelections);
+      setSavedSelections(teamSelectionsList);
+      // set changable picks
+      if (typeof teamA === "string") {
+        setSelectionA(teamA);
+      }
+      if (typeof teamB === "string") {
+        setSelectionB(teamB);
+      }
+      setIsLoadedUser(true);
+    });
   }, [user.sub, week]);
 
   const handleTeamSelect = (team: string): void => {
@@ -122,7 +115,6 @@ const PickTeam = () => {
         handleTeamSelect={handleTeamSelect}
         isTeamSelected={isTeamSelected}
         areTwoTeamsSelected={areTwoTeamsSelected}
-        isRegisteredUser={isRegisteredUser}
         isLoadedUser={isLoadedUser}
       />
       <Button

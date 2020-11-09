@@ -19,7 +19,6 @@ import getCurrentWeek from "../../utils/getCurrentWeek";
 
 import api from "../../api";
 import UserType from "../../types/UserType";
-import UserNotRegistered from "../../frontend-components/UserNotRegistered";
 
 import { TEAMS } from "./teams";
 
@@ -132,7 +131,6 @@ const Leaderboard = ({
   const { user } = useAuth0();
   const [users, setUsers] = useState<UserType[]>([]);
   const [isLoadedUsers, setIsLoadedUsers] = useState(false);
-  const [isRegisteredUser, setIsRegisteredUser] = useState(true);
 
   const currentWeek = getCurrentWeek();
   const bannerMessage = `If name is blue, you have picked teams for week ${currentWeek}`;
@@ -147,15 +145,9 @@ const Leaderboard = ({
       if (listOfUserIds.includes(user.sub)) {
         setUsers(data);
         setIsLoadedUsers(true);
-      } else {
-        setIsRegisteredUser(false);
       }
     });
   }, [user.sub]);
-
-  if (!isRegisteredUser) {
-    return <UserNotRegistered />;
-  }
 
   if (!isLoadedUsers) {
     return (

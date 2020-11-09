@@ -4,13 +4,11 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 
 import { BrowserRouter } from "react-router-dom";
 
-import Auth0ProviderWithHistory from "./routes/auth0-provider-with-history";
+import Auth0ProviderWithHistory from "./auth0-provider-with-history";
 
 import Layout from "./layout";
 
-import { Switch, Route } from "react-router-dom";
-import Routes, { IRoute } from "./routes/Routes";
-import PrivateRoute from "./routes/PrivateRoute";
+import Content from "./routes";
 
 const theme = createMuiTheme({
   palette: {
@@ -33,26 +31,7 @@ const App = () => {
       <BrowserRouter>
         <Auth0ProviderWithHistory>
           <Layout>
-            <Switch>
-              {Routes.map((route: IRoute) => {
-                if (route.private) {
-                  return (
-                    <PrivateRoute
-                      exact
-                      path={route.path}
-                      key={route.path}
-                      component={route.component}
-                    />
-                  );
-                } else {
-                  return (
-                    <Route exact path={route.path} key={route.path}>
-                      <route.component />
-                    </Route>
-                  );
-                }
-              })}
-            </Switch>
+            <Content />
           </Layout>
         </Auth0ProviderWithHistory>
       </BrowserRouter>
