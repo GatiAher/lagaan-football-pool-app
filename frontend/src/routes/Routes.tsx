@@ -1,8 +1,8 @@
 import React from "react";
 import Rules from "../pages/Home/Rules";
-import Leaderboard from "../pages/Leaderboard/Leaderboard";
-import PickTeam from "../pages/PickTeam/PickTeam";
-import GameSchedule from "../pages/GameSchedule/GameSchedule";
+import Leaderboard from "../pages/Leaderboard";
+import PickTeam from "../pages/PickTeam";
+import GameSchedule from "../pages/GameSchedule";
 import PickOverview from "../pages/UserPicksOverview";
 
 export interface IRoute {
