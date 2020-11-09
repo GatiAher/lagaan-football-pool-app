@@ -11,7 +11,7 @@ import GameType from "../../types/GameType";
 import TeamType from "../../types/TeamType";
 import { TeamDisplayWrapperProps } from "./TeamDisplayWrapperProps";
 
-export type WeekDisplayProps = {
+export interface WeekDisplayProps {
   week: number;
   hasBye?: boolean;
   render: (props: TeamDisplayWrapperProps) => ReactNode;

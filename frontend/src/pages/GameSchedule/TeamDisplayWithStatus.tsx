@@ -14,7 +14,6 @@ const StatusDisplay = ({ team, week }: StatusDisplayProps) => {
   const theme = useTheme();
   // @ts-ignore
   const status = team[`wk${week}`];
-  console.log("status", status);
   let text = "";
   let textColor = "";
   let bgcolor = "";

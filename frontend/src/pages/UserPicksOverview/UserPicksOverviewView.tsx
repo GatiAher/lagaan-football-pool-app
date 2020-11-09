@@ -113,9 +113,7 @@ const UserPickOverviewView = ({
                 try {
                   // @ts-ignore
                   status = teamMap.get(team)[weekTag];
-                } catch {
-                  console.log("team", team);
-                }
+                } catch {}
                 let textColor = theme.palette.text.primary;
                 let bgcolor = theme.palette.background.paper;
                 if (status === "win") {

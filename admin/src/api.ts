@@ -86,10 +86,17 @@ export default {
       return apiClient.delete(`/user/reset`);
     },
     getOne: (id: string) => {
-      return apiClient.get(`/user/${id}`);
+      return apiClient
+        .get<UserType[]>(`/user/${id}`)
+        .then((response) => response.data);
     },
     getList: () => {
-      return apiClient.get(`/user`);
+      const query = {
+        sort: JSON.stringify(["score", "desc"]),
+      };
+      return apiClient
+        .get<UserType[]>(`/user`, { params: query })
+        .then((response) => response.data);
     },
     update: (id: string, body: object) => {
       return apiClient.put(`/user/${id}`, body);
@@ -99,6 +106,9 @@ export default {
     },
     create: (body: object) => {
       return apiClient.post(`/user`, body);
+    },
+    putUserSelections: (id: string, body: object) => {
+      return apiClient.put(`/user/${id}`, body);
     },
   },
   score: {
