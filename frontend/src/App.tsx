@@ -8,6 +8,8 @@ import Auth0ProviderWithHistory from "./auth0-provider-with-history";
 
 import Layout from "./layout";
 
+import { CurrentWeekProvider } from "./contexts/CurrentWeekContext";
+
 import Content from "./routes";
 
 const theme = createMuiTheme({
@@ -31,7 +33,9 @@ const App = () => {
       <BrowserRouter>
         <Auth0ProviderWithHistory>
           <Layout>
-            <Content />
+            <CurrentWeekProvider>
+              <Content />
+            </CurrentWeekProvider>
           </Layout>
         </Auth0ProviderWithHistory>
       </BrowserRouter>

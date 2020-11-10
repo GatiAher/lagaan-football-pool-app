@@ -1,9 +1,7 @@
-export const KICKOFF = new Date(2020, 8, 10).valueOf(); // 2020, Sept 10
-
-const getCurrentWeek = (): number => {
+const calculateCurrentWeek = (kickoffMs: number): number => {
   // week changes on Thursday, but currentWeek changes on Sun  @ 1pm
   const currentDateObj = new Date();
-  const diff = (currentDateObj.getTime() - KICKOFF) / 1000;
+  const diff = (currentDateObj.getTime() - kickoffMs) / 1000;
   const weeksDiff = diff / (60 * 60 * 24 * 7);
   const weeks = Math.ceil(weeksDiff);
   // show next week if Sun after 1pm, Mon, Tue, or Wed
@@ -18,4 +16,4 @@ const getCurrentWeek = (): number => {
   return 1;
 };
 
-export default getCurrentWeek;
+export default calculateCurrentWeek;

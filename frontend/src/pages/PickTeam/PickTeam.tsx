@@ -10,12 +10,12 @@ import { useAuth0 } from "@auth0/auth0-react";
 import api from "../../api";
 import SnackBar, { SnackBarProps } from "../../components/snackbar";
 
-import getCurrentWeek from "../../utils/getCurrentWeek";
+import { useCurrentWeek } from "../../contexts/CurrentWeekContext";
 
 const PickTeam = () => {
   const { user } = useAuth0();
 
-  const currentWeek = getCurrentWeek();
+  const { currentWeek } = useCurrentWeek();
   const [week, setWeek] = useState(currentWeek);
 
   const [savedSelections, setSavedSelections] = useState<

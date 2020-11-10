@@ -2,10 +2,11 @@ import React, { useState } from "react";
 
 import GameScheduleView from "./GameScheduleView";
 
-import getCurrentWeek from "../../utils/getCurrentWeek";
+import { useCurrentWeek } from "../../contexts/CurrentWeekContext";
 
 const GameSchedule = () => {
-  const [week, setWeek] = useState(getCurrentWeek());
+  const { currentWeek } = useCurrentWeek();
+  const [week, setWeek] = useState(currentWeek);
 
   return <GameScheduleView week={week} setWeek={setWeek} />;
 };

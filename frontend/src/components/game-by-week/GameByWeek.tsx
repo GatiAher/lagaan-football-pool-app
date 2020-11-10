@@ -5,7 +5,7 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import GameByWeekView from "./GameByWeekView";
 
 import api from "../../api";
-import getCurrentWeek from "../../utils/getCurrentWeek";
+import { useCurrentWeek } from "../../contexts/CurrentWeekContext";
 
 import GameType from "../../types/GameType";
 import TeamType from "../../types/TeamType";
@@ -18,7 +18,7 @@ export interface WeekDisplayProps {
 }
 
 const GameByWeek = ({ week, hasBye, render }: WeekDisplayProps) => {
-  const currentWeek = getCurrentWeek();
+  const { currentWeek } = useCurrentWeek();
   const chosenWeek = week ? week : currentWeek;
 
   const [games, setGames] = useState<GameType[]>([]);

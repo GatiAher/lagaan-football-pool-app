@@ -6,6 +6,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 // Import routes
 const scoreRouter = require("./routes/score-route");
+const infoRouter = require("./routes/info-route");
 const gameRouter = require("./routes/generic-route")("Game");
 const teamRouter = require("./routes/generic-route")("Team");
 const userRouter = require("./routes/generic-route")("User");
@@ -23,6 +24,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 // Implement routes
 app.use("/score", scoreRouter);
+app.use("/info", infoRouter);
 app.use("/game", gameRouter);
 app.use("/team", teamRouter);
 app.use("/user", userRouter);

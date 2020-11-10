@@ -5,7 +5,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 import UserPickOverviewView from "./UserPicksOverviewView";
 
-import getCurrentWeek from "../../utils/getCurrentWeek";
+import { useCurrentWeek } from "../../contexts/CurrentWeekContext";
 
 import api from "../../api";
 
@@ -18,7 +18,7 @@ const UserPickOverview = () => {
   const [users, setUsers] = useState<UserType[]>([]);
   const [isLoadedUsers, setIsLoadedUsers] = useState(false);
 
-  const currentWeek = getCurrentWeek();
+  const { currentWeek } = useCurrentWeek();
 
   const [teamMap, setTeamMap] = useState(new Map<string, TeamType>());
   const [isLoadedTeamMap, setIsLoadedTeamMap] = useState(false);

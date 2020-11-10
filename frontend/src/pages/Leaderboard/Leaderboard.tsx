@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { useAuth0 } from "@auth0/auth0-react";
 
-import getCurrentWeek from "../../utils/getCurrentWeek";
+import { useCurrentWeek } from "../../contexts/CurrentWeekContext";
 
 import api from "../../api";
 import UserType from "../../types/UserType";
@@ -14,7 +14,7 @@ const Leaderboard = () => {
   const [users, setUsers] = useState<UserType[]>([]);
   const [isLoadedUsers, setIsLoadedUsers] = useState(false);
 
-  const currentWeek = getCurrentWeek();
+  const { currentWeek } = useCurrentWeek();
 
   // Fetch on initial render
   useEffect(() => {

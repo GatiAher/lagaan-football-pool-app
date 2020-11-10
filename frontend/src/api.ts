@@ -119,4 +119,9 @@ export default {
       return apiClient.get(`/score/user`);
     },
   },
+  info: {
+    getKickOffDate: () => {
+      return apiClient.get(`/info/kickoff`);
+    },
+  },
 };

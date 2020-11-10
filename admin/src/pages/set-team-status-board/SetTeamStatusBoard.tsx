@@ -2,10 +2,11 @@ import React, { useState } from "react";
 
 import SetTeamStatusBoardView from "./SetTeamStatusBoardView";
 
-import getCurrentWeek from "../../utils/getCurrentWeek";
+import { useCurrentWeek } from "../../contexts/CurrentWeekContext";
 
 const SetTeamStatusBoard = () => {
-  const [week, setWeek] = useState(getCurrentWeek());
+  const { currentWeek } = useCurrentWeek();
+  const [week, setWeek] = useState(currentWeek);
 
   return <SetTeamStatusBoardView week={week} setWeek={setWeek} />;
 };
