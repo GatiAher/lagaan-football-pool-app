@@ -1,6 +1,7 @@
 import React, { ReactNode } from "react";
 
 import List from "@material-ui/core/List";
+import Box from "@material-ui/core/Box";
 
 import GameTile from "./GameTile";
 
@@ -27,6 +28,9 @@ const GameByWeekView = ({
   teamMap,
   render,
 }: WeekDisplayViewProps) => {
+  if (games.length === 0) {
+    return <Box pl={3}>No games listed at this time.</Box>;
+  }
   return (
     <List>
       {games.map((game) => {

@@ -1,6 +1,7 @@
 const knex = require("../db");
 const gameScrapper54 = require("../web-scraping/schedule-scraper_season_54");
 const { TEAMS } = require("../maps/teamMap");
+const { WEEKS } = require("../maps/weeks");
 
 module.exports = function (TABLE) {
   const module = {};
@@ -42,10 +43,10 @@ module.exports = function (TABLE) {
       rank: null,
       score: 0,
     };
-    for (let i = 1; i <= 17; i++) {
-      updateRecord[`wk${i}A`] = null;
-      updateRecord[`wk${i}B`] = null;
+    for (let wkObj of WEEKS) {
+      updateRecord[wkObj.wk] = null;
     }
+
     knex("User")
       .update(updateRecord)
       .then((numItems) => {

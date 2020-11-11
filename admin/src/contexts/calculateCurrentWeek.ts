@@ -12,7 +12,7 @@ const calculateCurrentWeek = (kickoffMs: number): number => {
     currentDateObj.getDay() === 3
   )
     return weeks + 1;
-  if (weeks >= 0 && weeks <= 17) return weeks;
+  if (weeks >= 0 && weeks <= 21) return weeks;
   return 1;
 };
 

@@ -1,7 +1,6 @@
-import { pickBy, omit, startsWith } from "lodash";
+import { pickBy, startsWith } from "lodash";
 
-import React, { useEffect, useState, useCallback } from "react";
-import Button from "@material-ui/core/Button";
+import React, { useEffect, useState } from "react";
 
 import PickTeamView from "./PickTeamView";
 
@@ -11,20 +10,22 @@ import api from "../../api";
 import SnackBar, { SnackBarProps } from "../../components/snackbar";
 
 import { useCurrentWeek } from "../../contexts/CurrentWeekContext";
+import UserType from "../../types/UserType";
 
-const PickTeam = () => {
-  const { user } = useAuth0();
-
+const PickTeamRegular = () => {
   const { currentWeek } = useCurrentWeek();
   const [week, setWeek] = useState(currentWeek);
 
-  const [savedSelections, setSavedSelections] = useState<
-    (string | number | undefined)[]
-  >([]);
+  useEffect(() => {
+    setWeek(currentWeek);
+  }, [currentWeek]);
 
-  const [selectionA, setSelectionA] = useState("");
-  const [selectionB, setSelectionB] = useState("");
+  const { user } = useAuth0();
   const [isLoadedUser, setIsLoadedUser] = useState(false);
+  const [selections, setSelections] = useState<(string | number | undefined)[]>(
+    []
+  );
+  const [userData, setUserData] = useState<UserType | null>(null);
 
   // snackbar
   const [snackBarMessage, setSnackBarMessage] = React.useState<
@@ -34,11 +35,7 @@ const PickTeam = () => {
   const setSnackBarMessageUnique = (props: SnackBarProps) =>
     setSnackBarMessage({ ...props, date: new Date() });
 
-  const putUserSelectionsCallback = useCallback(() => {
-    const body = {
-      [`wk${week}A`]: selectionA,
-      [`wk${week}B`]: selectionB,
-    };
+  const submitSelections = (body: object) => {
     api.user
       .putUserSelections(user.sub, body)
       .then(() =>
@@ -53,57 +50,35 @@ const PickTeam = () => {
           status: "fail",
         });
       });
-  }, [user.sub, week, selectionA, selectionB]);
+  };
 
   // Fetch on initial render
   useEffect(() => {
-    setSelectionA("");
-    setSelectionB("");
     api.user.getOne(user.sub).then((data) => {
-      const getKeyValue = <T, K extends keyof T>(obj: T, key: K): T[K] =>
-        obj[key];
       const userData = data[0];
-      // @ts-ignore
-      const teamA = getKeyValue(userData, `wk${week}A`);
-      // @ts-ignore
-      const teamB = getKeyValue(userData, `wk${week}B`);
-      let teamSelections = pickBy(userData, (value, key) =>
-        startsWith(key, "wk")
+      setUserData(userData);
+      // get any previous picks for this week
+      let teamSelections = pickBy(
+        userData,
+        (value, key) => startsWith(key, `wk${week}`) && value !== null && value !== "" 
       );
-      // set already picked teams
-      teamSelections = omit(teamSelections, [`wk${week}A`, `wk${week}B`]);
       // @ts-ignore
       const teamSelectionsList = Object.values(teamSelections);
-      setSavedSelections(teamSelectionsList);
-      // set changable picks
-      if (typeof teamA === "string") {
-        setSelectionA(teamA);
-      }
-      if (typeof teamB === "string") {
-        setSelectionB(teamB);
-      }
+      setSelections(teamSelectionsList);
       setIsLoadedUser(true);
     });
   }, [user.sub, week]);
 
-  const handleTeamSelect = (team: string): void => {
-    if (selectionA === team) {
-      setSelectionA("");
-    } else if (selectionB === team) {
-      setSelectionB("");
-    } else if (selectionA === "") {
-      setSelectionA(team);
-    } else if (selectionB === "") {
-      setSelectionB(team);
+  const handleSelection = (team: string): void => {
+    let newSelections;
+    if (selections.includes(team)) {
+      // remove from array
+      newSelections = selections.filter((oldTeam) => oldTeam !== team);
+    } else {
+      // add to array
+      newSelections = selections.concat(team);
     }
-  };
-
-  const isTeamSelected = (team: string): boolean => {
-    return team === selectionA || team === selectionB;
-  };
-
-  const areTwoTeamsSelected = (): boolean => {
-    return selectionA !== "" && selectionB !== "";
+    setSelections(newSelections);
   };
 
   return (
@@ -111,20 +86,12 @@ const PickTeam = () => {
       <PickTeamView
         week={week}
         setWeek={setWeek}
-        savedSelections={savedSelections}
-        handleTeamSelect={handleTeamSelect}
-        isTeamSelected={isTeamSelected}
-        areTwoTeamsSelected={areTwoTeamsSelected}
+        userData={userData}
+        selections={selections}
+        handleSelection={handleSelection}
+        submitSelections={submitSelections}
         isLoadedUser={isLoadedUser}
       />
-      <Button
-        fullWidth
-        variant="contained"
-        color="primary"
-        onClick={putUserSelectionsCallback}
-      >
-        {`Pick: ${selectionA} ${selectionB}`}
-      </Button>
       {snackBarMessage !== null && (
         <SnackBar
           key={snackBarMessage.date.valueOf()}
@@ -136,4 +103,4 @@ const PickTeam = () => {
   );
 };
 
-export default PickTeam;
+export default PickTeamRegular;

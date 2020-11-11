@@ -22,20 +22,10 @@ export default interface TeamType {
   wk15: string;
   wk16: string;
   wk17: string;
+  wk18: string;
+  wk19: string;
+  wk20: string;
+  wk21: string;
   created_at: string;
   updated_at: string;
 }
-
-// export interface TeamToTeamTypeMap {
-//   [team: string]: TeamType;
-// }
-
-// interface WinLoss {
-//   numOfWin: number;
-//   numOfLoss: number;
-//   numOfTie: number;
-// }
-
-// export interface TeamToWinLossMap {
-//   [team: string]: WinLoss;
-// }
