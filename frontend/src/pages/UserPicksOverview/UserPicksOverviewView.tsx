@@ -36,7 +36,7 @@ const UserPickOverviewView = ({
 }: UserPickOverviewViewProps) => {
   const theme = useTheme();
 
-  const bannerMessage = `If name is blue, you have picked teams for week ${currentWeek}`;
+  const bannerMessage = `If name is blue, you have picked 2 teams for week ${currentWeek}`;
 
   if (!isLoadedUsers || !isLoadedTeamMap) {
     return (
@@ -52,15 +52,90 @@ const UserPickOverviewView = ({
     { title: "score", field: "score" },
     { title: "name" },
   ];
-  for (let i = currentWeek - 1; i > 0; i--) {
+
+  if (currentWeek >= 21) {
     columnLabels.push({
-      title: `${i}A`,
-      field: `wk${i}A`,
+      title: `21A`,
+      field: `wk21A`,
     });
-    columnLabels.push({
-      title: `${i}B`,
-      field: `wk${i}B`,
-    });
+  }
+
+  if (currentWeek >= 20) {
+    columnLabels.push(
+      {
+        title: `20A`,
+        field: `wk20A`,
+      },
+      {
+        title: `20B`,
+        field: `wk20B`,
+      }
+    );
+  }
+
+  if (currentWeek >= 19) {
+    columnLabels.push(
+      {
+        title: `19A`,
+        field: `wk19A`,
+      },
+      {
+        title: `19B`,
+        field: `wk19B`,
+      },
+      {
+        title: `19C`,
+        field: `wk19C`,
+      },
+      {
+        title: `19D`,
+        field: `wk19D`,
+      }
+    );
+  }
+
+  if (currentWeek > 18) {
+    columnLabels.push(
+      {
+        title: `18A`,
+        field: `wk18A`,
+      },
+      {
+        title: `18B`,
+        field: `wk18B`,
+      },
+      {
+        title: `18C`,
+        field: `wk18C`,
+      },
+      {
+        title: `18D`,
+        field: `wk18D`,
+      },
+      {
+        title: `18E`,
+        field: `wk18E`,
+      },
+      {
+        title: `18F`,
+        field: `wk18F`,
+      }
+    );
+  }
+
+  const visibleRegSeason = currentWeek <= 17 ? currentWeek - 1 : 17;
+  // show up to week 17
+  for (let i = visibleRegSeason; i > 0; i--) {
+    columnLabels.push(
+      {
+        title: `${i}A`,
+        field: `wk${i}A`,
+      },
+      {
+        title: `${i}B`,
+        field: `wk${i}B`,
+      }
+    );
   }
 
   return (
@@ -102,6 +177,7 @@ const UserPickOverviewView = ({
               },
             };
           } else if (startsWith(col.field, "wk")) {
+            console.log(col.field);
             return {
               title: col.title,
               field: col.field,

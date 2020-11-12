@@ -33,7 +33,7 @@ const LeaderboardView = ({
 }: LeaderboardViewProps) => {
   const theme = useTheme();
 
-  const bannerMessage = `If name is blue, you have picked teams for week ${currentWeek}`;
+  const bannerMessage = `If name is blue, you have picked 2 teams for week ${currentWeek}`;
 
   if (!isLoadedUsers) {
     return (

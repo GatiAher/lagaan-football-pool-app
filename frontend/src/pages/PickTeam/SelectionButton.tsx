@@ -8,29 +8,20 @@ import TeamType from "../../types/TeamType";
 type SelectionButtonProps = {
   team: TeamType;
   disabled: boolean;
-  savedSelections: any;
-  handleTeamSelect: (team: string) => void;
-  isTeamSelected: (team: string) => boolean;
-  areTwoTeamsSelected: () => boolean;
+  highlighted: boolean;
+  onClick: () => void;
 };
 
 const SelectionButton = ({
   team,
   disabled,
-  savedSelections,
-  handleTeamSelect,
-  isTeamSelected,
-  areTwoTeamsSelected,
+  highlighted,
+  onClick,
 }: SelectionButtonProps) => {
-  const teamId = team.id;
-  let disabledVal = disabled;
   let variant: ButtonProps["variant"] = "text";
-  if (isTeamSelected(teamId)) {
+  if (highlighted) {
     variant = "contained";
-  } else if (savedSelections.includes(teamId) || areTwoTeamsSelected()) {
-    disabledVal = true;
   }
-
   return (
     <Button
       style={{
@@ -41,10 +32,8 @@ const SelectionButton = ({
       }}
       color="secondary"
       variant={variant}
-      onClick={() => {
-        handleTeamSelect(teamId);
-      }}
-      disabled={disabledVal}
+      onClick={onClick}
+      disabled={disabled}
     >
       <Box m={1} width="100%" border={1} borderRadius={10}>
         <TeamDisplay team={team} />

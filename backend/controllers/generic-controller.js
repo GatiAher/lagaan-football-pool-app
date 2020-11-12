@@ -23,6 +23,10 @@ module.exports = function (TABLE) {
 
   const getProperBody = (reqBody) => {
     const { created_at, updated_at, ...properBody } = reqBody;
+    if (TABLE === "Game") {
+      // generate id
+      properBody.id = `${reqBody.week}_${reqBody.visTeam}_${reqBody.homeTeam}`;
+    }
     return properBody;
   };
 
@@ -109,12 +113,12 @@ module.exports = function (TABLE) {
   };
 
   module.update = async (req, res) => {
-    const validateStartTime = getValidateStartTime(req.body);
-    const id = getIdFromParams(req.params);
     const properBody = getProperBody(req.body);
+    const validateStartTime = getValidateStartTime(properBody);
+    const id = getIdFromParams(req.params);
     if (!validateStartTime) {
       res.status(400).json({
-        message: `${TABLE}: there was an error during update: startTime ${req.body.startTime} not in format YYYY-MM-DD hh:mm _M`,
+        message: `${TABLE}: there was an error during update: startTime ${properBody.startTime} not in format YYYY-MM-DD hh:mm _M`,
       });
     }
     knex(TABLE)
@@ -136,27 +140,27 @@ module.exports = function (TABLE) {
   };
 
   module.create = async (req, res) => {
-    const validateStartTime = getValidateStartTime(req.body);
     const properBody = getProperBody(req.body);
-    if (!req.body.id) {
+    const validateStartTime = getValidateStartTime(properBody);
+    if (!properBody) {
       res.status(400).json({
         message: `${TABLE}: there was an error during creation: id not present in request body`,
       });
     } else if (!validateStartTime) {
       res.status(400).json({
-        message: `${TABLE}: there was an error during creation: startTime ${req.body.startTime} not in format YYYY-MM-DD hh:mm _M`,
+        message: `${TABLE}: there was an error during creation: startTime ${properBody.startTime} not in format YYYY-MM-DD hh:mm _M`,
       });
     } else {
       knex(TABLE)
         .insert(properBody)
         .then(() => {
           res.json({
-            message: `${TABLE}: ${req.body.id} created.`,
+            message: `${TABLE}: ${properBody.id} created.`,
           });
         })
         .catch((err) => {
           res.status(500).json({
-            message: `${TABLE}: there was an error creating ${req.body.id}: ${err}`,
+            message: `${TABLE}: there was an error creating ${properBody.id}: ${err}`,
           });
         });
     }

@@ -54,6 +54,10 @@ const WeekPickerView = ({ week, setWeek }: WeekPickerViewProps) => {
         <option value={15}>WEEK 15</option>
         <option value={16}>WEEK 16</option>
         <option value={17}>WEEK 17</option>
+        <option value={18}>WILDCARD</option>
+        <option value={19}>DIVISIONAL</option>
+        <option value={20}>CHAMPIONSHIP</option>
+        <option value={21}>SUPERBOWL</option>
       </Select>
     </FormControl>
   );

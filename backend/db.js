@@ -70,6 +70,10 @@ knex.schema
           table.string("wk15").defaultTo("default");
           table.string("wk16").defaultTo("default");
           table.string("wk17").defaultTo("default");
+          table.string("wk18").defaultTo("default");
+          table.string("wk19").defaultTo("default");
+          table.string("wk20").defaultTo("default");
+          table.string("wk21").defaultTo("default");
           table.timestamps(true, true);
         })
         .then(() => {
@@ -136,6 +140,19 @@ knex.schema
           table.string("wk16B");
           table.string("wk17A");
           table.string("wk17B");
+          table.string("wk18A");
+          table.string("wk18B");
+          table.string("wk18C");
+          table.string("wk18D");
+          table.string("wk18E");
+          table.string("wk18F");
+          table.string("wk19A");
+          table.string("wk19B");
+          table.string("wk19C");
+          table.string("wk19D");
+          table.string("wk20A");
+          table.string("wk20B");
+          table.string("wk21A");
           table.timestamps(true, true);
         })
         .then(() => {
@@ -155,13 +172,4 @@ knex.schema
     console.error(`User: there was an error setting up the database: ${error}`);
   });
 
-// // Just for debugging purposes:
-// // Log all data in table
-// knex
-//   .select("*")
-//   .from("Game")
-//   .then((data) => console.log("data:", data))
-//   .catch((err) => console.log(err));
-
-// Export the database
 module.exports = knex;

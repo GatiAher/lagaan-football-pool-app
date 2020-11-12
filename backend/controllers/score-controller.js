@@ -1,5 +1,4 @@
 const knex = require("../db");
-const { STATUS_TO_POINTS } = require("../maps/scoreMap");
 const { WEEKS } = require("../maps/weeks");
 
 /**
@@ -24,31 +23,21 @@ exports.recalculateUserScore = async (req, res) => {
       let numOfLoss = 0;
       let numOfTie = 0;
       let id = user.id;
-      for (let wk of WEEKS) {
-        if (user[`${wk}A`]) {
-          let statusA = teamsMap.get(user[`${wk}A`])[wk];
-          if (statusA == "win") {
+      for (let wkObj of WEEKS) {
+        if (user[wkObj.wk]) {
+          let status = teamsMap.get(user[wkObj.wk])[wkObj.wk.slice(0, -1)];
+          if (status == "win") {
             numOfWin++;
-          } else if (statusA == "loss") {
+            score += wkObj.scorer.get(status);
+          } else if (status == "loss") {
             numOfLoss++;
-          } else if (statusA == "tie") {
+            score += wkObj.scorer.get(status);
+          } else if (status == "tie") {
             numOfTie++;
-          }
-        }
-        if (user[`${wk}B`]) {
-          let statusB = teamsMap.get(user[`${wk}B`])[wk];
-          if (statusB == "win") {
-            numOfWin++;
-          } else if (statusB == "loss") {
-            numOfLoss++;
-          } else if (statusB == "tie") {
-            numOfTie++;
+            score += wkObj.scorer.get(status);
           }
         }
       }
-      score += STATUS_TO_POINTS.get("win") * numOfWin;
-      score += STATUS_TO_POINTS.get("tie") * numOfTie;
-      score += STATUS_TO_POINTS.get("loss") * numOfLoss;
       // add this to an array of Promises
       promises.push(
         knex("User")
@@ -63,7 +52,7 @@ exports.recalculateUserScore = async (req, res) => {
 
     const rankedUsers = await knex("User").orderBy("score", "desc");
 
-    // for each user, calculate its score
+    // for each user, calculate its rank
     const rankPromises = [];
     let rank = 1;
     let position = 1;
@@ -102,8 +91,8 @@ exports.recalculateTeamScore = async (req, res) => {
     let numOfTie = 0;
     let numOfLoss = 0;
     let id = team.id;
-    for (let wk of WEEKS) {
-      let status = team[wk];
+    for (let i = 1; i <= 21; i++) {
+      let status = team[`wk${i}`];
       if (status == "win") numOfWin++;
       else if (status == "tie") numOfTie++;
       else if (status == "loss") numOfLoss++;

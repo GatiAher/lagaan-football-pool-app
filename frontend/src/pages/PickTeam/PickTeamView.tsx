@@ -4,53 +4,54 @@ import Box from "@material-ui/core/Box";
 
 import LinearProgress from "@material-ui/core/LinearProgress";
 
-import SelectionButton from "./SelectionButton";
-
-import GameByWeek, {
-  TeamDisplayWrapperProps,
-} from "../../components/game-by-week";
-
 import WeekPicker from "../../components/week-picker";
+import UserType from "../../types/UserType";
+
+import PickTeamRegular from "./PickTeamRegular";
+import PickTeamPostSeason from "./PickTeamPostSeason";
 
 type PickTeamViewProps = {
   week: number;
   setWeek: (arg0: number) => void;
-  savedSelections: (string | number | undefined)[];
-  handleTeamSelect: (team: string) => void;
-  isTeamSelected: (team: string) => boolean;
-  areTwoTeamsSelected: () => boolean;
+  userData: UserType | null;
+  selections: (string | number | undefined)[];
+  handleSelection: (team: string) => void;
+  submitSelections: (body: object) => void;
   isLoadedUser: boolean;
 };
 
 const PickTeamView = ({
   week,
   setWeek,
-  savedSelections,
-  handleTeamSelect,
-  isTeamSelected,
-  areTwoTeamsSelected,
+  userData,
+  selections,
+  handleSelection,
+  submitSelections,
   isLoadedUser,
 }: PickTeamViewProps) => {
-  if (!isLoadedUser) {
+  if (!isLoadedUser || !userData) {
     return <LinearProgress />;
   }
-  const TeamDisplayWrapper = (props: TeamDisplayWrapperProps) => {
-    return (
-      <SelectionButton
-        team={props.team}
-        disabled={!props.isPickWindowOpen}
-        savedSelections={savedSelections}
-        handleTeamSelect={handleTeamSelect}
-        isTeamSelected={isTeamSelected}
-        areTwoTeamsSelected={areTwoTeamsSelected}
-      />
-    );
-  };
 
   return (
     <Box>
       <WeekPicker week={week} setWeek={setWeek} />
-      <GameByWeek render={TeamDisplayWrapper} week={week} hasBye />
+      {week <= 17 ? (
+        <PickTeamRegular
+          week={week}
+          userData={userData}
+          selections={selections}
+          handleSelection={handleSelection}
+          submitSelections={submitSelections}
+        />
+      ) : (
+        <PickTeamPostSeason
+          week={week}
+          selections={selections}
+          handleSelection={handleSelection}
+          submitSelections={submitSelections}
+        />
+      )}
     </Box>
   );
 };

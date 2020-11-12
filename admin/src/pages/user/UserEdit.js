@@ -12,7 +12,6 @@ const UserEdit = (props) => (
   <Edit title={<UserTitle />} {...props}>
     <SimpleForm>
       <TextInput source="username" />
-      <TextInput source="id" />
       <TextInput source="firstName" />
       <TextInput source="lastName" />
       {weeks.map((weekId) => (

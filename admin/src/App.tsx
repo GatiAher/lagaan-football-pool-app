@@ -12,6 +12,8 @@ import authProvider from "./authProvider";
 import { Layout } from "./layout";
 import customRoutes from "./routes";
 
+import { CurrentWeekProvider } from "./contexts/CurrentWeekContext";
+
 import dashboard from "./pages/set-team-status-board";
 import user from "./pages/user";
 import game from "./pages/game";
@@ -27,18 +29,20 @@ const i18nProvider = polyglotI18nProvider(
 
 const App = () => {
   return (
-    <Admin
-      dataProvider={dataProvider}
-      customRoutes={customRoutes}
-      authProvider={authProvider}
-      dashboard={dashboard}
-      layout={Layout}
-      i18nProvider={i18nProvider}
-    >
-      <Resource name="user" {...user} />
-      <Resource name="game" {...game} />
-      <Resource name="team" {...team} />
-    </Admin>
+    <CurrentWeekProvider>
+      <Admin
+        dataProvider={dataProvider}
+        customRoutes={customRoutes}
+        authProvider={authProvider}
+        dashboard={dashboard}
+        layout={Layout}
+        i18nProvider={i18nProvider}
+      >
+        <Resource name="user" {...user} />
+        <Resource name="game" {...game} />
+        <Resource name="team" {...team} />
+      </Admin>
+    </CurrentWeekProvider>
   );
 };
 
