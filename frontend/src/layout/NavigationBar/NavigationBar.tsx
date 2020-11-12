@@ -12,10 +12,14 @@ import {
   Drawer,
   MenuList,
   MenuItem,
-  ListItemText,
+  ListItemIcon,
   Box,
 } from "@material-ui/core";
+
 import MenuIcon from "@material-ui/icons/Menu";
+
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import LockOpenIcon from "@material-ui/icons/LockOpen";
 
 import { useAuth0 } from "@auth0/auth0-react";
 import LogoutButton from "./LogoutButton";
@@ -64,6 +68,8 @@ const NavigationBar: React.FC<RouteComponentProps> = ({
     return location.pathname === routeName ? true : false;
   };
 
+  const { isAuthenticated } = useAuth0();
+
   return (
     <div>
       <Box flexGrow={1}>
@@ -105,7 +111,19 @@ const NavigationBar: React.FC<RouteComponentProps> = ({
                   key={key}
                 >
                   <MenuItem selected={activeRoute(prop.path)}>
-                    <ListItemText primary={prop.sidebarName} />
+                    {prop.private && !isAuthenticated && (
+                      <ListItemIcon>
+                        <LockOutlinedIcon fontSize="small" />
+                      </ListItemIcon>
+                    )}
+                    {prop.private && isAuthenticated && (
+                      <ListItemIcon>
+                        <LockOpenIcon fontSize="small" />
+                      </ListItemIcon>
+                    )}
+                    <Typography variant="inherit">
+                      {prop.sidebarName}
+                    </Typography>
                   </MenuItem>
                 </NavLink>
               );

@@ -20,6 +20,18 @@ const Routes: IRoute[] = [
     private: false,
   },
   {
+    path: "/nfl_games",
+    sidebarName: "NFL Games",
+    component: GameSchedule,
+    private: false,
+  },
+  {
+    path: "/pick_sheet",
+    sidebarName: "Pick Sheet",
+    component: PickTeam,
+    private: true,
+  },
+  {
     path: "/rankings",
     sidebarName: "Rankings",
     component: Leaderboard,
@@ -30,18 +42,6 @@ const Routes: IRoute[] = [
     sidebarName: "Weekly Grid",
     component: PickOverview,
     private: true,
-  },
-  {
-    path: "/pick_sheet",
-    sidebarName: "Pick Sheet",
-    component: PickTeam,
-    private: true,
-  },
-  {
-    path: "/nfl_games",
-    sidebarName: "NFL Games",
-    component: GameSchedule,
-    private: false,
   },
 ];
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { Create, SimpleForm, TextInput, SelectInput } from "react-admin";
 
-import weeks from "../../selection-options/weeks";
+import { teamWeeks } from "../../selection-options/weeks";
 import teamStatuses from "../../selection-options/team-statuses";
 
 const TeamCreate = (props) => (
@@ -10,7 +10,7 @@ const TeamCreate = (props) => (
       <TextInput source="id" helperText="team abbreviation in caps" />
       <TextInput source="mascotName" />
       <TextInput source="fullName" />
-      {weeks.map((weekId) => (
+      {teamWeeks.map((weekId) => (
         <SelectInput source={weekId} choices={teamStatuses} />
       ))}
     </SimpleForm>

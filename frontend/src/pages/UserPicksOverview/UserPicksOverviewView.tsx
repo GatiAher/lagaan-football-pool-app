@@ -36,7 +36,10 @@ const UserPickOverviewView = ({
 }: UserPickOverviewViewProps) => {
   const theme = useTheme();
 
-  const bannerMessage = `If name is blue, you have picked 2 teams for week ${currentWeek}`;
+  let bannerMessage = `If name is blue, you have picked 2 teams for week ${currentWeek}`;
+  if (currentWeek > 17) {
+    bannerMessage = `If name is blue, you have picked a team for week ${currentWeek}`;
+  }
 
   if (!isLoadedUsers || !isLoadedTeamMap) {
     return (
@@ -164,10 +167,16 @@ const UserPickOverviewView = ({
               title: col.title,
               field: "firstName",
               render: (rowData) => {
-                let color =
-                  rowData[`wk${currentWeek}A`] && rowData[`wk${currentWeek}B`]
-                    ? "blue"
-                    : "black";
+                let color = "black";
+                if (
+                  currentWeek <= 17 &&
+                  rowData[`wk${currentWeek}A`] &&
+                  rowData[`wk${currentWeek}B`]
+                ) {
+                  color = "blue";
+                } else if (currentWeek > 17 && rowData[`wk${currentWeek}A`]) {
+                  color = "blue";
+                }
                 return (
                   <Box
                     color={color}
