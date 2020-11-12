@@ -10,8 +10,9 @@ export default () => {
       flexGrow={1}
       height="80px"
       style={{
-        marginTop: "calc(5% + 60px)",
+        position: "absolute",
         bottom: 0,
+        width: "100%"
       }}
       bgcolor={theme.palette.primary.light}
     >

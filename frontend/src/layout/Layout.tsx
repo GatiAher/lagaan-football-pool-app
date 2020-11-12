@@ -18,8 +18,15 @@ const Layout: React.FC<any> = ({ children }) => {
       {isLoading ? (
         <LinearProgress />
       ) : (
-        <div>
-          <Container maxWidth="md" children={children} />
+        <div
+          style={{
+            minHeight: "100vh",
+            position: "relative",
+          }}
+        >
+          <div style={{ paddingBottom: "100px" }}>
+            <Container maxWidth="md" children={children} />
+          </div>
           <Footer />
         </div>
       )}
