@@ -43,7 +43,7 @@ const GameByWeekView = ({
           />
         );
       })}
-      {hasBye && week < BYE_WEEK_END && week > BYE_WEEK_START && (
+      {hasBye && week <= BYE_WEEK_END && week >= BYE_WEEK_START && (
         <GameTile
           isPickWindowOpenDefault={isPickWindowOpenDefault}
           team1={teamMap.get("BYE1")}
