@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, IconButton, useTheme } from "@material-ui/core";
+import { Button, useTheme } from "@material-ui/core";
 
 import Box from "@material-ui/core/Box";
 
