@@ -21,13 +21,16 @@ const getSelectedTeams = (
   const thisMode = mode || "past";
   const selectedTeams = pickBy(rowData, (value, key) => {
     if (startsWith(key, "wk")) {
-      const regex = /(\d)+/g;
-      const found = key.match(regex);
+      const found = key.match(/(\d)+/g);
       if (found) {
         const weekNum = parseInt(found[0], 10);
         if (thisMode === "past" && weekNum < currentWeek) {
           return true;
-        } else if (thisMode === "future" && weekNum >= currentWeek) {
+        } else if (
+          thisMode === "future" &&
+          weekNum >= currentWeek &&
+          weekNum <= 17
+        ) {
           return true;
         }
       }
@@ -60,7 +63,7 @@ const RemainingTeams = ({
   return (
     <Box py={1}>
       <Typography variant="h6" color="primary">
-        {`Picks Week 1 - Week ${currentWeek - 1}`}
+        {`Regular Season Picks:`}
       </Typography>
       <GridList cellHeight="auto" cols={numCols}>
         {TEAMS.map((team) => {

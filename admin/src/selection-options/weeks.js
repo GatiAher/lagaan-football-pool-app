@@ -16,4 +16,8 @@ export default [
   "wk15",
   "wk16",
   "wk17",
+  "wk18",
+  "wk19",
+  "wk20",
+  "wk21",
 ];

@@ -8,6 +8,7 @@ import WeekPicker from "../../components/week-picker";
 import UserType from "../../types/UserType";
 
 import PickTeamRegular from "./PickTeamRegular";
+import PickTeamPostSeason from "./PickTeamPostSeason";
 
 type PickTeamViewProps = {
   week: number;
@@ -44,9 +45,12 @@ const PickTeamView = ({
           submitSelections={submitSelections}
         />
       ) : (
-        //   TODO: implement this
-        // <PickTeamPostSeason />
-        <Box>TODO IMPLEMENT PICK TEAM POSTSEASON</Box>
+        <PickTeamPostSeason
+          week={week}
+          selections={selections}
+          handleSelection={handleSelection}
+          submitSelections={submitSelections}
+        />
       )}
     </Box>
   );

@@ -7,7 +7,7 @@ import teamStatuses from "../../selection-options/team-statuses";
 const TeamCreate = (props) => (
   <Create {...props}>
     <SimpleForm redirect="list">
-      <TextInput source="id" />
+      <TextInput source="id" helperText="team abbreviation in caps" />
       <TextInput source="mascotName" />
       <TextInput source="fullName" />
       {weeks.map((weekId) => (

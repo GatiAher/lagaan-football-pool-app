@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import LinearProgress from "@material-ui/core/LinearProgress";
 import SetTeamStatusBoardView from "./SetTeamStatusBoardView";
 
 import { useCurrentWeek } from "../../contexts/CurrentWeekContext";

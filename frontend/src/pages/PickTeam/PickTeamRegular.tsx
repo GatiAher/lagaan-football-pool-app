@@ -29,7 +29,7 @@ const PickTeamRegular = ({
       [`wk${week}B`]: selections[1] || "",
     };
     submitSelections(body);
-  }, [selections]);
+  }, [selections, week, submitSelections]);
 
   const [pastSelections, setPastSelections] = useState<
     (string | number | undefined)[]
@@ -43,7 +43,7 @@ const PickTeamRegular = ({
     let filteredPicks = omit(allPicks, [`wk${week}A`, `wk${week}B`]);
     const teamSelectionsList = Object.values(filteredPicks);
     setPastSelections(teamSelectionsList);
-  }, [userData]);
+  }, [userData, week]);
 
   return (
     <div>

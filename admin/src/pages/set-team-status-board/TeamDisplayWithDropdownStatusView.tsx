@@ -7,6 +7,8 @@ import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 
+import teamStatuses from "../../selection-options/team-statuses";
+
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
@@ -69,10 +71,9 @@ const TeamDisplayWithDropdownStatusView = ({
             id: "age-native-simple",
           }}
         >
-          <option value="default">TBD</option>
-          <option value="win">Win</option>
-          <option value="loss">Loss</option>
-          <option value="tie">Tie</option>
+          {teamStatuses.map((opt) => (
+            <option value={opt.id}>{opt.name}</option>
+          ))}
         </Select>
       </FormControl>
     </Box>

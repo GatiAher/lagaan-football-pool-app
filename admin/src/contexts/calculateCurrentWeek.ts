@@ -13,6 +13,7 @@ const calculateCurrentWeek = (kickoffMs: number): number => {
   )
     return weeks + 1;
   if (weeks >= 0 && weeks <= 21) return weeks;
+  if (weeks > 21) return 22;
   return 1;
 };
 
