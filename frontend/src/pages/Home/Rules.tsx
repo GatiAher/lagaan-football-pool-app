@@ -17,13 +17,30 @@ const useStyles = makeStyles({
     padding: 10,
     paddingBottom: 20,
   },
+  appHeader: {
+    backgroundColor: "#282c34",
+    minHeight: "100vh",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: "calc(10px + 2vmin)",
+    color: "white",
+  },
 });
+
+const AppHeader = () => {
+  const classes = useStyles();
+
+  return <div className={classes.appHeader}>Demo Text</div>;
+};
 
 const Rules = () => {
   const classes = useStyles();
 
   return (
     <Box>
+      <AppHeader />
       <Typography variant="h5" gutterBottom>
         How To Play
       </Typography>

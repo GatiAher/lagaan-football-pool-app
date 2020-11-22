@@ -2,8 +2,6 @@ import React from "react";
 
 import LinearProgress from "@material-ui/core/LinearProgress";
 
-import Container from "@material-ui/core/Container";
-
 import NavigationBar from "./NavigationBar/NavigationBar";
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -24,9 +22,7 @@ const Layout: React.FC<any> = ({ children }) => {
             position: "relative",
           }}
         >
-          <div style={{ paddingBottom: "100px" }}>
-            <Container maxWidth="md" children={children} />
-          </div>
+          <div style={{ paddingBottom: "100px" }}>{children}</div>
           <Footer />
         </div>
       )}

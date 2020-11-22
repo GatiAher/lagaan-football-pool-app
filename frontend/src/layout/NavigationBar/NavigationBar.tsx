@@ -12,7 +12,7 @@ import {
   Drawer,
   MenuList,
   MenuItem,
-  ListItemIcon,
+  ListItemSecondaryAction,
   Box,
 } from "@material-ui/core";
 
@@ -111,19 +111,19 @@ const NavigationBar: React.FC<RouteComponentProps> = ({
                   key={key}
                 >
                   <MenuItem selected={activeRoute(prop.path)}>
-                    {prop.private && !isAuthenticated && (
-                      <ListItemIcon>
-                        <LockOutlinedIcon fontSize="small" />
-                      </ListItemIcon>
-                    )}
-                    {prop.private && isAuthenticated && (
-                      <ListItemIcon>
-                        <LockOpenIcon fontSize="small" />
-                      </ListItemIcon>
-                    )}
                     <Typography variant="inherit">
                       {prop.sidebarName}
                     </Typography>
+                    {prop.private && !isAuthenticated && (
+                      <ListItemSecondaryAction>
+                        <LockOutlinedIcon fontSize="small" />
+                      </ListItemSecondaryAction>
+                    )}
+                    {prop.private && isAuthenticated && (
+                      <ListItemSecondaryAction>
+                        <LockOpenIcon fontSize="small" />
+                      </ListItemSecondaryAction>
+                    )}
                   </MenuItem>
                 </NavLink>
               );

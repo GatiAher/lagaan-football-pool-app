@@ -4,6 +4,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 
+import Container from "@material-ui/core/Container";
+
 import UserNotRegistered from "./UserNotRegistered";
 
 import api from "../api";
@@ -20,7 +22,7 @@ const PageHeader = ({ heading }: PageHeaderProps) => {
   );
 };
 
-const PrivatePageWrapper: React.FC<{}> = ({ children }) => {
+const PrivatePageContent: React.FC<{}> = ({ children }) => {
   const { user } = useAuth0();
   const [isRegisteredUser, setIsRegisteredUser] = useState(true);
 
@@ -48,15 +50,25 @@ const PageWrapper: React.FC<PageWrapperProps> = ({
   isPrivate,
   children,
 }) => {
+  if (children === undefined || children === null) {
+    return <Box>ERROR: PageWrapper Children do not exist</Box>;
+  }
+  if (heading === "Home") {
+    return <div>{children}</div>;
+  }
+  if (isPrivate) {
+    return (
+      <Container maxWidth="md">
+        <PageHeader heading={heading} />
+        <PrivatePageContent>{children}</PrivatePageContent>
+      </Container>
+    );
+  }
   return (
-    <div>
+    <Container maxWidth="md">
       <PageHeader heading={heading} />
-      {isPrivate ? (
-        <PrivatePageWrapper>{children}</PrivatePageWrapper>
-      ) : (
-        <div>{children}</div>
-      )}
-    </div>
+      <div>{children}</div>
+    </Container>
   );
 };
 
