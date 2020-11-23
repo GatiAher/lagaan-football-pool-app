@@ -12,7 +12,7 @@ import teamChoices from "../../selection-options/team-choices";
 const GameEdit = (props) => (
   <Edit {...props}>
     <SimpleForm>
-      <NumberInput source="week" />
+      <NumberInput source="week" helperText="enter number between 1-21" />
       <SelectInput source="visTeam" choices={teamChoices} />
       <SelectInput source="homeTeam" choices={teamChoices} />
       <TextInput
