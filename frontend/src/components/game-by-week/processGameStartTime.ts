@@ -40,6 +40,11 @@ function getPickWindowInfo(dateObj: Date): PickWindowInfoType {
     // if Thursday, set next Thursday 6pm
     dayOfWeek = 4; // Thursday
     hours = 18; // 6pm
+    // if Thanksgiving (4th Thursday of November)
+    const occurance = Math.ceil(new Date().getDate() / 7);
+    if (occurance === 4 && dateObj.getMonth() === 10) {
+      hours = 10; // 10am
+    }
   }
 
   // set day pick window closes
