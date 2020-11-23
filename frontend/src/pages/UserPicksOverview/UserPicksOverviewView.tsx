@@ -179,6 +179,7 @@ const UserPickOverviewView = ({
                 }
                 return (
                   <Box
+                    minWidth="150px"
                     color={color}
                     fontWeight="fontWeightBold"
                   >{`${rowData.firstName} ${rowData.lastName}`}</Box>
