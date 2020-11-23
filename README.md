@@ -1,5 +1,7 @@
 # Lagaan Pool Application
 
+Link: https://www.lagaannfl.com/
+
 ---
 
 ## Run locally, development mode, pre-build
@@ -165,11 +167,11 @@ sudo service nginx stop
 
 ### User Registration
 
-1. User goes to frontend and signs up. This adds the user to Auth0. A user registered with Auth0 but not registered with the Lagaan Admin will be able to access the rankings and pick pages but not see any data.
+1. User goes to frontend and signs up. This adds the user to Auth0. A user registered with Auth0 but not registered with the Lagaan Admin will be able to access the private pages but not see any user data.
 
 2. User clicks on top right menu (with username) and selects "Copy Id". User can then send this to Lagaan Admin, who can create a new user with the given id using the Admin Dashboard.
 
-3. User registered with both Auth0 and Lagaan system can access leaderboard and rankings.
+3. User registered with both Auth0 and Lagaan system can access private pages and see user data.
 
 ---
 
@@ -180,29 +182,50 @@ sudo service nginx stop
 - Login, Logout, Sign-Up, User Authentication
 - Dynamic Design -- looks good on all screens
 - Keeps track of current week (changes on Sunday @ 1pm)
-- NFL Games Page
-  - See game schedule by week
-  - See outcomes of matches
-- Pick Teams Page (private)
-  - Pick two teams each week
-  - Automatically disables teams picked in previous weeks
-  - BYE Week selection option only available on certain weeks (week in range 4-12)
-  - Pick windows close on Thu 6pm and Sun 1pm
-- Rankings Page (private)
-  - See a sortable, filterable, exportable table of users
-  - Table initially sorted by rank
-  - Current user highlighted
-  - For each user, see:
-    - ROW: Rank, Name, Picked Wins-Losses-Ties, Score
-    - EXPANDABLE DETAIL PANEL: user's selected teams, up to but not including current week
-- Weekly Grid
-  - See all users's picks up to but not including current week
+
+**Games Schedule Page**
+
+- See game schedule by week
+- See outcomes of matches
+
+![Games Schedule](readme_assets/games_schedule.png?raw=true)
+
+**Pick Sheet Page (private)**
+
+- Pick two teams each week
+- Automatically disables teams picked in previous weeks
+- BYE Week selection option only available on certain weeks (week in range 4-12)
+- Pick windows close on Thu 6pm and Sun 1pm
+
+![Pick Sheet](readme_assets/pick_sheet.png?raw=true)
+
+**Standings Page (private)**
+
+- See a sortable, filterable, exportable table of users
+- Table initially sorted by rank
+- Current user highlighted
+- Users who have picked for the current week appear have name text in blue
+- For each user, see:
+
+  - ROW: Rank, Name, Picked Wins-Losses-Ties, Score
+  - EXPANDABLE DETAIL PANEL: user's selected teams, up to but not including current week
+
+![Standings](readme_assets/standings.png?raw=true)
+
+**All Picks Overview (private)**
+
+- See all users's picks up to but not including current week
+
 - Auth0 for authentication
+
   - users can register (must be approved by admin and added to database to be fully registered), change password
+
+![Full Picks Overview](readme_assets/full_pick_overview.png?raw=true)
 
 ### Backend Site
 
 Routes to edit `game`, `team`, and `user` data
+In production site, api is not able to be accessed from outside the ec2's private net
 
 | Method        | API calls                                                                              |
 | ------------- | -------------------------------------------------------------------------------------- |
@@ -223,6 +246,7 @@ Routes to recalculate scores & ranks for `team`, and `user` data
 
 ### Admin Site
 
+- Built using React-Admin [React-Admin](https://github.com/marmelab/react-admin)
 - User Interface to perform create, read, update, and delete operations on Game, Team, and User data
 - Ability to import/export table data from/to .csv files (experimental feature)
   - Import and export csv files', dates are in human readable format
@@ -231,47 +255,3 @@ Routes to recalculate scores & ranks for `team`, and `user` data
 - Button to remove season data from tables
 
 ---
-
-## Future Features and Improvements:
-
-### Frontend
-
-Minor
-
-- Pretty Home Page with short getting started guide
-- Make banner with message: If name is red, you have not picked teams for week 7
-
-Major
-
-- Log all changes made by user in logfile
-
-### Backend
-
-Minor
-
-Medium
-
-- If week over and not picked yet, experience loss penalty?
-
-Major
-
-  - Maintain a table to store editable constants like kickoff date, or start and end of BYE selection period
-- Implement Accurate Webscrapper
-  - site being scrapped currently: https://www.pro-football-reference.com/years/2020/games.htm
-  - WARNING: webscrapped game info is inaccurate because format of site changed when season started
-
-### Admin
-
-Minor
-
-- Add a pretty show panel for each item so admin can see all data without going into edit-mode
-
-Medium
-
-- Page to easily set Team win-loss-tie by toggle, by game, by week
-- Add admin password + Auth0 Account for Admin (add second one as necessary)
-
-Major
-
-- Log all changes made from Admin Account in log file
-- validation when picking for users
