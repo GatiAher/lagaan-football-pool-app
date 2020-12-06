@@ -50,8 +50,15 @@ const UserPickOverviewView = ({
     );
   }
 
+  const cellStyle = () => {
+    return {
+      margin: 0,
+      padding: 0,
+    };
+  };
+
   const columnLabels = [
-    { title: "rank", field: "rank" },
+    // { title: "rank", field: "rank" },
     { title: "score", field: "score" },
     { title: "name" },
   ];
@@ -151,6 +158,8 @@ const UserPickOverviewView = ({
           headerStyle: {
             backgroundColor: theme.palette.primary.main,
             color: theme.palette.grey[100],
+            padding: "1px",
+            paddingLeft: "16px",
           },
           rowStyle: (rowData) => ({
             backgroundColor:
@@ -166,6 +175,7 @@ const UserPickOverviewView = ({
             return {
               title: col.title,
               field: "firstName",
+              cellStyle: cellStyle,
               render: (rowData) => {
                 let color = "black";
                 if (
@@ -191,6 +201,7 @@ const UserPickOverviewView = ({
             return {
               title: col.title,
               field: col.field,
+              cellStyle: cellStyle,
               render: (rowData) => {
                 let team = rowData[col.field];
                 // @ts-ignore
@@ -206,11 +217,11 @@ const UserPickOverviewView = ({
                   textColor = theme.palette.grey[100];
                   bgcolor = theme.palette.success.dark;
                 } else if (status === "loss") {
-                  textColor = theme.palette.error.dark;
-                  bgcolor = theme.palette.error.light;
+                  textColor = theme.palette.grey[100];
+                  bgcolor = theme.palette.error.dark;
                 } else if (status === "tie") {
                   textColor = theme.palette.grey.A700;
-                  bgcolor = theme.palette.divider;
+                  bgcolor = theme.palette.grey[300];
                 }
                 return (
                   <Box
@@ -228,8 +239,11 @@ const UserPickOverviewView = ({
           return {
             title: col.title,
             field: col.field,
+            cellStyle: cellStyle,
             render: (rowData) => (
-              <Box fontWeight="fontWeightBold">{rowData[col.field]}</Box>
+              <Box pl="16px" fontWeight="fontWeightBold">
+                {rowData[col.field]}
+              </Box>
             ),
           };
         })}

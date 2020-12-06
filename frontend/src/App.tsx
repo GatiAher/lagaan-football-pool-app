@@ -29,16 +29,16 @@ const theme = createMuiTheme({
 const App = () => {
   return (
     <MuiThemeProvider theme={theme}>
-      <CssBaseline />
-      <BrowserRouter>
-        <Auth0ProviderWithHistory>
-          <Layout>
-            <CurrentWeekProvider>
+      <CurrentWeekProvider>
+        <CssBaseline />
+        <BrowserRouter>
+          <Auth0ProviderWithHistory>
+            <Layout>
               <Content />
-            </CurrentWeekProvider>
-          </Layout>
-        </Auth0ProviderWithHistory>
-      </BrowserRouter>
+            </Layout>
+          </Auth0ProviderWithHistory>
+        </BrowserRouter>
+      </CurrentWeekProvider>
     </MuiThemeProvider>
   );
 };

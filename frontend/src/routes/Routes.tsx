@@ -10,6 +10,7 @@ export interface IRoute {
   sidebarName: string;
   component: React.ComponentType;
   private: boolean;
+  maxWidth?: "xs" | "sm" | "md" | "lg" | "xl"
 }
 
 const Routes: IRoute[] = [
@@ -42,6 +43,7 @@ const Routes: IRoute[] = [
     sidebarName: "Full Picks Overview",
     component: PickOverview,
     private: true,
+    maxWidth: "xl"
   },
 ];
 

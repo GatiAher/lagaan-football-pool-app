@@ -254,4 +254,6 @@ Routes to recalculate scores & ranks for `team`, and `user` data
 - Button to clear all items from tables
 - Button to remove season data from tables
 
----
+![Admin Page Table Operations](readme_assets/admin_list.png?raw=true)
+
+![Admin Page To Quickly Set Match Outcomes](readme_assets/admin_toggle.png?raw=true)

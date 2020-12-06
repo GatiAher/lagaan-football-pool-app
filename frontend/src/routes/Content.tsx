@@ -16,7 +16,11 @@ const Content = () => {
               path={route.path}
               key={route.path}
               component={() => (
-                <PageWrapper heading={route.sidebarName} isPrivate>
+                <PageWrapper
+                  heading={route.sidebarName}
+                  maxWidth={route.maxWidth}
+                  isPrivate
+                >
                   <route.component />
                 </PageWrapper>
               )}
@@ -25,7 +29,10 @@ const Content = () => {
         } else {
           return (
             <Route exact path={route.path} key={route.path}>
-              <PageWrapper heading={route.sidebarName}>
+              <PageWrapper
+                heading={route.sidebarName}
+                maxWidth={route.maxWidth}
+              >
                 <route.component />
               </PageWrapper>
             </Route>

@@ -48,7 +48,7 @@ const LeaderboardView = ({
   }
 
   const columnLabels = [
-    { title: "rank", field: "rank" },
+    // { title: "rank", field: "rank" },
     { title: "name" },
     { title: "score", field: "score" },
     { title: "W-L-T" },

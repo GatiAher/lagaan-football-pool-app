@@ -43,10 +43,14 @@ const PrivatePageContent: React.FC<{}> = ({ children }) => {
   return <UserNotRegistered />;
 };
 
-type PageWrapperProps = PageHeaderProps & { isPrivate?: boolean };
+type PageWrapperProps = PageHeaderProps & {
+  isPrivate?: boolean;
+  maxWidth?: "xs" | "sm" | "md" | "lg" | "xl";
+};
 
 const PageWrapper: React.FC<PageWrapperProps> = ({
   heading,
+  maxWidth,
   isPrivate,
   children,
 }) => {
@@ -56,16 +60,17 @@ const PageWrapper: React.FC<PageWrapperProps> = ({
   if (heading === "Home") {
     return <div>{children}</div>;
   }
+  const mw = maxWidth || "md";
   if (isPrivate) {
     return (
-      <Container maxWidth="md">
+      <Container maxWidth={mw}>
         <PageHeader heading={heading} />
         <PrivatePageContent>{children}</PrivatePageContent>
       </Container>
     );
   }
   return (
-    <Container maxWidth="md">
+    <Container maxWidth={mw}>
       <PageHeader heading={heading} />
       <div>{children}</div>
     </Container>
