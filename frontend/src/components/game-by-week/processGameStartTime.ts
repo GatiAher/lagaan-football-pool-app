@@ -75,9 +75,13 @@ function getPickWindowInfo(
 ): PickWindowInfoType {
   const PickWindowDateObj = new Date(dateObj.getFullYear(), dateObj.getMonth());
   // set day pick window closes
-  PickWindowDateObj.setDate(
-    dateObj.getDate() + (closeDay + ((7 - dateObj.getDay()) % 7))
-  );
+  if (closeDay === dateObj.getDay()) {
+    PickWindowDateObj.setDate(dateObj.getDate());
+  } else {
+    PickWindowDateObj.setDate(
+      dateObj.getDate() + (closeDay + ((7 - dateObj.getDay()) % 7))
+    );
+  }
   // set time pick window closes
   PickWindowDateObj.setHours(closeHour);
   if (Date.now() < PickWindowDateObj.valueOf()) {
