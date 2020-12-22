@@ -42,7 +42,11 @@ const GameTile = ({ game, team1, team2, ...props }: GameTileProps) => {
       gameStartTimeString,
       gamePickWindowString,
       gameIsPickWindowOpen,
-    } = processGameStartTime(game.startTime);
+    } = processGameStartTime(
+      game.startTime,
+      game.pickWindowDay,
+      game.pickWindowHour
+    );
     isPickWindowOpen = gameIsPickWindowOpen;
     firstString = gameStartTimeString;
     secondString = gamePickWindowString;
