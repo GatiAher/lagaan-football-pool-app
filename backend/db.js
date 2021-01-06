@@ -103,11 +103,14 @@ knex.schema
           table.string("id").primary().notNullable();
           table.string("firstName").notNullable();
           table.string("lastName").notNullable();
-          table.integer("rank");
           table.integer("numOfWin").defaultTo(0);
           table.integer("numOfLoss").defaultTo(0);
           table.integer("numOfTie").defaultTo(0);
           table.integer("score").defaultTo(0);
+          table.integer("numOfWinPlayoff").defaultTo(0);
+          table.integer("numOfLossPlayoff").defaultTo(0);
+          table.integer("numOfTiePlayoff").defaultTo(0);
+          table.integer("scorePlayoff").defaultTo(0);
           table.string("wk1A");
           table.string("wk1B");
           table.string("wk2A");

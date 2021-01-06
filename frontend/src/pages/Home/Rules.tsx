@@ -134,7 +134,7 @@ const Rules = () => {
       </ul>
       <PointsBreakdownTable type="regular" />
       <Typography variant="h4" align="left" gutterBottom>
-        Post Season
+        Playoffs
       </Typography>
       <ul>
         <li>Can pick one team per game</li>

@@ -10,12 +10,22 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 
 import UserType from "../../types/UserType";
-
 import TeamType from "../../types/TeamType";
 
 import { startsWith } from "lodash";
 
-const highlightColor = "#ffed46";
+const highlightColor = "#ebe76c";
+
+const getWinningScores = (
+  users: UserType[],
+  metricField: "score" | "scorePlayoff"
+) => {
+  const allScores = users.map((u) => u[metricField]);
+  const distinctScores = allScores.filter((n, i) => allScores.indexOf(n) === i);
+  // sort in desc
+  const sortedScores = distinctScores.sort((a, b) => b - a);
+  return sortedScores.slice(0, 3);
+};
 
 type UserPickOverviewViewProps = {
   currentWeek: number;
@@ -24,6 +34,7 @@ type UserPickOverviewViewProps = {
   isLoadedUsers: boolean;
   teamMap: Map<string, TeamType>;
   isLoadedTeamMap: boolean;
+  metricField: "score" | "scorePlayoff";
 };
 
 const UserPickOverviewView = ({
@@ -33,11 +44,15 @@ const UserPickOverviewView = ({
   isLoadedUsers,
   teamMap,
   isLoadedTeamMap,
+  metricField,
 }: UserPickOverviewViewProps) => {
   const theme = useTheme();
 
-  let bannerMessage = `If name is blue, you have picked 2 teams for week ${currentWeek}`;
-  if (currentWeek > 17) {
+  let bannerMessage = ``;
+  if (currentWeek <= 17 && metricField === "score") {
+    bannerMessage = `If name is blue, you have picked 2 teams for week ${currentWeek}`;
+  }
+  if (currentWeek > 17 && metricField === "scorePlayoff") {
     bannerMessage = `If name is blue, you have picked a team for week ${currentWeek}`;
   }
 
@@ -57,96 +72,106 @@ const UserPickOverviewView = ({
     };
   };
 
-  const columnLabels = [
-    // { title: "rank", field: "rank" },
-    { title: "score", field: "score" },
+  type columnLabelsType = { title: string; field?: string };
+  const columnLabels: columnLabelsType[] = [
+    { title: metricField, field: metricField },
     { title: "name" },
   ];
 
-  if (currentWeek >= 21) {
-    columnLabels.push({
-      title: `21A`,
-      field: `wk21A`,
-    });
+  if (metricField === "score") {
+    // show up to week 17
+    const visibleRegSeason = currentWeek <= 17 ? currentWeek - 1 : 17;
+    for (let i = visibleRegSeason; i > 0; i--) {
+      columnLabels.push(
+        {
+          title: `${i}A`,
+          field: `wk${i}A`,
+        },
+        {
+          title: `${i}B`,
+          field: `wk${i}B`,
+        }
+      );
+    }
+  } else if (metricField === "scorePlayoff") {
+    if (currentWeek >= 21) {
+      columnLabels.push({
+        title: `21A`,
+        field: `wk21A`,
+      });
+    }
+    if (currentWeek >= 20) {
+      columnLabels.push(
+        {
+          title: `20A`,
+          field: `wk20A`,
+        },
+        {
+          title: `20B`,
+          field: `wk20B`,
+        }
+      );
+    }
+    if (currentWeek >= 19) {
+      columnLabels.push(
+        {
+          title: `19A`,
+          field: `wk19A`,
+        },
+        {
+          title: `19B`,
+          field: `wk19B`,
+        },
+        {
+          title: `19C`,
+          field: `wk19C`,
+        },
+        {
+          title: `19D`,
+          field: `wk19D`,
+        }
+      );
+    }
+    if (currentWeek > 18) {
+      columnLabels.push(
+        {
+          title: `18A`,
+          field: `wk18A`,
+        },
+        {
+          title: `18B`,
+          field: `wk18B`,
+        },
+        {
+          title: `18C`,
+          field: `wk18C`,
+        },
+        {
+          title: `18D`,
+          field: `wk18D`,
+        },
+        {
+          title: `18E`,
+          field: `wk18E`,
+        },
+        {
+          title: `18F`,
+          field: `wk18F`,
+        }
+      );
+    }
   }
 
-  if (currentWeek >= 20) {
-    columnLabels.push(
-      {
-        title: `20A`,
-        field: `wk20A`,
-      },
-      {
-        title: `20B`,
-        field: `wk20B`,
-      }
-    );
+  // highlight winners
+  let winningScores = [-1, -1, -1];
+  if (
+    (currentWeek > 17 && metricField === "score") ||
+    (currentWeek > 21 && metricField === "scorePlayoff")
+  ) {
+    winningScores = getWinningScores(users, metricField);
   }
 
-  if (currentWeek >= 19) {
-    columnLabels.push(
-      {
-        title: `19A`,
-        field: `wk19A`,
-      },
-      {
-        title: `19B`,
-        field: `wk19B`,
-      },
-      {
-        title: `19C`,
-        field: `wk19C`,
-      },
-      {
-        title: `19D`,
-        field: `wk19D`,
-      }
-    );
-  }
-
-  if (currentWeek > 18) {
-    columnLabels.push(
-      {
-        title: `18A`,
-        field: `wk18A`,
-      },
-      {
-        title: `18B`,
-        field: `wk18B`,
-      },
-      {
-        title: `18C`,
-        field: `wk18C`,
-      },
-      {
-        title: `18D`,
-        field: `wk18D`,
-      },
-      {
-        title: `18E`,
-        field: `wk18E`,
-      },
-      {
-        title: `18F`,
-        field: `wk18F`,
-      }
-    );
-  }
-
-  const visibleRegSeason = currentWeek <= 17 ? currentWeek - 1 : 17;
-  // show up to week 17
-  for (let i = visibleRegSeason; i > 0; i--) {
-    columnLabels.push(
-      {
-        title: `${i}A`,
-        field: `wk${i}A`,
-      },
-      {
-        title: `${i}B`,
-        field: `wk${i}B`,
-      }
-    );
-  }
+  console.log(currentWeek);
 
   return (
     <div>
@@ -180,12 +205,29 @@ const UserPickOverviewView = ({
                 let color = "black";
                 if (
                   currentWeek <= 17 &&
+                  metricField === "score" &&
                   rowData[`wk${currentWeek}A`] &&
                   rowData[`wk${currentWeek}B`]
                 ) {
                   color = "blue";
-                } else if (currentWeek > 17 && rowData[`wk${currentWeek}A`]) {
+                } else if (
+                  currentWeek > 17 &&
+                  metricField === "scorePlayoff" &&
+                  rowData[`wk${currentWeek}A`]
+                ) {
                   color = "blue";
+                }
+                if (
+                  (currentWeek > 17 && metricField === "score") ||
+                  (currentWeek > 21 && metricField === "scorePlayoff")
+                ) {
+                  if (rowData[metricField] === winningScores[2]) {
+                    color = "#c47448";
+                  } else if (rowData[metricField] === winningScores[1]) {
+                    color = "#989da3";
+                  } else if (rowData[metricField] === winningScores[0]) {
+                    color = "#bb911a";
+                  }
                 }
                 return (
                   <Box
@@ -197,7 +239,6 @@ const UserPickOverviewView = ({
               },
             };
           } else if (startsWith(col.field, "wk")) {
-            console.log(col.field);
             return {
               title: col.title,
               field: col.field,

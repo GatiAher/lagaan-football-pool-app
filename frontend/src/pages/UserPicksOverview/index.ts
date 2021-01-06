@@ -1,3 +1,2 @@
-import UserPicksOverview from "./UserPicksOverview";
-
-export default UserPicksOverview;
+export { RegularPickOverview } from "./Overview";
+export { PlayoffPickOverview } from "./Overview";

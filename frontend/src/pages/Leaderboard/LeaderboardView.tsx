@@ -14,7 +14,7 @@ import RemainingTeams from "./RemainingTeams";
 
 import UserType from "../../types/UserType";
 
-const highlightColor = "#ffed46";
+const highlightColor = "#ebe76c";
 
 type LeaderboardViewProps = {
   width: "xs" | "sm" | "md" | "lg" | "xl";

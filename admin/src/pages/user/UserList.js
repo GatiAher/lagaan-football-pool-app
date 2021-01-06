@@ -24,11 +24,15 @@ const UserList = (props) => (
       <NumberField source="rank" />
       <TextField source="username" />
       <NumberField source="score" />
+      <NumberField source="scorePlayoff" />
       <TextField source="firstName" />
       <TextField source="lastName" />
       <NumberField label="Win" source="numOfWin" />
       <NumberField label="Loss" source="numOfLoss" />
       <NumberField label="Tie" source="numOfTie" />
+      <NumberField label="WinPlayoff" source="numOfWinPlayoff" />
+      <NumberField label="LossPlayoff" source="numOfLossPlayoff" />
+      <NumberField label="TiePlayoff" source="numOfTiePlayoff" />
       <DateField source="updated_at" />
       <EditButton />
     </Datagrid>
