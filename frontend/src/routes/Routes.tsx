@@ -3,14 +3,17 @@ import Rules from "../pages/Home/Rules";
 import Leaderboard from "../pages/Leaderboard";
 import PickTeam from "../pages/PickTeam";
 import GameSchedule from "../pages/GameSchedule";
-import PickOverview from "../pages/UserPicksOverview";
+import {
+  RegularPickOverview,
+  PlayoffPickOverview,
+} from "../pages/UserPicksOverview";
 
 export interface IRoute {
   path: string;
   sidebarName: string;
   component: React.ComponentType;
   private: boolean;
-  maxWidth?: "xs" | "sm" | "md" | "lg" | "xl"
+  maxWidth?: "xs" | "sm" | "md" | "lg" | "xl";
 }
 
 const Routes: IRoute[] = [
@@ -39,11 +42,18 @@ const Routes: IRoute[] = [
     private: true,
   },
   {
-    path: "/pick_overview",
-    sidebarName: "Full Picks Overview",
-    component: PickOverview,
+    path: "/regular_pick_overview",
+    sidebarName: "Regular Picks Overview",
+    component: RegularPickOverview,
     private: true,
-    maxWidth: "xl"
+    maxWidth: "xl",
+  },
+  {
+    path: "/playoff_pick_overview",
+    sidebarName: "Playoff Picks Overview",
+    component: PlayoffPickOverview,
+    private: true,
+    maxWidth: "xl",
   },
 ];
 

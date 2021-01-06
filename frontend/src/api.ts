@@ -90,9 +90,9 @@ export default {
         .get<UserType[]>(`/user/${id}`)
         .then((response) => response.data);
     },
-    getList: () => {
+    getList: (orderByField: string = "score") => {
       const query = {
-        sort: JSON.stringify(["score", "desc"]),
+        sort: JSON.stringify([orderByField, "desc"]),
       };
       return apiClient
         .get<UserType[]>(`/user`, { params: query })

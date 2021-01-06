@@ -41,6 +41,9 @@ exports.WEEKS = [
   { wk: "wk16B", scorer: STATUS_TO_POINTS_REGULAR },
   { wk: "wk17A", scorer: STATUS_TO_POINTS_REGULAR },
   { wk: "wk17B", scorer: STATUS_TO_POINTS_REGULAR },
+];
+
+exports.WEEKSPLAYOFF = [
   { wk: "wk18A", scorer: STATUS_TO_POINTS_WILDCARD },
   { wk: "wk18B", scorer: STATUS_TO_POINTS_WILDCARD },
   { wk: "wk18C", scorer: STATUS_TO_POINTS_WILDCARD },

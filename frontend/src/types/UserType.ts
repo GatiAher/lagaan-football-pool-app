@@ -3,11 +3,14 @@ export default interface UserType {
   id: string;
   firstName: string;
   lastName: string;
-  rank: number;
-  numOfWin: number
-  numOfLoss: number
-  numOfTie: number
+  numOfWin: number;
+  numOfLoss: number;
+  numOfTie: number;
   score: number;
+  numOfWinPlayoff: number;
+  numOfLossPlayoff: number;
+  numOfTiePlayoff: number;
+  scorePlayoff: number;
   wk1A: string;
   wk1B: string;
   wk2A: string;

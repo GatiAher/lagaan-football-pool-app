@@ -13,7 +13,12 @@ import UserType from "../../types/UserType";
 
 import TeamType from "../../types/TeamType";
 
-const UserPickOverview = () => {
+type UserPickOverviewProps = {
+  metricField?: "score" | "scorePlayoff";
+};
+
+const UserPickOverview = ({ metricField }: UserPickOverviewProps) => {
+  const metricFieldChosen = metricField || "score";
   const { user } = useAuth0();
   const [users, setUsers] = useState<UserType[]>([]);
   const [isLoadedUsers, setIsLoadedUsers] = useState(false);
@@ -25,7 +30,7 @@ const UserPickOverview = () => {
 
   // Fetch on initial render
   useEffect(() => {
-    api.user.getList().then((data) => {
+    api.user.getList(metricFieldChosen).then((data) => {
       const listOfUserIds: string[] = [];
       data.forEach((element: UserType) => {
         listOfUserIds.push(element.id);
@@ -39,7 +44,7 @@ const UserPickOverview = () => {
         });
       }
     });
-  }, [user.sub]);
+  }, [user.sub, metricFieldChosen]);
 
   return (
     <UserPickOverviewView
@@ -49,6 +54,7 @@ const UserPickOverview = () => {
       isLoadedUsers={isLoadedUsers}
       teamMap={teamMap}
       isLoadedTeamMap={isLoadedTeamMap}
+      metricField={metricFieldChosen}
     />
   );
 };
