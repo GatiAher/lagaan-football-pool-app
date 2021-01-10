@@ -12,7 +12,7 @@ import SnackBar, { SnackBarProps } from "../../components/snackbar";
 import { useCurrentWeek } from "../../contexts/CurrentWeekContext";
 import UserType from "../../types/UserType";
 
-const PickTeamRegular = () => {
+const PickTeam = () => {
   const { currentWeek } = useCurrentWeek();
   const [week, setWeek] = useState(currentWeek);
 
@@ -60,7 +60,8 @@ const PickTeamRegular = () => {
       // get any previous picks for this week
       let teamSelections = pickBy(
         userData,
-        (value, key) => startsWith(key, `wk${week}`) && value !== null && value !== "" 
+        (value, key) =>
+          startsWith(key, `wk${week}`) && value !== null && value !== ""
       );
       // @ts-ignore
       const teamSelectionsList = Object.values(teamSelections);
@@ -69,18 +70,6 @@ const PickTeamRegular = () => {
     });
   }, [user.sub, week]);
 
-  const handleSelection = (team: string): void => {
-    let newSelections;
-    if (selections.includes(team)) {
-      // remove from array
-      newSelections = selections.filter((oldTeam) => oldTeam !== team);
-    } else {
-      // add to array
-      newSelections = selections.concat(team);
-    }
-    setSelections(newSelections);
-  };
-
   return (
     <div>
       <PickTeamView
@@ -88,7 +77,7 @@ const PickTeamRegular = () => {
         setWeek={setWeek}
         userData={userData}
         selections={selections}
-        handleSelection={handleSelection}
+        setSelections={setSelections}
         submitSelections={submitSelections}
         isLoadedUser={isLoadedUser}
       />
@@ -103,4 +92,4 @@ const PickTeamRegular = () => {
   );
 };
 
-export default PickTeamRegular;
+export default PickTeam;

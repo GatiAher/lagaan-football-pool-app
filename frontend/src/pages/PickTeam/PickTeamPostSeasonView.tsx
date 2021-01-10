@@ -9,7 +9,7 @@ import GameByWeek, {
 type PickTeamPostSeasonViewProps = {
   week: number;
   selections: (string | number | undefined)[];
-  handleSelection: (team: string) => void;
+  handleSelection: (team: string, game_idx?: number) => void;
 };
 
 const PickTeamPostSeasonView = ({
@@ -35,6 +35,7 @@ const PickTeamPostSeasonView = ({
   };
 
   const TeamDisplayWrapper = (props: TeamDisplayWrapperProps) => {
+    // set state once when created
     manageGameLevelState(
       props.state,
       props.setState,
@@ -47,7 +48,8 @@ const PickTeamPostSeasonView = ({
         disabled={!props.isPickWindowOpen || props.state === "unavailable"}
         highlighted={selections.includes(props.team.id)}
         onClick={() => {
-          handleSelection(props.team.id);
+          handleSelection(props.team.id, props.game_idx);
+          // update state when new selection happens
           manageGameLevelState(
             props.state,
             props.setState,

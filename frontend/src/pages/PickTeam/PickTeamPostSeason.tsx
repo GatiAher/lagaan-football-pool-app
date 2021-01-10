@@ -7,14 +7,14 @@ import PickTeamPostSeasonView from "./PickTeamPostSeasonView";
 type PickTeamPostSeasonProps = {
   week: number;
   selections: (string | number | undefined)[];
-  handleSelection: (team: string) => void;
+  setSelections: (arg0: (string | number | undefined)[]) => void;
   submitSelections: (body: object) => void;
 };
 
 const PickTeamPostSeason = ({
   week,
   selections,
-  handleSelection,
+  setSelections,
   submitSelections,
 }: PickTeamPostSeasonProps) => {
   const [letters, setLetters] = useState<string[]>([]);
@@ -31,7 +31,10 @@ const PickTeamPostSeason = ({
       lettersList = ["A"];
     }
     setLetters(lettersList);
-  }, [week]);
+    if (selections.length === 0) {
+      setSelections(Array(lettersList.length).fill(""));
+    }
+  }, [week, setSelections, selections]);
 
   const submissionCallback = useCallback(() => {
     const body = {};
@@ -41,6 +44,22 @@ const PickTeamPostSeason = ({
     });
     submitSelections(body);
   }, [selections, week, submitSelections, letters]);
+
+  const handleSelection = (team: string, game_idx?: number): void => {
+    let newSelections = selections.map((item, idx) => {
+      if (idx === game_idx) {
+        if (team === item) {
+          // remove from array
+          return "";
+        } else {
+          // add to array
+          return team;
+        }
+      }
+      return item;
+    });
+    setSelections(newSelections);
+  };
 
   return (
     <div>
