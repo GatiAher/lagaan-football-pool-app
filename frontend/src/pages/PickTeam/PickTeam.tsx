@@ -58,11 +58,13 @@ const PickTeam = () => {
       const userData = data[0];
       setUserData(userData);
       // get any previous picks for this week
-      let teamSelections = pickBy(
-        userData,
-        (value, key) =>
-          startsWith(key, `wk${week}`) && value !== null && value !== ""
-      );
+      let teamSelections = pickBy(userData, (value, key) => {
+        if (week > 17) {
+          return startsWith(key, `wk${week}`);
+        } else {
+          return startsWith(key, `wk${week}`) && value !== null && value !== "";
+        }
+      });
       // @ts-ignore
       const teamSelectionsList = Object.values(teamSelections);
       setSelections(teamSelectionsList);
