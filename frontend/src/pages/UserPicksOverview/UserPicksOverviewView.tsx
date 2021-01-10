@@ -94,7 +94,7 @@ const UserPickOverviewView = ({
       );
     }
   } else if (metricField === "scorePlayoff") {
-    if (currentWeek >= 21) {
+    if (currentWeek > 21) {
       columnLabels.push({
         title: `21A`,
         field: `wk21A`,
