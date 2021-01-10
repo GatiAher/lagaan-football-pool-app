@@ -15,13 +15,20 @@ const isFunction = <T extends {}>(value: T): value is IsFunction<T> =>
 
 type GameTileProps = {
   game?: GameType;
+  game_idx?: number;
   isPickWindowOpenDefault?: boolean;
   team1: TeamType | undefined;
   team2: TeamType | undefined;
   render: (props: TeamDisplayWrapperProps) => ReactNode;
 };
 
-const GameTile = ({ game, team1, team2, ...props }: GameTileProps) => {
+const GameTile = ({
+  game,
+  game_idx,
+  team1,
+  team2,
+  ...props
+}: GameTileProps) => {
   if (!isFunction(props.render)) {
     throw new Error("render prop is mandatory and needs to be a function!");
   }
@@ -52,7 +59,7 @@ const GameTile = ({ game, team1, team2, ...props }: GameTileProps) => {
     secondString = gamePickWindowString;
     isBye = false;
     render = (arg0: TeamDisplayWrapperProps) =>
-      props.render({ game, isPickWindowOpen, ...arg0 });
+      props.render({ game, game_idx, isPickWindowOpen, ...arg0 });
   } else {
     id = "BYE";
     isPickWindowOpen = props.isPickWindowOpenDefault || false;
