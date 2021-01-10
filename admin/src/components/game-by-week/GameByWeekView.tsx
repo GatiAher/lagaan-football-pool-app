@@ -33,10 +33,12 @@ const GameByWeekView = ({
   }
   return (
     <List>
-      {games.map((game) => {
+      {games.map((game, game_idx) => {
         return (
           <GameTile
             game={game}
+            game_idx={game_idx}
+            key={game.id}
             team1={teamMap.get(game.visTeam)}
             team2={teamMap.get(game.homeTeam)}
             render={render}
@@ -45,6 +47,7 @@ const GameByWeekView = ({
       })}
       {hasBye && week <= BYE_WEEK_END && week >= BYE_WEEK_START && (
         <GameTile
+          key="bye"
           isPickWindowOpenDefault={isPickWindowOpenDefault}
           team1={teamMap.get("BYE1")}
           team2={teamMap.get("BYE2")}

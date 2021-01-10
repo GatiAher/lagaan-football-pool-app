@@ -12,7 +12,7 @@ type PickTeamRegularProps = {
   week: number;
   userData: UserType;
   selections: (string | number | undefined)[];
-  handleSelection: (team: string) => void;
+  setSelections: (arg0: (string | number | undefined)[]) => void;
   submitSelections: (body: object) => void;
 };
 
@@ -20,7 +20,7 @@ const PickTeamRegular = ({
   week,
   userData,
   selections,
-  handleSelection,
+  setSelections,
   submitSelections,
 }: PickTeamRegularProps) => {
   const submissionCallback = useCallback(() => {
@@ -44,6 +44,18 @@ const PickTeamRegular = ({
     const teamSelectionsList = Object.values(filteredPicks);
     setPastSelections(teamSelectionsList);
   }, [userData, week]);
+
+  const handleSelection = (team: string): void => {
+    let newSelections;
+    if (selections.includes(team)) {
+      // remove from array
+      newSelections = selections.filter((item) => item !== team);
+    } else {
+      // add to array
+      newSelections = selections.concat(team);
+    }
+    setSelections(newSelections);
+  };
 
   return (
     <div>

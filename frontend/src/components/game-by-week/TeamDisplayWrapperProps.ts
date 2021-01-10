@@ -3,6 +3,7 @@ import TeamType from "../../types/TeamType";
 
 export interface TeamDisplayWrapperProps {
   game?: GameType;
+  game_idx?: number;
   team: TeamType;
   isPickWindowOpen?: boolean;
   state: string;

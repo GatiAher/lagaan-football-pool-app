@@ -15,7 +15,7 @@ type PickTeamViewProps = {
   setWeek: (arg0: number) => void;
   userData: UserType | null;
   selections: (string | number | undefined)[];
-  handleSelection: (team: string) => void;
+  setSelections: (arg0: (string | number | undefined)[]) => void;
   submitSelections: (body: object) => void;
   isLoadedUser: boolean;
 };
@@ -25,7 +25,7 @@ const PickTeamView = ({
   setWeek,
   userData,
   selections,
-  handleSelection,
+  setSelections,
   submitSelections,
   isLoadedUser,
 }: PickTeamViewProps) => {
@@ -41,14 +41,14 @@ const PickTeamView = ({
           week={week}
           userData={userData}
           selections={selections}
-          handleSelection={handleSelection}
+          setSelections={setSelections}
           submitSelections={submitSelections}
         />
       ) : (
         <PickTeamPostSeason
           week={week}
           selections={selections}
-          handleSelection={handleSelection}
+          setSelections={setSelections}
           submitSelections={submitSelections}
         />
       )}

@@ -74,7 +74,7 @@ const UserPickOverviewView = ({
 
   type columnLabelsType = { title: string; field?: string };
   const columnLabels: columnLabelsType[] = [
-    { title: metricField, field: metricField },
+    { title: "score", field: metricField },
     { title: "name" },
   ];
 
@@ -94,13 +94,13 @@ const UserPickOverviewView = ({
       );
     }
   } else if (metricField === "scorePlayoff") {
-    if (currentWeek >= 21) {
+    if (currentWeek > 21) {
       columnLabels.push({
         title: `21A`,
         field: `wk21A`,
       });
     }
-    if (currentWeek >= 20) {
+    if (currentWeek > 20) {
       columnLabels.push(
         {
           title: `20A`,
@@ -112,7 +112,7 @@ const UserPickOverviewView = ({
         }
       );
     }
-    if (currentWeek >= 19) {
+    if (currentWeek > 19) {
       columnLabels.push(
         {
           title: `19A`,
@@ -170,8 +170,6 @@ const UserPickOverviewView = ({
   ) {
     winningScores = getWinningScores(users, metricField);
   }
-
-  console.log(currentWeek);
 
   return (
     <div>
