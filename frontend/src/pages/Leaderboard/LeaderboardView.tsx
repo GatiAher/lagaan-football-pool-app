@@ -33,6 +33,24 @@ const LeaderboardView = ({
 }: LeaderboardViewProps) => {
   const theme = useTheme();
 
+  const metricField = currentWeek > 17 ? "scorePlayoff" : "score";
+
+  const DetailPanel = () => {
+    if (currentWeek < 17) {
+      return (rowData: UserType) => (
+        <Box p={2} bgcolor={theme.palette.background.default}>
+          <RemainingTeams
+            rowData={rowData}
+            width={width}
+            currentWeek={currentWeek}
+            userSub={userSub}
+          />
+        </Box>
+      );
+    }
+    return undefined;
+  };
+
   let bannerMessage = `If name is blue, you have picked 2 teams for week ${currentWeek}`;
   if (currentWeek > 17) {
     bannerMessage = `If name is blue, you have picked a team for week ${currentWeek}`;
@@ -48,9 +66,8 @@ const LeaderboardView = ({
   }
 
   const columnLabels = [
-    // { title: "rank", field: "rank" },
     { title: "name" },
-    { title: "score", field: "score" },
+    { title: "score", field: metricField },
     { title: "W-L-T" },
   ];
 
@@ -102,7 +119,10 @@ const LeaderboardView = ({
             return {
               title: col.title,
               render: (rowData) => {
-                return `${rowData.numOfWin}-${rowData.numOfLoss}-${rowData.numOfTie}`;
+                if (metricField === "score") {
+                  return `${rowData.numOfWin}-${rowData.numOfLoss}-${rowData.numOfTie}`;
+                }
+                return `${rowData.numOfWinPlayoff}-${rowData.numOfLossPlayoff}-${rowData.numOfTiePlayoff}`;
               },
             };
           }
@@ -115,18 +135,7 @@ const LeaderboardView = ({
           };
         })}
         data={users}
-        detailPanel={(rowData) => {
-          return (
-            <Box p={2} bgcolor={theme.palette.background.default}>
-              <RemainingTeams
-                rowData={rowData}
-                width={width}
-                currentWeek={currentWeek}
-                userSub={userSub}
-              />
-            </Box>
-          );
-        }}
+        detailPanel={DetailPanel()}
       />
     </div>
   );
