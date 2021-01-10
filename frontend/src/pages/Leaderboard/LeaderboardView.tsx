@@ -104,7 +104,15 @@ const LeaderboardView = ({
                   rowData[`wk${currentWeek}B`]
                 ) {
                   color = "blue";
-                } else if (currentWeek > 17 && rowData[`wk${currentWeek}A`]) {
+                } else if (
+                  currentWeek > 17 &&
+                  (rowData[`wk${currentWeek}A`] ||
+                    rowData[`wk${currentWeek}B`] ||
+                    rowData[`wk${currentWeek}C`] ||
+                    rowData[`wk${currentWeek}D`] ||
+                    rowData[`wk${currentWeek}E`] ||
+                    rowData[`wk${currentWeek}F`])
+                ) {
                   color = "blue";
                 }
                 return (

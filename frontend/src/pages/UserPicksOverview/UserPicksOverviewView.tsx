@@ -211,7 +211,12 @@ const UserPickOverviewView = ({
                 } else if (
                   currentWeek > 17 &&
                   metricField === "scorePlayoff" &&
-                  rowData[`wk${currentWeek}A`]
+                  (rowData[`wk${currentWeek}A`] ||
+                    rowData[`wk${currentWeek}B`] ||
+                    rowData[`wk${currentWeek}C`] ||
+                    rowData[`wk${currentWeek}D`] ||
+                    rowData[`wk${currentWeek}E`] ||
+                    rowData[`wk${currentWeek}F`])
                 ) {
                   color = "blue";
                 }
