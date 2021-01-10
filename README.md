@@ -158,12 +158,11 @@ sudo service nginx stop
 
 - good for loading teams with 0-0-0 as W-L-T
 - keeps all users but erases picks, score, and rank
-- NOTE: loads games in the right format but uses outdated webscrapper so values are incorrect
 
 2. Go into resource tab, export current values into csv, replace csv with actual values, delete all values in table, import csv
 
-- NOTE: this step may require one item to be in the database. Create one item and delete it afterwards.
-- NOTE: if you do not delete the items in table, importing csv will try to update items
+- this step may require one item to be in the database. Create one item and delete it afterwards.
+- if you do not delete the items in table, importing csv will update items
 
 ### User Registration
 
@@ -192,7 +191,8 @@ sudo service nginx stop
 
 **Pick Sheet Page (private)**
 
-- Pick two teams each week
+- In regular season: pick two teams each week
+- In playoff season: pick unlimited number of teams (cannot be from same game)
 - Automatically disables teams picked in previous weeks
 - BYE Week selection option only available on certain weeks (week in range 4-12)
 - Pick windows close on Thu 6pm and Sun 1pm
@@ -202,19 +202,20 @@ sudo service nginx stop
 **Standings Page (private)**
 
 - See a sortable, filterable, exportable table of users
-- Table initially sorted by rank
+- Table initially sorted by score
 - Current user highlighted
-- Users who have picked for the current week appear have name text in blue
+- Users who have picked for the current week have names in blue text
 - For each user, see:
 
-  - ROW: Rank, Name, Picked Wins-Losses-Ties, Score
+  - ROW: Score, Name, Picked Wins-Losses-Ties
   - EXPANDABLE DETAIL PANEL: user's selected teams, up to but not including current week
 
 ![Standings](readme_assets/standings.png?raw=true)
 
-**All Picks Overview (private)**
+**Regular and Playoff Season Picks Overview (private)**
 
-- See all users's picks up to but not including current week
+- See all users's picks up to, but not including, current week
+- At end of respective season, first place name is colored in gold text, second place in silver, and third place in silver
 
 - Auth0 for authentication
 
