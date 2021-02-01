@@ -36,7 +36,7 @@ const PickTeamView = ({
   return (
     <Box>
       <WeekPicker week={week} setWeek={setWeek} />
-      {week <= 17 ? (
+      {week <= 17 && (
         <PickTeamRegular
           week={week}
           userData={userData}
@@ -44,7 +44,8 @@ const PickTeamView = ({
           setSelections={setSelections}
           submitSelections={submitSelections}
         />
-      ) : (
+      )}
+      {week >= 18 && week <= 21 && (
         <PickTeamPostSeason
           week={week}
           selections={selections}
@@ -52,6 +53,7 @@ const PickTeamView = ({
           submitSelections={submitSelections}
         />
       )}
+      {week > 21 && <Box>Season is over.</Box>}
     </Box>
   );
 };

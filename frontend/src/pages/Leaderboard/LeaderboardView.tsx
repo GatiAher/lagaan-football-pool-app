@@ -51,9 +51,12 @@ const LeaderboardView = ({
     return undefined;
   };
 
-  let bannerMessage = `If name is blue, you have picked 2 teams for week ${currentWeek}`;
+  let bannerMessage = `Regular Season: If name is blue, you have picked 2 teams for week ${currentWeek}`;
   if (currentWeek > 17) {
-    bannerMessage = `If name is blue, you have picked a team for week ${currentWeek}`;
+    bannerMessage = `Post-Season: If name is blue, you have picked a team for week ${currentWeek}`;
+  }
+  if (currentWeek > 21) {
+    bannerMessage = `Season is over.`;
   }
 
   if (!isLoadedUsers) {
