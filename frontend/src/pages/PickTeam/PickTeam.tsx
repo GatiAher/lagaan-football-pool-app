@@ -57,17 +57,21 @@ const PickTeam = () => {
     api.user.getOne(user.sub).then((data) => {
       const userData = data[0];
       setUserData(userData);
-      // get any previous picks for this week
-      let teamSelections = pickBy(userData, (value, key) => {
-        if (week > 17) {
-          return startsWith(key, `wk${week}`);
-        } else {
-          return startsWith(key, `wk${week}`) && value !== null && value !== "";
-        }
-      });
-      // @ts-ignore
-      const teamSelectionsList = Object.values(teamSelections);
-      setSelections(teamSelectionsList);
+      if (week < 23) {
+        // get any previous picks for this week
+        let teamSelections = pickBy(userData, (value, key) => {
+          if (week >= 18) {
+            return startsWith(key, `wk${week}`);
+          } else {
+            return (
+              startsWith(key, `wk${week}`) && value !== null && value !== ""
+            );
+          }
+        });
+        // @ts-ignore
+        const teamSelectionsList = Object.values(teamSelections);
+        setSelections(teamSelectionsList);
+      }
       setIsLoadedUser(true);
     });
   }, [user.sub, week]);

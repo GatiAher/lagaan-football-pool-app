@@ -3,7 +3,7 @@ const calculateCurrentWeek = (kickoffMs: number): number => {
   const currentDateObj = new Date();
   const diff = (currentDateObj.getTime() - kickoffMs) / 1000;
   const weeksDiff = diff / (60 * 60 * 24 * 7);
-  const weeks = Math.ceil(weeksDiff);
+  let weeks = Math.ceil(weeksDiff);
   // show next week if Sun after 1pm, Mon, Tue, or Wed
   if (
     (currentDateObj.getDay() === 0 && currentDateObj.getHours() >= 13) ||
@@ -11,10 +11,10 @@ const calculateCurrentWeek = (kickoffMs: number): number => {
     currentDateObj.getDay() === 2 ||
     currentDateObj.getDay() === 3
   )
-    return weeks + 1;
-  if (weeks >= 0 && weeks <= 21) return weeks;
-  if (weeks > 21) return 22;
-  return 1;
+    weeks = weeks + 1;
+  if (weeks > 0 && weeks <= 21) return weeks;
+  if (weeks === 22) return 21; // skipping pro bowl week
+  return 23; // default case
 };
 
 export default calculateCurrentWeek;

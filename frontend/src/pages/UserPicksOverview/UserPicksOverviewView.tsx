@@ -52,8 +52,14 @@ const UserPickOverviewView = ({
   if (currentWeek <= 17 && metricField === "score") {
     bannerMessage = `If name is blue, you have picked 2 teams for week ${currentWeek}`;
   }
-  if (currentWeek > 17 && metricField === "scorePlayoff") {
+  if (currentWeek > 17 && metricField === "score") {
+    bannerMessage = `Season is over and winners have been declared.`;
+  }
+  if (currentWeek <= 21 && metricField === "scorePlayoff") {
     bannerMessage = `If name is blue, you have picked a team for week ${currentWeek}`;
+  }
+  if (currentWeek > 21 && metricField === "scorePlayoff") {
+    bannerMessage = `Season is over and winners have been declared.`;
   }
 
   if (!isLoadedUsers || !isLoadedTeamMap) {
@@ -202,21 +208,18 @@ const UserPickOverviewView = ({
               render: (rowData) => {
                 let color = "black";
                 if (
-                  currentWeek <= 17 &&
-                  metricField === "score" &&
-                  rowData[`wk${currentWeek}A`] &&
-                  rowData[`wk${currentWeek}B`]
-                ) {
-                  color = "blue";
-                } else if (
-                  currentWeek > 17 &&
-                  metricField === "scorePlayoff" &&
-                  (rowData[`wk${currentWeek}A`] ||
-                    rowData[`wk${currentWeek}B`] ||
-                    rowData[`wk${currentWeek}C`] ||
-                    rowData[`wk${currentWeek}D`] ||
-                    rowData[`wk${currentWeek}E`] ||
-                    rowData[`wk${currentWeek}F`])
+                  (currentWeek <= 17 &&
+                    metricField === "score" &&
+                    rowData[`wk${currentWeek}A`] &&
+                    rowData[`wk${currentWeek}B`]) ||
+                  (currentWeek > 17 &&
+                    metricField === "scorePlayoff" &&
+                    (rowData[`wk${currentWeek}A`] ||
+                      rowData[`wk${currentWeek}B`] ||
+                      rowData[`wk${currentWeek}C`] ||
+                      rowData[`wk${currentWeek}D`] ||
+                      rowData[`wk${currentWeek}E`] ||
+                      rowData[`wk${currentWeek}F`]))
                 ) {
                   color = "blue";
                 }
