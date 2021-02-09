@@ -1,7 +1,7 @@
 {
   "name": "pool-app",
   "version": "1.0.0",
-  "description": "NFL Pool Application for Lagaan",
+  "description": "Football Pool Application for Lagaan",
   "main": "index.js",
   "license": "MIT",
   "scripts": {

@@ -4,30 +4,44 @@ Link: https://www.lagaannfl.com/
 
 ---
 
-## Run locally, development mode, pre-build
+## Set-Up
 
 0. Clone this project.
 
 ```bash
 git clone https://github.com/GatiAher/lagaan-football-pool-app.git
+cd lagaan-football-pool-app
 ```
 
-1. Download all necessary packages. This project uses yarn and package.json files to manage dependencies. Make sure you have yarn and node installed.
+1. Install Essential Tools and Packages
 
 ```bash
-$ yarn
-$ cd backend/ && yarn && cd ..
-$ cd frontend/ && yarn && cd ..
-$ cd admin/ && yarn && cd ..
+# install node version manager (nvm)
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+. ~/.nvm/nvm.sh
+
+# use nvm to install node
+nvm install node
+
+# install yarn
+curl -o- -L https://yarnpkg.com/install.sh | bash
+
+# download dependencies, make sure you are in root directory
+yarn && cd backend/ && yarn && cd .. && cd frontend/ && yarn && cd .. && cd admin/ && yarn && cd ..
 ```
 
-2. Backend uses SQLite database, so you need to provide the database storage file.
+2. Backend uses SQLite database, so you need to provide the database storage file
 
 ```bash
-$ touch backend/db/database.sqlite
+mkdir -p backend/db
+touch backend/db/database.sqlite
 ```
 
-3. Frontend uses backend api and Auth0 so you need to provide the configuration variables to access these. Make file `frontend/.env.development` and add the following key-value pairs. Get the values `REACT_APP_AUTH0_DOMAIN` and `REACT_APP_AUTH0_CLIENT_ID` from Auth0 Dashboard.
+3. Set-Up Environment Files
+
+Frontend uses backend api and Auth0 so you need to provide the configuration variables to access these. Add the following key-value pairs to the env files. Get the values `REACT_APP_AUTH0_DOMAIN` and `REACT_APP_AUTH0_CLIENT_ID` from [Auth0 Dashboard](link: https://manage.auth0.com/). You need to have an Auth0 account.
+
+In `frontend/.env.development`
 
 ```
 REACT_APP_API=http://localhost:3001
@@ -35,13 +49,41 @@ REACT_APP_AUTH0_DOMAIN=<xxx.us.auth0.com>
 REACT_APP_AUTH0_CLIENT_ID=<yyy>
 ```
 
-4. Admin also needs to access backend's api. Make file `frontend/.env.development` and add the following key-value pairs.
+In `frontend/.env.production`
+
+```
+REACT_APP_API=/api
+REACT_APP_AUTH0_DOMAIN=<xxx.us.auth0.com>
+REACT_APP_AUTH0_CLIENT_ID=yyy>
+GENERATE_SOURCEMAP=false
+```
+
+Admin also needs to access backend's api. Add the following key-value pairs.
+
+In `admin/.env.development`
 
 ```
 REACT_APP_API=http://localhost:3001
+REACT_APP_ADMIN_USER=<aaa>
+REACT_APP_ADMIN_PASS=<bbb>
 ```
 
-5. In root directory, run the start script to start application in `NODE_ENV=development` mode.
+In `admin/.env.production`
+
+```
+REACT_APP_API=/api
+REACT_APP_ADMIN_USER=<aaa>
+REACT_APP_ADMIN_PASS=<bbb>
+GENERATE_SOURCEMAP=false
+```
+
+Privacy Note: While frontend uses Auth0, admin site does not because at the time of writing this, Auth0 and React-Admin do not work well together. At the moment, the admin site is using hard-coded passwords and has no access to confidential user data. Auth0 manages user accounts, passwords, password resets, and backup emails.
+
+---
+
+## Run locally, development mode, pre-build
+
+1. In root directory, run the start script to start application in `NODE_ENV=development` mode.
 
 ```bash
 yarn start
@@ -55,85 +97,78 @@ yarn start-front
 yarn start-admin
 ```
 
-6. Access from browser
+2. Access from browser
 
-- Backend: http://localhost:3001 (see 404 page)
+- Backend: http://localhost:3001 (see 404 page, make requests to this url)
 - Frontend: http://localhost:3000 (see Home page)
 - Admin: http://localhost:3002 (see Admin Dashboard)
 
 ---
 
-## Run on ec2 instance, production mode, serving static files
+## Run on ec2 instance, set up production environment, serving static files
 
-0. make sure you have yarn, node, pm2 and nginx installed. I used AWS EC2 + elastic load balancer (ELB), Route53, SSL Certificate.
+1. Make sure your `frontend/.env.production` and `admin/.env.production` files exist and have the right values. Create production build of frontend and admin static files. This should create `frontend/build` and `admin/build` directories.
+
+```bash
+cd frontend && yarn && yarn build && cd ..
+cd admin && yarn && yarn build && cd ..
+```
+
+2. Ssh into your production server. Set-up production environment. Make sure you have yarn, node, pm2 and nginx installed. 
+
+```bash
+ssh -i /path/my-key-pair.pem my-instance-user-name@my-instance-public-dns-name
+
+# make a working directory (this is the path assumed by lagaan_nginx.conf)
+mkdir -p /data/lagaan-football-pool-app
+
+# install PM2 (Daemon Process Manager that keeps application online. Use it to run the backend)
+yarn global add pm2
+
+# install CentOS 7 EPEL (to talk with Nginx)
+sudo yum install epel-release
+
+# install Nginx to manage serving static files
+sudo yum install nginx
+```
+
+I used AWS EC2 + elastic load balancer (ELB), Route53, SSL Certificate.
 
 AWS PROCESS: In Route53 configure A-Record as type alias with target as ELB. Configure ELB as fail-over to the EC2. (fail-over mode requires health-check for fail-over configuration).
 
 RATIONAL: Right now, only using one instance, hence the fail-over configuration. Using ELB in order to use AWS's SSL. SSL is needed for OAuth used by frontend.
 
+3. Scp over files required for running production build
+
 ```bash
-# install yarn
-curl -o- -L https://yarnpkg.com/install.sh | bash
-# install node version manager (nvm)
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
-. ~/.nvm/nvm.sh
-# use nvm to install node
-nvm install node
-# install PM2 (Daemon Process Manager that keeps application online. Use it to run the backend)
-yarn global add pm2
-# install CentOS 7 EPEL and Nginx
-sudo yum install epel-release
-sudo yum install nginx
+scp -i /path/my-key-pair.pem /path/my-file ec2-user@my-instance-public-dns-name:path/
 ```
 
-1. Git pull a version that works in development mode
+Directories and files to scp over:
+- `backend`
+- `ecosystem.config.js`
+- `admin/build`
+- `frontend/build`
+- `lagaan_nginx.conf` 
 
-2. Set up backend and start api using PM2.
+
+4. Set up backend and start api using PM2.
+
+pm2 uses the `ecosystem.config.js` file.
 
 ```bash
 cd backend && yarn && cd ..
 pm2 start
 ```
 
-This uses the `ecosystem.config.js` file.
-
-3. Create `frontend/.env.production` with these key-value pairs.
-
-```
-REACT_APP_API=/api
-REACT_APP_AUTH0_DOMAIN=<xxx.us.auth0.com>
-REACT_APP_AUTH0_CLIENT_ID=<yyy>
-GENERATE_SOURCEMAP=false
-```
-
-Make frontend static build files.
-
-```bash
-cd frontend && yarn && yarn build && cd ..
-```
-
-4. Create `admin/.env.production` with these key-value pairs.
-
-```
-REACT_APP_API=/api
-GENERATE_SOURCEMAP=false
-```
-
-Make admin static build files.
-
-```bash
-cd admin && yarn && yarn build && cd ..
-```
-
 5. Use nginx to serve the frontend and admin static build files and reverse-proxy the backend api
 
 ```bash
-cp nginx.conf /etc/nginx/nginx.conf
+cp lagaan_nginx.conf /etc/nginx/nginx.conf
 sudo service nginx restart
 ```
 
-NOTE: provided `nginx.conf` assumes that the path to lagaan-football-pool-app is `/data/lagaan-football-pool-app`. Change if necessary.
-NOTE: you might need to use sudo
+NOTE: provided `lagaan_nginx.conf` assumes that the path to lagaan-football-pool-app is `/data/lagaan-football-pool-app`.
 
 6. Access files from browser
 
@@ -159,10 +194,11 @@ sudo service nginx stop
 - good for loading teams with 0-0-0 as W-L-T
 - keeps all users but erases picks, score, and rank
 
-2. Go into resource tab, export current values into csv, replace csv with actual values, delete all values in table, import csv
+2. Go into resource tab (User, Team, or Game)
 
 - this step may require one item to be in the database. Create one item and delete it afterwards.
 - if you do not delete the items in table, importing csv will update items
+- you have the option to export csv and save backups of data in the database
 
 ### User Registration
 
@@ -258,3 +294,4 @@ Routes to recalculate scores & ranks for `team`, and `user` data
 ![Admin Page Table Operations](readme_assets/admin_list.png?raw=true)
 
 ![Admin Page To Quickly Set Match Outcomes](readme_assets/admin_toggle.png?raw=true)
+
