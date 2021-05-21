@@ -143,14 +143,12 @@ RATIONAL: Right now, only using one instance, hence the fail-over configuration.
 ```bash
 scp -i /path/my-key-pair.pem /path/my-file ec2-user@my-instance-public-dns-name:path/
 ```
-
 Directories and files to scp over:
 - `backend`
 - `ecosystem.config.js`
 - `admin/build`
 - `frontend/build`
 - `lagaan_nginx.conf` 
-
 
 4. Set up backend and start api using PM2.
 
@@ -160,7 +158,6 @@ pm2 uses the `ecosystem.config.js` file.
 cd backend && yarn && cd ..
 pm2 start
 ```
-
 5. Use nginx to serve the frontend and admin static build files and reverse-proxy the backend api
 
 ```bash
@@ -168,7 +165,7 @@ cp lagaan_nginx.conf /etc/nginx/nginx.conf
 sudo service nginx restart
 ```
 
-NOTE: provided `lagaan_nginx.conf` assumes that the path to lagaan-football-pool-app is `/data/lagaan-football-pool-app`.
+NOTE: provided `lagaan_nginx.conf` assumes that the path to lagaan-football-pool-app is `/data/lagaan-football-pool-app`. Change it if necessary.
 
 6. Access files from browser
 
@@ -176,13 +173,14 @@ NOTE: provided `lagaan_nginx.conf` assumes that the path to lagaan-football-pool
 - Admin: https://www.mydomain.com/admin
 - Backend: https://www.mydomain.com/api
 
+NOTE: since frontend uses Auth0, its Javascript will only render if it is on a secure connection (https).
+
 7. To Stop
 
 ```bash
 pm2 delete all
 sudo service nginx stop
 ```
-
 ---
 
 # First Time User Steps
