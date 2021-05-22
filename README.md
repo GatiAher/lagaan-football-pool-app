@@ -107,14 +107,7 @@ yarn start-admin
 
 ## Run on ec2 instance, set up production environment, serving static files
 
-1. Make sure your `frontend/.env.production` and `admin/.env.production` files exist and have the right values. Create production build of frontend and admin static files. This should create `frontend/build` and `admin/build` directories.
-
-```bash
-cd frontend && yarn && yarn build && cd ..
-cd admin && yarn && yarn build && cd ..
-```
-
-2. Ssh into your production server. Set-up production environment. Make sure you have yarn, node, pm2 and nginx installed. 
+1. Ssh into your production server. Set-up production environment. Make sure you have yarn, node, pm2 and nginx installed. 
 
 ```bash
 ssh -i /path/my-key-pair.pem my-instance-user-name@my-instance-public-dns-name
@@ -132,18 +125,29 @@ sudo yum install epel-release
 sudo yum install nginx
 ```
 
+2. Make sure your `frontend/.env.production` and `admin/.env.production` files exist and have the right values. Create production build of frontend and admin static files. This should create `frontend/build` and `admin/build` directories.
+
+```bash
+cd frontend && yarn && yarn build && cd ..
+cd admin && yarn && yarn build && cd ..
+```
+
+3. Set up NGINX + SSL certificate
+
+**On Amazon Web Service:**
+
 I used AWS EC2 + elastic load balancer (ELB), Route53, SSL Certificate.
 
 AWS PROCESS: In Route53 configure A-Record as type alias with target as ELB. Configure ELB as fail-over to the EC2. (fail-over mode requires health-check for fail-over configuration).
 
 RATIONAL: Right now, only using one instance, hence the fail-over configuration. Using ELB in order to use AWS's SSL. SSL is needed for OAuth used by frontend.
 
-3. Scp over files required for running production build
+**On Digital Ocean:**
 
-```bash
-scp -i /path/my-key-pair.pem /path/my-file ec2-user@my-instance-public-dns-name:path/
-```
-Directories and files to scp over:
+Follow this tutorial: https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-20-04
+
+
+Directories and files that must exist:
 - `backend`
 - `ecosystem.config.js`
 - `admin/build`
