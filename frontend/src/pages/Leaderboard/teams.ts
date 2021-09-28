@@ -32,5 +32,7 @@ export const TEAMS = [
   "TEN",
   "WAS",
   "BYE1",
-  "BYE2"
+  "BYE2",
+  "BYE3",
+  "BYE4"
 ];

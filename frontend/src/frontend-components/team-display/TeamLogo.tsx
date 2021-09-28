@@ -71,7 +71,7 @@ const teamToLogoMap = new Map([
 const TeamLogo = ({ team }: { team: string | undefined }) => {
   let alt = "BYE";
   let src = BYE;
-  if (team && team !== "BYE1" && team !== "BYE2") {
+  if (team && team !== "BYE1" && team !== "BYE2" && team !== "BYE3" && team !== "BYE4") {
     alt = team;
     // @ts-ignore
     src = teamToLogoMap.get(team);

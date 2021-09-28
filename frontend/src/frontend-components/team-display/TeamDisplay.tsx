@@ -14,7 +14,7 @@ export type TeamDisplayProps = {
 };
 
 const TeamDisplay = ({ team, width }: TeamDisplayProps) => {
-  let isBye = team.id === "BYE1" || team.id === "BYE2";
+  let isBye = team.id === "BYE1" || team.id === "BYE2" || team.id === "BYE3" || team.id === "BYE4";
   let name = team.id;
   let secondaryText = isBye
     ? ""

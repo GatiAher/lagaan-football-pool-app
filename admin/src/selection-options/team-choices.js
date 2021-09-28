@@ -139,4 +139,12 @@ export default [
     id: "BYE2",
     name: "Bye 2",
   },
+  {
+    id: "BYE3",
+    name: "Bye 3",
+  },
+  {
+    id: "BYE4",
+    name: "Bye 4",
+  },
 ];

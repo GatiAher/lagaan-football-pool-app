@@ -169,4 +169,14 @@ exports.TEAMS = [
     mascotName: "Bye 2",
     fullName: "Bye 2",
   },
+  {
+    id: "BYE3",
+    mascotName: "Bye 3",
+    fullName: "Bye 3",
+  },
+  {
+    id: "BYE4",
+    mascotName: "Bye 4",
+    fullName: "Bye 4",
+  },
 ];

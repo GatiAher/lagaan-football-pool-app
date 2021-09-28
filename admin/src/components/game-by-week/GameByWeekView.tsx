@@ -54,6 +54,15 @@ const GameByWeekView = ({
           render={render}
         />
       )}
+      {hasBye && week <= BYE_WEEK_END && week >= BYE_WEEK_START && (
+        <GameTile
+          key="bye"
+          isPickWindowOpenDefault={isPickWindowOpenDefault}
+          team1={teamMap.get("BYE3")}
+          team2={teamMap.get("BYE4")}
+          render={render}
+        />
+      )}
     </List>
   );
 };

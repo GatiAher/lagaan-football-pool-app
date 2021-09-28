@@ -130,7 +130,7 @@ const Rules = () => {
       </Typography>
       <ul>
         <li>Must pick two teams every week</li>
-        <li>During weeks 4-12, can choose BYE option twice</li>
+        <li>During weeks 4-12, can choose BYE option four times</li>
       </ul>
       <PointsBreakdownTable type="regular" />
       <Typography variant="h4" align="left" gutterBottom>
