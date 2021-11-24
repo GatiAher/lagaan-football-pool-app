@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.error.light,
   },
   tie: {
-    backgroundColor: theme.palette.grey[500],
+    backgroundColor: theme.palette.warning.light,
   },
   default: {},
 }));

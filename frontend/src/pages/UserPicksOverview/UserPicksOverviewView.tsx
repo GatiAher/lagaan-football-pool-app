@@ -15,6 +15,10 @@ import TeamType from "../../types/TeamType";
 import { startsWith } from "lodash";
 
 const highlightColor = "#ebe76c";
+const goldColor = "#c47448";
+const silverColor = "#989da3";
+const bronzeColor = "#bb911a";
+
 
 const getWinningScores = (
   users: UserType[],
@@ -228,11 +232,11 @@ const UserPickOverviewView = ({
                   (currentWeek > 21 && metricField === "scorePlayoff")
                 ) {
                   if (rowData[metricField] === winningScores[2]) {
-                    color = "#c47448";
+                    color = goldColor;
                   } else if (rowData[metricField] === winningScores[1]) {
-                    color = "#989da3";
+                    color = silverColor;
                   } else if (rowData[metricField] === winningScores[0]) {
-                    color = "#bb911a";
+                    color = bronzeColor;
                   }
                 }
                 return (
@@ -260,6 +264,10 @@ const UserPickOverviewView = ({
                 } catch {}
                 let textColor = theme.palette.text.primary;
                 let bgcolor = theme.palette.background.paper;
+                if (startsWith(team, "BYE")) {
+                  textColor = theme.palette.grey[100];
+                  bgcolor = theme.palette.info.dark;
+                }
                 if (status === "win") {
                   textColor = theme.palette.grey[100];
                   bgcolor = theme.palette.success.dark;
@@ -268,7 +276,7 @@ const UserPickOverviewView = ({
                   bgcolor = theme.palette.error.dark;
                 } else if (status === "tie") {
                   textColor = theme.palette.grey.A700;
-                  bgcolor = theme.palette.grey[300];
+                  bgcolor = theme.palette.warning.light;
                 }
                 return (
                   <Box
@@ -276,6 +284,7 @@ const UserPickOverviewView = ({
                     color={textColor}
                     bgcolor={bgcolor}
                     textAlign="center"
+                    ml="1px"
                   >
                     {rowData[col.field]}
                   </Box>
