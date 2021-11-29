@@ -64,7 +64,7 @@ const GameTile = ({
     id = "BYE";
     isPickWindowOpen = props.isPickWindowOpenDefault || false;
     firstString = "Bye Choice";
-    secondString = isPickWindowOpen ? "open until Mon, midnight" : "CLOSED";
+    secondString = isPickWindowOpen ? "open until Sun, 1pm" : "CLOSED";
     isBye = true;
     render = (arg0: TeamDisplayWrapperProps) =>
       props.render({ isPickWindowOpen, ...arg0 });
