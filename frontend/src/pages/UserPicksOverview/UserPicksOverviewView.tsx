@@ -51,18 +51,25 @@ const UserPickOverviewView = ({
   metricField,
 }: UserPickOverviewViewProps) => {
   const theme = useTheme();
+  const regSeasonOver = currentWeek > 17;
+  const playoffSeasonOver = currentWeek > 21;
+
+  const currentDateObj = new Date();
+  // if after Sunday 1pm or Monday, show current week
+  // else show last week
+  const showPremptively = (currentDateObj.getDay() === 0 && currentDateObj.getHours() >= 13) || currentDateObj.getDay() === 1;
 
   let bannerMessage = ``;
-  if (currentWeek <= 17 && metricField === "score") {
+  if (!regSeasonOver && metricField === "score") {
     bannerMessage = `If name is blue, you have picked 2 teams for week ${currentWeek}`;
   }
-  if (currentWeek > 17 && metricField === "score") {
+  if (regSeasonOver && metricField === "score") {
     bannerMessage = `Season is over and winners have been declared.`;
   }
-  if (currentWeek <= 21 && metricField === "scorePlayoff") {
+  if (!playoffSeasonOver && metricField === "scorePlayoff") {
     bannerMessage = `If name is blue, you have picked a team for week ${currentWeek}`;
   }
-  if (currentWeek > 21 && metricField === "scorePlayoff") {
+  if (playoffSeasonOver && metricField === "scorePlayoff") {
     bannerMessage = `Season is over and winners have been declared.`;
   }
 
@@ -90,7 +97,15 @@ const UserPickOverviewView = ({
 
   if (metricField === "score") {
     // show up to week 17
-    const visibleRegSeason = currentWeek <= 17 ? currentWeek - 1 : 17;
+    let visibleRegSeason = 17;
+    if (!regSeasonOver) {
+      if (showPremptively) {
+        visibleRegSeason = currentWeek;
+      } else {
+        visibleRegSeason = currentWeek - 1;
+      }
+    }
+
     for (let i = visibleRegSeason; i > 0; i--) {
       columnLabels.push(
         {
@@ -104,13 +119,13 @@ const UserPickOverviewView = ({
       );
     }
   } else if (metricField === "scorePlayoff") {
-    if (currentWeek > 21) {
+    if (currentWeek > 21 || (currentWeek == 21 && showPremptively)) {
       columnLabels.push({
         title: `21A`,
         field: `wk21A`,
       });
     }
-    if (currentWeek > 20) {
+    if (currentWeek > 20 || (currentWeek == 20 && showPremptively)) {
       columnLabels.push(
         {
           title: `20A`,
@@ -122,7 +137,7 @@ const UserPickOverviewView = ({
         }
       );
     }
-    if (currentWeek > 19) {
+    if (currentWeek > 19 || (currentWeek == 19 && showPremptively)) {
       columnLabels.push(
         {
           title: `19A`,
@@ -142,7 +157,7 @@ const UserPickOverviewView = ({
         }
       );
     }
-    if (currentWeek > 18) {
+    if (currentWeek > 18 || (currentWeek == 18 && showPremptively)) {
       columnLabels.push(
         {
           title: `18A`,
@@ -175,8 +190,8 @@ const UserPickOverviewView = ({
   // highlight winners
   let winningScores = [-1, -1, -1];
   if (
-    (currentWeek > 17 && metricField === "score") ||
-    (currentWeek > 21 && metricField === "scorePlayoff")
+    (regSeasonOver && metricField === "score") ||
+    (playoffSeasonOver && metricField === "scorePlayoff")
   ) {
     winningScores = getWinningScores(users, metricField);
   }
@@ -212,11 +227,11 @@ const UserPickOverviewView = ({
               render: (rowData) => {
                 let color = "black";
                 if (
-                  (currentWeek <= 17 &&
+                  (!regSeasonOver &&
                     metricField === "score" &&
                     rowData[`wk${currentWeek}A`] &&
                     rowData[`wk${currentWeek}B`]) ||
-                  (currentWeek > 17 &&
+                  (regSeasonOver &&
                     metricField === "scorePlayoff" &&
                     (rowData[`wk${currentWeek}A`] ||
                       rowData[`wk${currentWeek}B`] ||
@@ -228,8 +243,8 @@ const UserPickOverviewView = ({
                   color = "blue";
                 }
                 if (
-                  (currentWeek > 17 && metricField === "score") ||
-                  (currentWeek > 21 && metricField === "scorePlayoff")
+                  (regSeasonOver && metricField === "score") ||
+                  (playoffSeasonOver && metricField === "scorePlayoff")
                 ) {
                   if (rowData[metricField] === winningScores[2]) {
                     color = goldColor;
