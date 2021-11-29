@@ -119,13 +119,13 @@ const UserPickOverviewView = ({
       );
     }
   } else if (metricField === "scorePlayoff") {
-    if (currentWeek > 21 || (currentWeek == 21 && showPremptively)) {
+    if (currentWeek > 21 || (currentWeek === 21 && showPremptively)) {
       columnLabels.push({
         title: `21A`,
         field: `wk21A`,
       });
     }
-    if (currentWeek > 20 || (currentWeek == 20 && showPremptively)) {
+    if (currentWeek > 20 || (currentWeek === 20 && showPremptively)) {
       columnLabels.push(
         {
           title: `20A`,
@@ -137,7 +137,7 @@ const UserPickOverviewView = ({
         }
       );
     }
-    if (currentWeek > 19 || (currentWeek == 19 && showPremptively)) {
+    if (currentWeek > 19 || (currentWeek === 19 && showPremptively)) {
       columnLabels.push(
         {
           title: `19A`,
@@ -157,7 +157,7 @@ const UserPickOverviewView = ({
         }
       );
     }
-    if (currentWeek > 18 || (currentWeek == 18 && showPremptively)) {
+    if (currentWeek > 18 || (currentWeek === 18 && showPremptively)) {
       columnLabels.push(
         {
           title: `18A`,
