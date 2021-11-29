@@ -36,6 +36,10 @@ function getDefaultPickWindowDayAndHour(dateObj: Date): PickWindowDayAndHour {
     if (occurance === 4 && dateObj.getMonth() === 10) {
       closeHour = 10; // 10am
     }
+  } else if (closeDay === 1) {
+    // if Monday, set Sunday 1pm
+    closeDay = 0;
+    closeHour = 13;
   }
   return {
     closeDay,
@@ -76,8 +80,13 @@ function getPickWindowInfo(
   const PickWindowDateObj = new Date(dateObj.getFullYear(), dateObj.getMonth());
   // set day pick window closes
   if (closeDay === dateObj.getDay()) {
+    // same day
     PickWindowDateObj.setDate(dateObj.getDate());
+  } else if (closeDay === dateObj.getDay() - 1) {
+    // Monday game, closes on Sunday
+    PickWindowDateObj.setDate(dateObj.getDate() - 1);
   } else {
+    // next occurance of that day
     PickWindowDateObj.setDate(
       dateObj.getDate() + (closeDay + ((7 - dateObj.getDay()) % 7))
     );
