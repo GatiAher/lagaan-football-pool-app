@@ -57,10 +57,10 @@ const PickTeam = () => {
     api.user.getOne(user.sub).then((data) => {
       const userData = data[0];
       setUserData(userData);
-      if (week < 23) {
+      if (week < 24) {
         // get any previous picks for this week
         let teamSelections = pickBy(userData, (value, key) => {
-          if (week >= 18) {
+          if (week >= 19) {
             return startsWith(key, `wk${week}`);
           } else {
             return (

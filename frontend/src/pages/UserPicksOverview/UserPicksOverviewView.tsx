@@ -51,8 +51,8 @@ const UserPickOverviewView = ({
   metricField,
 }: UserPickOverviewViewProps) => {
   const theme = useTheme();
-  const regSeasonOver = currentWeek > 17;
-  const playoffSeasonOver = currentWeek > 21;
+  const regSeasonOver = currentWeek > 18;
+  const playoffSeasonOver = currentWeek > 22;
 
   const currentDateObj = new Date();
   // if after Sunday 1pm or Monday, show current week
@@ -96,8 +96,8 @@ const UserPickOverviewView = ({
   ];
 
   if (metricField === "score") {
-    // show up to week 17
-    let visibleRegSeason = 17;
+    // show up to week 18
+    let visibleRegSeason = 18;
     if (!regSeasonOver) {
       if (showPremptively) {
         visibleRegSeason = currentWeek;
@@ -119,11 +119,23 @@ const UserPickOverviewView = ({
       );
     }
   } else if (metricField === "scorePlayoff") {
-    if (currentWeek > 21 || (currentWeek === 21 && showPremptively)) {
+    if (currentWeek > 22 || (currentWeek === 22 && showPremptively)) {
       columnLabels.push({
-        title: `21A`,
-        field: `wk21A`,
+        title: `22A`,
+        field: `wk22A`,
       });
+    }
+    if (currentWeek > 21 || (currentWeek === 21 && showPremptively)) {
+      columnLabels.push(
+        {
+          title: `21A`,
+          field: `wk21A`,
+        },
+        {
+          title: `21B`,
+          field: `wk21B`,
+        }
+      );
     }
     if (currentWeek > 20 || (currentWeek === 20 && showPremptively)) {
       columnLabels.push(
@@ -134,6 +146,14 @@ const UserPickOverviewView = ({
         {
           title: `20B`,
           field: `wk20B`,
+        },
+        {
+          title: `20C`,
+          field: `wk20C`,
+        },
+        {
+          title: `20D`,
+          field: `wk20D`,
         }
       );
     }
@@ -154,34 +174,14 @@ const UserPickOverviewView = ({
         {
           title: `19D`,
           field: `wk19D`,
-        }
-      );
-    }
-    if (currentWeek > 18 || (currentWeek === 18 && showPremptively)) {
-      columnLabels.push(
-        {
-          title: `18A`,
-          field: `wk18A`,
         },
         {
-          title: `18B`,
-          field: `wk18B`,
+          title: `19E`,
+          field: `wk19E`,
         },
         {
-          title: `18C`,
-          field: `wk18C`,
-        },
-        {
-          title: `18D`,
-          field: `wk18D`,
-        },
-        {
-          title: `18E`,
-          field: `wk18E`,
-        },
-        {
-          title: `18F`,
-          field: `wk18F`,
+          title: `19F`,
+          field: `wk19F`,
         }
       );
     }

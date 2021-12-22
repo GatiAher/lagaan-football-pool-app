@@ -10,9 +10,9 @@ const calculateCurrentWeek = (kickoffMs: number): number => {
     currentDateObj.getDay() === 3
   )
     weeks = weeks + 1;
-  if (weeks > 0 && weeks <= 21) return weeks;
-  if (weeks === 22) return 21; // skipping pro bowl week
-  return 23; // default case
+  if (weeks > 0 && weeks <= 22) return weeks;
+  if (weeks === 23) return 22; // skipping pro bowl week
+  return 24; // default case
 };
 
 export default calculateCurrentWeek;

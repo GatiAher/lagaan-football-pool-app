@@ -16,8 +16,8 @@ const GameCreate = (props) => (
     <SimpleForm redirect="list">
       <NumberInput
         source="week"
-        helperText="enter number between 1-21"
-        validate={[required(), number(), minValue(1), maxValue(21)]}
+        helperText="enter number between 1-22"
+        validate={[required(), number(), minValue(1), maxValue(22)]}
       />
       <SelectInput
         source="visTeam"

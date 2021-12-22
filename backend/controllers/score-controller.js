@@ -102,7 +102,7 @@ exports.recalculateTeamScore = async (req, res) => {
     let numOfTie = 0;
     let numOfLoss = 0;
     let id = team.id;
-    for (let i = 1; i <= 21; i++) {
+    for (let i = 1; i <= 22; i++) {
       let status = team[`wk${i}`];
       if (status == "win") numOfWin++;
       else if (status == "tie") numOfTie++;

@@ -47,15 +47,17 @@ export default interface UserType {
   wk17B: string;
   wk18A: string;
   wk18B: string;
-  wk18C: string;
-  wk18D: string;
-  wk18E: string;
-  wk18F: string;
   wk19A: string;
   wk19B: string;
   wk19C: string;
   wk19D: string;
+  wk19E: string;
+  wk19F: string;
   wk20A: string;
   wk20B: string;
+  wk20C: string;
+  wk20D: string;
   wk21A: string;
+  wk21B: string;
+  wk22A: string;
 }

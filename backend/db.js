@@ -76,6 +76,7 @@ knex.schema
           table.string("wk19").defaultTo("default");
           table.string("wk20").defaultTo("default");
           table.string("wk21").defaultTo("default");
+          table.string("wk22").defaultTo("default");      
           table.timestamps(true, true);
         })
         .then(() => {
@@ -147,17 +148,19 @@ knex.schema
           table.string("wk17B");
           table.string("wk18A");
           table.string("wk18B");
-          table.string("wk18C");
-          table.string("wk18D");
-          table.string("wk18E");
-          table.string("wk18F");
-          table.string("wk19A");
+          table.string("wk19A"); // start post-season games
           table.string("wk19B");
           table.string("wk19C");
           table.string("wk19D");
+          table.string("wk19E");
+          table.string("wk19F");
           table.string("wk20A");
           table.string("wk20B");
+          table.string("wk20C");
+          table.string("wk20D");
           table.string("wk21A");
+          table.string("wk21B");
+          table.string("wk22A");
           table.timestamps(true, true);
         })
         .then(() => {

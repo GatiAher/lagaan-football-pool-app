@@ -29,7 +29,7 @@ const getSelectedTeams = (
         } else if (
           thisMode === "future" &&
           weekNum >= currentWeek &&
-          weekNum <= 17
+          weekNum <= 18
         ) {
           return true;
         }

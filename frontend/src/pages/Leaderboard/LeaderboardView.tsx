@@ -33,10 +33,10 @@ const LeaderboardView = ({
 }: LeaderboardViewProps) => {
   const theme = useTheme();
 
-  const metricField = currentWeek > 17 ? "scorePlayoff" : "score";
+  const metricField = currentWeek > 18 ? "scorePlayoff" : "score";
 
   const DetailPanel = () => {
-    if (currentWeek < 17) {
+    if (currentWeek < 18) {
       return (rowData: UserType) => (
         <Box p={2} bgcolor={theme.palette.background.default}>
           <RemainingTeams
@@ -52,10 +52,10 @@ const LeaderboardView = ({
   };
 
   let bannerMessage = `Regular Season: If name is blue, you have picked 2 teams for week ${currentWeek}`;
-  if (currentWeek > 17) {
+  if (currentWeek > 18) {
     bannerMessage = `Post-Season: If name is blue, you have picked a team for week ${currentWeek}`;
   }
-  if (currentWeek > 21) {
+  if (currentWeek > 22) {
     bannerMessage = `Season is over.`;
   }
 
@@ -102,13 +102,13 @@ const LeaderboardView = ({
               render: (rowData) => {
                 let color = "black";
                 if (
-                  currentWeek <= 17 &&
+                  currentWeek <= 18 &&
                   rowData[`wk${currentWeek}A`] &&
                   rowData[`wk${currentWeek}B`]
                 ) {
                   color = "blue";
                 } else if (
-                  currentWeek > 17 &&
+                  currentWeek > 18 &&
                   (rowData[`wk${currentWeek}A`] ||
                     rowData[`wk${currentWeek}B`] ||
                     rowData[`wk${currentWeek}C`] ||

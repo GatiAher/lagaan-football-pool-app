@@ -26,6 +26,7 @@ export default interface TeamType {
   wk19: string;
   wk20: string;
   wk21: string;
+  wk22: string;
   created_at: string;
   updated_at: string;
 }

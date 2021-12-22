@@ -20,6 +20,7 @@ export const teamWeeks = [
   "wk19",
   "wk20",
   "wk21",
+  "wk22"
 ];
 
 export const userWeeks = [
@@ -59,15 +60,17 @@ export const userWeeks = [
   "wk17B",
   "wk18A",
   "wk18B",
-  "wk18C",
-  "wk18D",
-  "wk18E",
-  "wk18F",
   "wk19A",
   "wk19B",
   "wk19C",
   "wk19D",
+  "wk19E",
+  "wk19F",
   "wk20A",
   "wk20B",
+  "wk20C",
+  "wk20D",
   "wk21A",
+  "wk21B",
+  "wk22A",
 ];

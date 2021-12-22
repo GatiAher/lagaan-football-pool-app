@@ -82,7 +82,7 @@ const AppHeader = () => {
 const pointBreakdown = {
   regular: {
     columns: ["POINTS BREAKDOWN", "win", "loss", "tie"],
-    items: [["Weeks 1-17", "+2", "-1", "+1"]],
+    items: [["Weeks 1-18", "+2", "-1", "+1"]],
   },
   post: {
     columns: ["POINTS BREAKDOWN", "win", "loss"],

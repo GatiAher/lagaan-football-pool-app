@@ -21,13 +21,13 @@ const PickTeamPostSeason = ({
 
   useEffect(() => {
     let lettersList: string[] = [];
-    if (week === 18) {
+    if (week === 19) {
       lettersList = ["A", "B", "C", "D", "E", "F"];
-    } else if (week === 19) {
-      lettersList = ["A", "B", "C", "D"];
     } else if (week === 20) {
-      lettersList = ["A", "B"];
+      lettersList = ["A", "B", "C", "D"];
     } else if (week === 21) {
+      lettersList = ["A", "B"];
+    } else if (week === 22) {
       lettersList = ["A"];
     }
     setLetters(lettersList);
