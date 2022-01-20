@@ -9,7 +9,6 @@ import {
 import { required, minValue, maxValue, number, regex } from "react-admin";
 
 import teamChoices from "../../selection-options/team-choices";
-import days from "../../selection-options/days";
 
 const GameEdit = (props) => (
   <Edit {...props}>
@@ -40,15 +39,15 @@ const GameEdit = (props) => (
           ),
         ]}
       />
-      <SelectInput
-        source="pickWindowDay"
-        choices={days}
-        helperText="(OPTIONAL)"
-      />
-      <NumberInput
-        source="pickWindowHour"
-        helperText="(OPTIONAL) enter number between 1-23"
-        validate={[number(), minValue(1), maxValue(23)]}
+      <TextInput
+        source="pickWindowTime"
+        helperText="use format YYYY-MM-DD hh:mm _M, 12-hour time"
+        validate={[
+          regex(
+            /^[0-9]{4}-[0-1][0-9]-[0-3][0-9] [0-1][0-9]:[0-5][0-9] [A|P][M]$/,
+            "use format YYYY-MM-DD hh:mm _M, 12-hour time"
+          ),
+        ]}
       />
     </SimpleForm>
   </Edit>

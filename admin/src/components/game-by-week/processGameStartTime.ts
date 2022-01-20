@@ -1,4 +1,4 @@
-import { DAYS, DAYSTONUM } from "./date-format";
+import { DAYS } from "./date-format";
 import parseDateTimeLocal from "../../utils/parseDateTimeLocal";
 
 const getDisplayDateString = (dateObj: Date): string => {
@@ -47,26 +47,6 @@ function getDefaultPickWindowDayAndHour(dateObj: Date): PickWindowDayAndHour {
   };
 }
 
-function getPickWindowDayAndHour(
-  dateObj: Date,
-  overrideDay?: string,
-  overrideHour?: number
-): PickWindowDayAndHour {
-  // expect overrideDay to be Sun, Mon, Tue, Wed, Thu, Fri, Sat
-  // expect overrideHour to be number in range 1-23
-  let { closeDay, closeHour } = getDefaultPickWindowDayAndHour(dateObj);
-  if (
-    overrideDay &&
-    ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].includes(overrideDay)
-  ) {
-    closeDay = DAYSTONUM.get(overrideDay) || 0;
-  }
-  if (overrideHour && overrideHour >= 1 && overrideHour <= 23) {
-    closeHour = overrideHour;
-  }
-  return { closeDay, closeHour };
-}
-
 type PickWindowInfoType = {
   gamePickWindowString: string;
   gameIsPickWindowOpen: boolean;
@@ -74,27 +54,35 @@ type PickWindowInfoType = {
 
 function getPickWindowInfo(
   dateObj: Date,
-  closeDay: number,
-  closeHour: number
+  pickWindowTime?: string,
 ): PickWindowInfoType {
-  const PickWindowDateObj = new Date(dateObj.getFullYear(), dateObj.getMonth());
-  // set day pick window closes
-  if (closeDay === dateObj.getDay()) {
-    // same day
-    PickWindowDateObj.setDate(dateObj.getDate());
-  } else if (closeDay === dateObj.getDay() - 1) {
-    // Monday game, closes on Sunday
-    PickWindowDateObj.setDate(dateObj.getDate() - 1);
+  let pickWindowDateObj;
+  if (pickWindowTime) {
+    // use override
+    pickWindowDateObj = parseDateTimeLocal(pickWindowTime);
   } else {
-    // next occurance of that day
-    PickWindowDateObj.setDate(
-      dateObj.getDate() + (closeDay + ((7 - dateObj.getDay()) % 7))
-    );
+    // use default
+    let { closeDay, closeHour } = getDefaultPickWindowDayAndHour(dateObj);
+    pickWindowDateObj = new Date(dateObj.getFullYear(), dateObj.getMonth());
+    // set day pick window closes
+    if (closeDay === dateObj.getDay()) {
+      // same day
+      pickWindowDateObj.setDate(dateObj.getDate());
+    } else if (closeDay === dateObj.getDay() - 1) {
+      // Monday game, closes on Sunday
+      pickWindowDateObj.setDate(dateObj.getDate() - 1);
+    } else {
+      // next occurance of that day
+      pickWindowDateObj.setDate(
+        dateObj.getDate() + (closeDay + ((7 - dateObj.getDay()) % 7))
+      );
+    }
+    // set hour pick window closes
+    pickWindowDateObj.setHours(closeHour);
   }
-  // set time pick window closes
-  PickWindowDateObj.setHours(closeHour);
-  if (Date.now() < PickWindowDateObj.valueOf()) {
-    const pickWindowString = getDisplayDateString(PickWindowDateObj);
+
+  if (Date.now() < pickWindowDateObj.valueOf()) {
+    const pickWindowString = getDisplayDateString(pickWindowDateObj);
     return {
       gamePickWindowString: `open until ${pickWindowString}`,
       gameIsPickWindowOpen: true,
@@ -111,19 +99,13 @@ type ProcessGameTimeType = PickWindowInfoType & {
 };
 
 export default (
-  dateTimeLocal: string,
-  pickWindowDay?: string,
-  pickWindowHour?: number
+  startTime: string,
+  pickWindowTime?: string,
 ): ProcessGameTimeType => {
   // datetimelocal is format YYYY-MM-DDTHh:Dd
-  const dateObj = parseDateTimeLocal(dateTimeLocal);
-  const displayDateString = getDisplayDateString(dateObj);
-  const { closeDay, closeHour } = getPickWindowDayAndHour(
-    dateObj,
-    pickWindowDay,
-    pickWindowHour
-  );
-  const pickWindowInfo = getPickWindowInfo(dateObj, closeDay, closeHour);
+  const startDateObj = parseDateTimeLocal(startTime);
+  const displayDateString = getDisplayDateString(startDateObj);
+  const pickWindowInfo = getPickWindowInfo(startDateObj, pickWindowTime);
   return {
     gameStartTimeString: displayDateString,
     ...pickWindowInfo,

@@ -40,6 +40,16 @@ module.exports = function (TABLE) {
     return true;
   };
 
+  const getValidatePickWindowTime = (reqBody) => {
+    const { pickWindowTime } = reqBody;
+    if (pickWindowTime !== undefined) {
+      return /^[0-9]{4}-[0-1][0-9]-[0-3][0-9] [0-1][0-9]:[0-5][0-9] [A|P][M]$/.test(
+        pickWindowTime
+      );
+    }
+    return true;
+  };
+
   module.getOne = async (req, res) => {
     const id = getIdFromParams(req.params);
     knex(TABLE)
@@ -114,13 +124,22 @@ module.exports = function (TABLE) {
 
   module.update = async (req, res) => {
     const properBody = getProperBody(req.body);
-    const validateStartTime = getValidateStartTime(properBody);
     const id = getIdFromParams(req.params);
+
+    const validateStartTime = getValidateStartTime(properBody);
     if (!validateStartTime) {
       res.status(400).json({
         message: `${TABLE}: there was an error during update: startTime ${properBody.startTime} not in format YYYY-MM-DD hh:mm _M`,
       });
     }
+
+    const validatePickWindowTime = getValidatePickWindowTime(properBody);
+    if (!validatePickWindowTime) {
+      res.status(400).json({
+        message: `${TABLE}: there was an error during update: pickWindowTime ${properBody.pickWindowTime} not in format YYYY-MM-DD hh:mm _M`,
+      });
+    }
+
     knex(TABLE)
       .where("id", id)
       .update(properBody)
@@ -142,6 +161,8 @@ module.exports = function (TABLE) {
   module.create = async (req, res) => {
     const properBody = getProperBody(req.body);
     const validateStartTime = getValidateStartTime(properBody);
+    const validatePickWindowTime = getValidatePickWindowTime(properBody);
+
     if (!properBody) {
       res.status(400).json({
         message: `${TABLE}: there was an error during creation: id not present in request body`,
@@ -149,6 +170,10 @@ module.exports = function (TABLE) {
     } else if (!validateStartTime) {
       res.status(400).json({
         message: `${TABLE}: there was an error during creation: startTime ${properBody.startTime} not in format YYYY-MM-DD hh:mm _M`,
+      });
+    } else if (!validatePickWindowTime) {
+      res.status(400).json({
+        message: `${TABLE}: there was an error during creation: pickWindowTime ${properBody.pickWindowTime} not in format YYYY-MM-DD hh:mm _M`,
       });
     } else {
       knex(TABLE)

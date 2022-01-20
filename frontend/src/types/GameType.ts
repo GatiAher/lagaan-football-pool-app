@@ -6,6 +6,5 @@ export default interface GameType {
   homeTeam: string;
   created_at: string;
   updated_at: string;
-  pickWindowDay?: string;
-  pickWindowHour?: number;
+  pickWindowTime?: string;
 }

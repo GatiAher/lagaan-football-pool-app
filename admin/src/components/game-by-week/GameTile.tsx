@@ -51,8 +51,7 @@ const GameTile = ({
       gameIsPickWindowOpen,
     } = processGameStartTime(
       game.startTime,
-      game.pickWindowDay,
-      game.pickWindowHour
+      game.pickWindowTime,
     );
     isPickWindowOpen = gameIsPickWindowOpen;
     firstString = gameStartTimeString;
