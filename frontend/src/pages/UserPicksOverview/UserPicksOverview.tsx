@@ -24,13 +24,14 @@ const UserPickOverview = ({ metricField }: UserPickOverviewProps) => {
   const [isLoadedUsers, setIsLoadedUsers] = useState(false);
 
   const { currentWeek } = useCurrentWeek();
+  const activeField = metricFieldChosen === "scorePlayoff" ? "activePlayoff" : "active";
 
   const [teamMap, setTeamMap] = useState(new Map<string, TeamType>());
   const [isLoadedTeamMap, setIsLoadedTeamMap] = useState(false);
 
   // Fetch on initial render
   useEffect(() => {
-    api.user.getList(metricFieldChosen).then((data) => {
+    api.user.getList(metricFieldChosen, activeField, 1).then((data) => {
       const listOfUserIds: string[] = [];
       data.forEach((element: UserType) => {
         listOfUserIds.push(element.id);
@@ -44,7 +45,7 @@ const UserPickOverview = ({ metricField }: UserPickOverviewProps) => {
         });
       }
     });
-  }, [user.sub, metricFieldChosen]);
+  }, [user.sub, metricFieldChosen, activeField]);
 
   return (
     <UserPickOverviewView
