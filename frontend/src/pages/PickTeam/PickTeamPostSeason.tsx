@@ -6,8 +6,8 @@ import PickTeamPostSeasonView from "./PickTeamPostSeasonView";
 
 type PickTeamPostSeasonProps = {
   week: number;
-  selections: (string | number | undefined)[];
-  setSelections: (arg0: (string | number | undefined)[]) => void;
+  selections: (string | number | boolean | undefined)[];
+  setSelections: (arg0: (string | number | boolean | undefined)[]) => void;
   submitSelections: (body: object) => void;
 };
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { Edit, SimpleForm, TextInput, SelectInput } from "react-admin";
+import { Edit, SimpleForm, TextInput, SelectInput, BooleanInput } from "react-admin";
 
 import teamChoices from "../../selection-options/team-choices";
 import { userWeeks } from "../../selection-options/weeks";
@@ -14,6 +14,8 @@ const UserEdit = (props) => (
       <TextInput source="username" />
       <TextInput source="firstName" />
       <TextInput source="lastName" />
+      <BooleanInput source="active" defaultValue />
+      <BooleanInput source="activePlayoff" defaultValue />
       {userWeeks.map((weekId) => (
         <SelectInput source={weekId} choices={teamChoices} />
       ))}

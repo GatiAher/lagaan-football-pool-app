@@ -11,8 +11,8 @@ import UserType from "../../types/UserType";
 type PickTeamRegularProps = {
   week: number;
   userData: UserType;
-  selections: (string | number | undefined)[];
-  setSelections: (arg0: (string | number | undefined)[]) => void;
+  selections: (string | number | boolean | undefined)[];
+  setSelections: (arg0: (string | number | boolean | undefined)[]) => void;
   submitSelections: (body: object) => void;
 };
 
@@ -32,7 +32,7 @@ const PickTeamRegular = ({
   }, [selections, week, submitSelections]);
 
   const [pastSelections, setPastSelections] = useState<
-    (string | number | undefined)[]
+    (string | number | boolean | undefined)[]
   >([]);
 
   useEffect(() => {

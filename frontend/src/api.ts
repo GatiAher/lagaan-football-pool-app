@@ -90,10 +90,17 @@ export default {
         .get<UserType[]>(`/user/${id}`)
         .then((response) => response.data);
     },
-    getList: (orderByField: string = "score") => {
-      const query = {
+    getList: (orderByField: string = "score", filterByField: string = "none", keepOnly: string | number = "none") => {
+      const query: { sort: string, filter?: string } = {
         sort: JSON.stringify([orderByField, "desc"]),
       };
+
+      if (filterByField !== "none" && keepOnly !== "none") {
+        const queryObj: { [key: string]: any } = {};
+        queryObj[filterByField] = keepOnly;
+        query["filter"] = JSON.stringify(queryObj);
+      }
+
       return apiClient
         .get<UserType[]>(`/user`, { params: query })
         .then((response) => response.data);

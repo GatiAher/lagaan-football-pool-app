@@ -10,6 +10,8 @@ import {
   TextInput,
 } from "react-admin";
 
+import { BooleanNumField } from "../../admin-components/BoolNumField";
+
 import { ListActions } from "../../import-csv/ListActions";
 
 const UserFilter = (props) => (
@@ -21,12 +23,13 @@ const UserFilter = (props) => (
 const UserList = (props) => (
   <List {...props} filters={<UserFilter />} actions={<ListActions />}>
     <Datagrid>
-      <NumberField source="rank" />
       <TextField source="username" />
       <NumberField source="score" />
       <NumberField source="scorePlayoff" />
       <TextField source="firstName" />
       <TextField source="lastName" />
+      <BooleanNumField source="active" />
+      <BooleanNumField source="activePlayoff" />
       <NumberField label="Win" source="numOfWin" />
       <NumberField label="Loss" source="numOfLoss" />
       <NumberField label="Tie" source="numOfTie" />

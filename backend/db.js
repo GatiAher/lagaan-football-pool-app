@@ -76,7 +76,7 @@ knex.schema
           table.string("wk19").defaultTo("default");
           table.string("wk20").defaultTo("default");
           table.string("wk21").defaultTo("default");
-          table.string("wk22").defaultTo("default");      
+          table.string("wk22").defaultTo("default");
           table.timestamps(true, true);
         })
         .then(() => {
@@ -104,10 +104,12 @@ knex.schema
           table.string("id").primary().notNullable();
           table.string("firstName").notNullable();
           table.string("lastName").notNullable();
+          table.boolean("active").defaultTo(true);
           table.integer("numOfWin").defaultTo(0);
           table.integer("numOfLoss").defaultTo(0);
           table.integer("numOfTie").defaultTo(0);
           table.integer("score").defaultTo(0);
+          table.boolean("activePlayoff").defaultTo(true);
           table.integer("numOfWinPlayoff").defaultTo(0);
           table.integer("numOfLossPlayoff").defaultTo(0);
           table.integer("numOfTiePlayoff").defaultTo(0);

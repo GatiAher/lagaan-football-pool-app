@@ -56,7 +56,7 @@ const RemainingTeams = ({
   const numCols = width === "xs" || width === "sm" ? 4 : 8;
   const isCurrentUser = userSub === rowData.id;
   const pastSelectedTeams = getSelectedTeams(rowData, currentWeek, "past");
-  const futureSelectedTeams: (string | number | undefined)[] = isCurrentUser
+  const futureSelectedTeams: (string | number | boolean | undefined)[] = isCurrentUser
     ? getSelectedTeams(rowData, currentWeek, "future")
     : [];
 

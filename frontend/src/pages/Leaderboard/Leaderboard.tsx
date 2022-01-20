@@ -15,10 +15,12 @@ const Leaderboard = () => {
   const [isLoadedUsers, setIsLoadedUsers] = useState(false);
 
   const { currentWeek } = useCurrentWeek();
+  const metricField = currentWeek > 18 ? "scorePlayoff" : "score";
+  const activeField = currentWeek > 18 ? "activePlayoff" : "active";
 
   // Fetch on initial render
   useEffect(() => {
-    api.user.getList().then((data) => {
+    api.user.getList(metricField, activeField, 1).then((data) => {
       const listOfUserIds: string[] = [];
       data.forEach((element: UserType) => {
         listOfUserIds.push(element.id);
@@ -28,7 +30,7 @@ const Leaderboard = () => {
         setIsLoadedUsers(true);
       }
     });
-  }, [user.sub]);
+  }, [user.sub, metricField, activeField]);
 
   return (
     <LeaderboardView

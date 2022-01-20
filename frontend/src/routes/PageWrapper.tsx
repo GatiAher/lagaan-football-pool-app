@@ -8,6 +8,9 @@ import Container from "@material-ui/core/Container";
 
 import UserNotRegistered from "./UserNotRegistered";
 
+import { useCurrentWeek } from "../contexts/CurrentWeekContext";
+import UserNotActive from "./UserNotActive"
+
 import api from "../api";
 
 type PageHeaderProps = {
@@ -24,13 +27,21 @@ const PageHeader = ({ heading }: PageHeaderProps) => {
 
 const PrivatePageContent: React.FC<{}> = ({ children }) => {
   const { user } = useAuth0();
-  const [isRegisteredUser, setIsRegisteredUser] = useState(true);
+  const [isRegisteredUser, setIsRegisteredUser] = useState(false);
+
+  const { currentWeek } = useCurrentWeek();
+  const activeField = currentWeek > 18 ? "activePlayoff" : "active";
+  const [isActiveUser, setIsActiveUser] = useState(false);
+  const [isActivePlayoffUser, setIsActivePlayoffUser] = useState(false);
+
 
   useEffect(() => {
     api.user
       .getOne(user.sub)
-      .then(() => {
+      .then((res) => {
         setIsRegisteredUser(true);
+        setIsActiveUser(res[0].active);
+        setIsActivePlayoffUser(res[0].activePlayoff);
       })
       .catch(() => {
         setIsRegisteredUser(false);
@@ -38,7 +49,13 @@ const PrivatePageContent: React.FC<{}> = ({ children }) => {
   }, [user.sub]);
 
   if (isRegisteredUser) {
-    return <div>{children}</div>;
+    if (
+      (activeField === "active" && isActiveUser)
+      || (activeField === "activePlayoff" && isActivePlayoffUser)
+    ) {
+      return <div>{children}</div>;
+    }
+    return <UserNotActive />;
   }
   return <UserNotRegistered />;
 };

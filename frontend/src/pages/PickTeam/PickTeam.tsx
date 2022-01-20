@@ -22,7 +22,7 @@ const PickTeam = () => {
 
   const { user } = useAuth0();
   const [isLoadedUser, setIsLoadedUser] = useState(false);
-  const [selections, setSelections] = useState<(string | number | undefined)[]>(
+  const [selections, setSelections] = useState<(string | number | boolean | undefined)[]>(
     []
   );
   const [userData, setUserData] = useState<UserType | null>(null);

@@ -3,7 +3,7 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 
 type SubmissionButtonProps = {
-  selections: (string | number | undefined)[];
+  selections: (string | number | boolean | undefined)[];
   onClick: () => void;
 };
 

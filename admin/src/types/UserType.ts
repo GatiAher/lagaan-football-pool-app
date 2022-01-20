@@ -3,10 +3,12 @@ export default interface UserType {
   id: string;
   firstName: string;
   lastName: string;
+  active: boolean;
   numOfWin: number;
   numOfLoss: number;
   numOfTie: number;
   score: number;
+  activePlayoff: boolean;
   numOfWinPlayoff: number;
   numOfLossPlayoff: number;
   numOfTiePlayoff: number;

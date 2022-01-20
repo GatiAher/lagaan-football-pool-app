@@ -8,8 +8,8 @@ import GameByWeek, {
 
 type PickTeamRegularViewProps = {
   week: number;
-  selections: (string | number | undefined)[];
-  pastSelections: (string | number | undefined)[];
+  selections: (string | number | boolean | undefined)[];
+  pastSelections: (string | number | boolean | undefined)[];
   handleSelection: (team: string) => void;
 };
 

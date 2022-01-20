@@ -14,8 +14,8 @@ type PickTeamViewProps = {
   week: number;
   setWeek: (arg0: number) => void;
   userData: UserType | null;
-  selections: (string | number | undefined)[];
-  setSelections: (arg0: (string | number | undefined)[]) => void;
+  selections: (string | number | boolean | undefined)[];
+  setSelections: (arg0: (string | number | boolean | undefined)[]) => void;
   submitSelections: (body: object) => void;
   isLoadedUser: boolean;
 };

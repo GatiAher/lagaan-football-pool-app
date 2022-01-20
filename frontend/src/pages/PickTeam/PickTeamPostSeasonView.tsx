@@ -8,7 +8,7 @@ import GameByWeek, {
 
 type PickTeamPostSeasonViewProps = {
   week: number;
-  selections: (string | number | undefined)[];
+  selections: (string | number | boolean | undefined)[];
   handleSelection: (team: string, game_idx?: number) => void;
 };
 
