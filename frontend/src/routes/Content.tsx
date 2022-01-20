@@ -1,14 +1,19 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
 
-import Routes, { IRoute } from "./Routes";
+import { Routes, RoutesPlayoffs, IRoute } from "./Routes";
 import PrivateRoute from "./PrivateRoute";
 import PageWrapper from "./PageWrapper";
 
+import { useCurrentWeek } from "../contexts/CurrentWeekContext";
+
 const Content = () => {
+  const { currentWeek } = useCurrentWeek();
+  const UseRoutes: IRoute[] = currentWeek > 18 ? RoutesPlayoffs : Routes;
+
   return (
     <Switch>
-      {Routes.map((route: IRoute) => {
+      {UseRoutes.map((route: IRoute) => {
         if (route.private) {
           return (
             <PrivateRoute

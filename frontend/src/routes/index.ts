@@ -1,5 +1,5 @@
 import Content from "./Content";
-import Routes from "./Routes";
+import { Routes, RoutesPlayoffs } from "./Routes";
 
 export default Content;
-export { Routes };
+export { Routes, RoutesPlayoffs };

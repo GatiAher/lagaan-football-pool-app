@@ -16,7 +16,41 @@ export interface IRoute {
   maxWidth?: "xs" | "sm" | "md" | "lg" | "xl";
 }
 
-const Routes: IRoute[] = [
+export const Routes: IRoute[] = [
+  {
+    path: "/",
+    sidebarName: "Home",
+    component: Rules,
+    private: false,
+  },
+  {
+    path: "/games",
+    sidebarName: "Games Schedule",
+    component: GameSchedule,
+    private: false,
+  },
+  {
+    path: "/pick_sheet",
+    sidebarName: "Pick Sheet",
+    component: PickTeam,
+    private: true,
+  },
+  {
+    path: "/standings",
+    sidebarName: "Standings",
+    component: Leaderboard,
+    private: true,
+  },
+  {
+    path: "/regular_pick_overview",
+    sidebarName: "Regular Picks Overview",
+    component: RegularPickOverview,
+    private: true,
+    maxWidth: "xl",
+  }
+];
+
+export const RoutesPlayoffs: IRoute[] = [
   {
     path: "/",
     sidebarName: "Home",
@@ -56,5 +90,3 @@ const Routes: IRoute[] = [
     maxWidth: "xl",
   },
 ];
-
-export default Routes;

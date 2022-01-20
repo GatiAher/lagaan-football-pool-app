@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { NavLink, withRouter, RouteComponentProps } from "react-router-dom";
-import { Routes } from "../../routes";
+import { Routes, RoutesPlayoffs } from "../../routes";
 
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import {
@@ -24,6 +24,8 @@ import LockOpenIcon from "@material-ui/icons/LockOpen";
 import { useAuth0 } from "@auth0/auth0-react";
 import LogoutButton from "./LogoutButton";
 import LoginButton from "./LoginButton";
+
+import { useCurrentWeek } from "../../contexts/CurrentWeekContext";
 
 const AuthNav = () => {
   const { isAuthenticated } = useAuth0();
@@ -70,6 +72,9 @@ const NavigationBar: React.FC<RouteComponentProps> = ({
 
   const { isAuthenticated } = useAuth0();
 
+  const { currentWeek } = useCurrentWeek();
+  const UseRoutes = currentWeek > 18 ? RoutesPlayoffs : Routes;
+
   return (
     <div>
       <Box flexGrow={1}>
@@ -103,7 +108,7 @@ const NavigationBar: React.FC<RouteComponentProps> = ({
           onKeyDown={toggleDrawer(false)}
         >
           <MenuList>
-            {Routes.map((prop, key) => {
+            {UseRoutes.map((prop, key) => {
               return (
                 <NavLink
                   to={prop.path}
