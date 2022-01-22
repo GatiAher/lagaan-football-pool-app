@@ -55,9 +55,20 @@ const UserPickOverviewView = ({
   const playoffSeasonOver = currentWeek > 22;
 
   const currentDateObj = new Date();
-  // if after Sunday 1pm or Monday, show current week
-  // else show last week
-  const showPremptively = (currentDateObj.getDay() === 0 && currentDateObj.getHours() >= 13) || currentDateObj.getDay() === 1;
+
+  let showPremptively = false;
+  if (metricField === "score") {
+    if ((currentDateObj.getDay() === 0 && currentDateObj.getHours() >= 13) || (currentDateObj.getDay() === 1)) {
+      // if regular season after Sunday 1pm, or Monday show current week
+      showPremptively = true;
+    }
+  }
+  // if post season, after Sat 3pm, or Sunday, or Monday show current week
+  if (metricField === "scorePlayoff") {
+    if ((currentDateObj.getDay() === 6 && currentDateObj.getHours() >= 15) || (currentDateObj.getDay() === 0) || (currentDateObj.getDay() === 1)) {
+      showPremptively = true;
+    }
+  }
 
   let bannerMessage = ``;
   if (!regSeasonOver && metricField === "score") {
@@ -276,7 +287,7 @@ const UserPickOverviewView = ({
                 try {
                   // @ts-ignore
                   status = teamMap.get(team)[weekTag];
-                } catch {}
+                } catch { }
                 let textColor = theme.palette.text.primary;
                 let bgcolor = theme.palette.background.paper;
                 if (startsWith(team, "BYE")) {
