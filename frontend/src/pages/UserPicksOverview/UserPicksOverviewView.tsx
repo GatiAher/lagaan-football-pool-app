@@ -39,6 +39,8 @@ type UserPickOverviewViewProps = {
   teamMap: Map<string, TeamType>;
   isLoadedTeamMap: boolean;
   metricField: "score" | "scorePlayoff";
+  showPremptively: boolean;
+  bannerMessage: string;
 };
 
 const UserPickOverviewView = ({
@@ -49,36 +51,21 @@ const UserPickOverviewView = ({
   teamMap,
   isLoadedTeamMap,
   metricField,
+  showPremptively,
+  bannerMessage
 }: UserPickOverviewViewProps) => {
   const theme = useTheme();
   const regSeasonOver = currentWeek > 18;
   const playoffSeasonOver = currentWeek > 22;
 
-  const currentDateObj = new Date();
-
-  let showPremptively = false;
-  if (metricField === "score") {
-    if ((currentDateObj.getDay() === 0 && currentDateObj.getHours() >= 13) || (currentDateObj.getDay() === 1)) {
-      // if regular season after Sunday 1pm, or Monday show current week
-      showPremptively = true;
-    }
-  }
-  // if post season, after Sat 3pm, or Sunday, or Monday show current week
-  if (metricField === "scorePlayoff") {
-    if ((currentDateObj.getDay() === 6 && currentDateObj.getHours() >= 15) || (currentDateObj.getDay() === 0) || (currentDateObj.getDay() === 1)) {
-      showPremptively = true;
-    }
-  }
-
-  let bannerMessage = ``;
   if (!regSeasonOver && metricField === "score") {
-    bannerMessage = `If name is blue, you have picked 2 teams for week ${currentWeek}`;
+    bannerMessage += `If your name is blue, you have picked 2 teams for week ${currentWeek}.`;
   }
   if (regSeasonOver && metricField === "score") {
     bannerMessage = `Season is over and winners have been declared.`;
   }
   if (!playoffSeasonOver && metricField === "scorePlayoff") {
-    bannerMessage = `If name is blue, you have picked a team for week ${currentWeek}`;
+    bannerMessage += `If your name is blue, you have picked a team for week ${currentWeek}.`;
   }
   if (playoffSeasonOver && metricField === "scorePlayoff") {
     bannerMessage = `Season is over and winners have been declared.`;

@@ -1,4 +1,5 @@
 const knex = require("../db");
+const date = require('date-and-time')
 
 module.exports = function (TABLE) {
   const module = {};
@@ -21,11 +22,44 @@ module.exports = function (TABLE) {
     return reqParams.id;
   };
 
+  const generatePickWindowTime = (reqBody) => {
+    const { created_at, updated_at, ...properBody } = reqBody;
+    if (properBody.pickWindowTime) {
+      return properBody.pickWindowTime;
+    }
+
+    const pickWindowDateObj = date.parse(properBody.startTime, "YYYY-MM-DD hh:mm A");
+
+    // default pick window is start time's day, 1pm
+    pickWindowDateObj.setHours(13);
+
+    if (pickWindowDateObj.getDay() === 1) {
+      // if start time is Monday, pick window is Sunday 1pm
+      pickWindowDateObj.setDate(pickWindowDateObj.getDate() - 1);
+      pickWindowDateObj.setHours(13);
+    }
+
+    if (pickWindowDateObj.getDay() === 4) {
+      // if start time is Thursday, pick window is Thursday 6pm
+      pickWindowDateObj.setHours(18);
+      // if start time is Thanksgiving (4th Thursday of November) then Thursday 10am
+      const occurance = Math.ceil(pickWindowDateObj.getDate() / 7);
+      if (occurance === 4 && pickWindowDateObj.getMonth() === 10) {
+        pickWindowDateObj.setHours(10);
+      }
+    }
+
+    // generate datetimelocal string in format YYYY-MM-DD hh:mm _M
+    return date.format(pickWindowDateObj, "YYYY-MM-DD hh:mm A");
+  }
+
   const getProperBody = (reqBody) => {
     const { created_at, updated_at, ...properBody } = reqBody;
     if (TABLE === "Game") {
       // generate id
       properBody.id = `${reqBody.week}_${reqBody.visTeam}_${reqBody.homeTeam}`;
+      // generate default pick window time if it does not exist
+      properBody.pickWindowTime = generatePickWindowTime(reqBody);
     }
     return properBody;
   };

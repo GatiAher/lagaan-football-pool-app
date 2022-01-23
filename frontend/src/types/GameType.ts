@@ -4,7 +4,7 @@ export default interface GameType {
   week: number;
   visTeam: string;
   homeTeam: string;
+  pickWindowTime: string;
   created_at: string;
   updated_at: string;
-  pickWindowTime?: string;
 }

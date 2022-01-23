@@ -25,6 +25,7 @@ const GameList = (props) => (
       <TextField source="startTime" />
       <TextField source="visTeam" />
       <TextField source="homeTeam" />
+      <TextField source="pickWindowTime" />
       <DateField source="updated_at" />
       <EditButton />
     </Datagrid>

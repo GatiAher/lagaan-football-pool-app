@@ -22,7 +22,7 @@ knex.schema
           table.integer("week").notNullable();
           table.string("visTeam").notNullable();
           table.string("homeTeam").notNullable();
-          table.string("pickWindowTime");
+          table.string("pickWindowTime").notNullable(); // logic for default value, format "YYYY-MM-DD hh:mm A"
           table.timestamps(true, true);
         })
         .then(() => {
