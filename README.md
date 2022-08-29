@@ -39,7 +39,7 @@ touch backend/db/database.sqlite
 
 3. Set-Up Environment Files
 
-Frontend uses backend api and Auth0 so you need to provide the configuration variables to access these. Add the following key-value pairs to the env files. Get the values `REACT_APP_AUTH0_DOMAIN` and `REACT_APP_AUTH0_CLIENT_ID` from [Auth0 Dashboard](link: https://manage.auth0.com/). You need to have an Auth0 account.
+Frontend uses backend api and Auth0 so you need to provide the configuration variables to access these. Add the following key-value pairs to the env files. Get the values `REACT_APP_AUTH0_DOMAIN` and `REACT_APP_AUTH0_CLIENT_ID` from [Auth0 Dashboard](https://manage.auth0.com/). You need to have an Auth0 account.
 
 In `frontend/.env.development`
 
