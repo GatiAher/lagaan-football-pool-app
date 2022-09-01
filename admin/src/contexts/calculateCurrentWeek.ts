@@ -3,6 +3,12 @@ const calculateCurrentWeek = (kickoffMs: number): number => {
   const currentDateObj = new Date();
   const diff = (currentDateObj.getTime() - kickoffMs) / 1000;
   const weeksDiff = diff / (60 * 60 * 24 * 7);
+  
+  // if season has not started yet, show week 1
+  if (
+    diff < 0
+  ) return 1
+  
   let weeks = Math.ceil(weeksDiff);
   // show next week if Tue or Wed
   if (
