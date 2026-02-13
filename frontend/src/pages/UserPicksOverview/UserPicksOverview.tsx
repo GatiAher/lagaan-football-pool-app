@@ -56,7 +56,7 @@ const UserPickOverview = ({ metricField }: UserPickOverviewProps) => {
 
     // if regular season after Sunday 1pm, or Monday show current week
     if (metricFieldChosen === "score") {
-      if ((currentDateObj.getDay() === 0 && currentDateObj.getHours() >= 17) || (currentDateObj.getDay() === 1)) {
+      if ((currentDateObj.getDay() === 0 && currentDateObj.getUTCHours() >= 17) || (currentDateObj.getDay() === 1)) {
         setIsShowPremptively(true);
         setBannerMessage("Picks have been revealed. ")
       } else {
